@@ -1,2 +1,2 @@
-# IETF-Peering
-Repository for the IETF Peering Idea
+# IETF-Peering-Workflow
+Repository for the IETF Peering Workflow Idea
