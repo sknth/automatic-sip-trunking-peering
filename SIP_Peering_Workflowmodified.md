@@ -50,11 +50,10 @@ The The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHA
 
 # Reference Architecture
 
-<t>Figure 1 illustrates a reference architecture that may be deployed to support the mechanism described in this document. The enterprise network consists of a SIP-PBX, media endpoints and a Session Border Controller. It may also include additional components such as application servers for voicemail, recording, fax etc. At a high level, the service provider consists of a SIP signaling entity (SP-SSE), a media entity and a HTTP(S) server.</t>
+Figure 1 illustrates a reference architecture that may be deployed to support the mechanism described in this document. The enterprise network consists of a SIP-PBX, media endpoints and a Session Border Controller. It may also include additional components such as application servers for voicemail, recording, fax etc. At a high level, the service provider consists of a SIP signaling entity (SP-SSE), a media entity and a HTTP(S) server.
 
-<t>```</t>
+```
 
-<figure><artwork><![CDATA[
     +-----------------------------------------------------+
     | +---------------+         +-----------------------+ |
     | |               |         |                       | |
@@ -78,23 +77,19 @@ The The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHA
     +-----------------------------------------------------+
 
     Figure 1: Reference Architecture
-]]></artwork></figure>
 
-<t>```</t>
+```
 
-<t>This draft makes use of the following terminology:</t>
+This draft makes use of the following terminology:
 
-<t><list style="symbols">
-  <t>Enterprise Network: A communications network infrastructure deployed by an enterprise which interconnects with the service provider network over SIP. The enterprise network could include devices such as application servers, endpoints, call agents and edge devices, among others.</t>
-  <t>Edge Device: A device that is the last hop in the enterprise network and that is the transit point for traffic entering and leaving the enterprise. An edge device is typically a back-to-back user agent (B2BUA) such as a Session Border Controller (SBC).</t>
-  <t>Service Provider Network: A communications network infrastructure deployed by service providers. In the context of this draft, the service provider network is accessible over SIP for the establishment, modification and termination of calls and accessible over HTTP(S) for the transfer of the capability set document. The service provider network is also referred to as a SIP Service Provider (SSP) or Internet Telephony Service Provider (ITSP) network. These networks typically interconnect with other service provider networks over SIP or ISDN.</t>
-  <t>Call Control: Call Control within a telephony networks refers to software that is responsible for delivering its core functionality. Call control not only provides the basic functionality of setting up, sustaining and terminating calls, but also provides the necessary control and logic required for additional services within the telephony network.</t>
-  <t>Capability Server: A server hosted in the service provider network, such that this server is the target for capability set document requests from the enterprise network.</t>
-  <t>Capability Set: This specification uses the term capability set (or capability set document) to refer collectively to a set of characteristics within the service provider network, which when communicated to the enterprise network allows it to obtain sufficient information required to peer successfully with the service provider network.</t>
-</list></t>
+* Enterprise Network: A communications network infrastructure deployed by an enterprise which interconnects with the service provider network over SIP. The enterprise network could include devices such as application servers, endpoints, call agents and edge devices among others.
+* Edge Device: A device that is the last hop in the enterprise network and that is the transit point for traffic entering and leaving the enterprise. An edge device is typically a back-to-back user agent (B2BUA) such as a Session Border Controller (SBC).
+* Service Provider Network: A communications network infrastructure deployed by service providers. In the context of this draft, the service provider network is accessible over SIP for the establishment, modification and termination of calls and accessible over HTTP(S) for the transfer of the capability set document. The service provider network is also referred to as a SIP Service Provider (SSP) or Internet Telephony Service Provider (ITSP) network. These networks typically interconnect with other service provider networks over SIP or ISDN.
+* Call Control: Call Control within a telephony networks refers to software that is responsible for delivering its core functionality. Call control not only provides the basic functionality of setting up, sustaining and terminating calls, but also provides the necessary control and logic required for additional services within the telephony network.
+* Capability Server: A server hosted in the service provider network, such that this server is the target for capability set document requests from the enterprise network.</t>
+* Capability Set: This specification uses the term capability set (or capability set document) to refer collectively to a set of characteristics within the service provider network, which when communicated to the enterprise network allows it to obtain sufficient information required to peer successfully with the service provider network.</t>
 
-</section>
-<section anchor="configuration-workflow" title="4. Configuration Workflow">
+# Configuration Workflow"
 
 <t>A workflow that facilitates an enterprise network to solicit the capability set of a SIP service provider ought to take into account the following considerations:</t>
 
