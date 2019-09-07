@@ -25,7 +25,7 @@ organization = "Cisco"
 
 <t>%%%</t>
 
-<t>.# Abstract</t>
+<t># Abstract</t>
 
 <t>This draft specifies a configuration workflow to enable enterprise Session Initiation Protocol (SIP) networks to solicit the capability set of a SIP service provider network. The capability set can subsequently be used to configure features and services on the enterprise edge element, such as a Session Border Controller (SBC), to ensure smooth peering between enterprise and service provider networks.</t>
 
