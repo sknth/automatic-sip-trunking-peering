@@ -236,36 +236,32 @@ It is recommended that SIP service provider networks support the “trunkid” q
 
 # State Deltas
 
-<t>Given that the service provider capability set is largely expected to remain static, the work needed to implement an asynchronous push mechanism to encode minor changes in the capability set document (state deltas) is not commensurate with the benefits. Rather, enterprise edge elements can poll capability servers at pre-defined intervals to obtain the full capability set document. It is recommended that capability servers are polled every 24 hours.</t>
+Given that the service provider capability set is largely expected to remain static, the work needed to implement an asynchronous push mechanism to encode minor changes in the capability set document (state deltas) is not commensurate with the benefits. Rather, enterprise edge elements can poll capability servers at pre-defined intervals to obtain the full capability set document. It is recommended that capability servers are polled every 24 hours.
 
-</section>
-<section anchor="encoding-the-service-provider-capability-set" title="8. Encoding the Service Provider Capability Set">
+# Encoding the Service Provider Capability Set
 
-<t>In the context of this draft, the capability set of a service provider refers collectively to a set of characteristics which when communicated to an enterprise network, provides it with sufficient information to directly peer with the service provider network. The capability set document is not designed to encode extremely granular details of all features, services, and protocol extensions that are supported by the service provider network. For example, it is sufficient to encode that the service provider uses T.38 relay for faxing, it is not required to know the value of the “T38FaxFillBitRemoval” parameter.</t>
+In the context of this draft, the capability set of a service provider refers collectively to a set of characteristics which when communicated to an enterprise network, provides it with sufficient information to directly peer with the service provider network. The capability set document is not designed to encode extremely granular details of all features, services, and protocol extensions that are supported by the service provider network. For example, it is sufficient to encode that the service provider uses T.38 relay for faxing, it is not required to know the value of the “T38FaxFillBitRemoval” parameter.
 
-<t>The parameters within the capability set document represent a wide array of characteristics, such that these characteristics collectively disseminate sufficient information to enable direct IP peering between enterprise and service provider networks. The various parameters represented in the capability set are chosen based on existing practises and common problem sets typically seen between enterprise and service provider SIP networks.</t>
+The parameters within the capability set document represent a wide array of characteristics, such that these characteristics collectively disseminate sufficient information to enable direct IP peering between enterprise and service provider networks. The various parameters represented in the capability set are chosen based on existing practises and common problem sets typically seen between enterprise and service provider SIP networks.
 
-</section>
-<section anchor="data-model-for-capability-set" title="9. Data Model for Capability Set">
+# Data Model for Capability Set
 
-<t>This section defines a YANG module for encoding the service provider capability set. Section 9.1 provides the tree diagram, which is followed by a description of the various nodes within the module defined in this draft.</t>
+This section defines a YANG module for encoding the service provider capability set. Section 9.1 provides the tree diagram, which is followed by a description of the various nodes within the module defined in this draft.
 
-<section anchor="tree-diagram" title="9.1 Tree Diagram">
+## Tree Diagram"
 
-<t>This section provides a tree diagram [<eref target="https://tools.ietf.org/html/rfc8340">RFC 8340</eref>] for the “ietf-capability-set” module. The interpretation of the symbols appearing in the tree diagram is as follows:</t>
+This section provides a tree diagram [RFC 8340](https://tools.ietf.org/html/rfc8340) for the “ietf-capability-set” module. The interpretation of the symbols appearing in the tree diagram is as follows:</t>
 
-<t><list style="symbols">
-  <t>Brackets “[” and “]” enclose list keys.</t>
-  <t>Abbreviations before data node names: “rw” means configuration (read-write), and “ro” means state data (read-only).</t>
-  <t>Symbols after data node names: “?” means an optional node, “!” means a presence container, and “*” denotes a list and leaf-list.</t>
-  <t>Parentheses enclose choice and case nodes, and case nodes are also marked with a colon (“:”).</t>
-  <t>Ellipsis (“…”) stands for contents of subtrees that are not shown.</t>
-</list></t>
+* Brackets “[” and “]” enclose list keys.
+* Abbreviations before data node names: “rw” means configuration (read-write), and “ro” means state data (read-only).
+* Symbols after data node names: “?” means an optional node, “!” means a presence container, and “*” denotes a list and leaf-list.
+* Parentheses enclose choice and case nodes, and case nodes are also marked with a colon (“:”).
+* Ellipsis (“…”) stands for contents of subtrees that are not shown.
 
-<t>The data model for the peering capability document has the following structure:</t>
+The data model for the peering capability document has the following structure:
 
-<t><spanx style="verb">
-        +--rw peering-response
+```
+  +--rw peering-response
      +--rw variant           string
      +--rw transport-info
      |  +--rw transport?        enumeration
@@ -297,66 +293,61 @@ It is recommended that SIP service provider networks support the “trunkid” q
      |  +--rw mediaSecurity
      |     +--rw keyManagement?   string
      +--rw extensions?       string     
-</spanx></t>
+```
 
-</section>
-<section anchor="yang-model" title="9.2 YANG Model">
+## YANG Model
 
-<t>This section defines the YANG module for the peering capability set document. It imports modules (ietf-yang-types and ietf-inet-types) from <eref target="https://tools.ietf.org/html/rfc6991">RFC 6991</eref>.</t>
+This section defines the YANG module for the peering capability set document. It imports modules (ietf-yang-types and ietf-inet-types) from [RFC 6991](https://tools.ietf.org/html/rfc6991).
 
-<figure><artwork><![CDATA[
+```
     module ietf-peering {
-namespace "urn:ietf:params:xml:ns:ietf-peering";
-prefix "peering";
+      namespace "urn:ietf:params:xml:ns:ietf-peering";
+      prefix "peering";
 
-description
-"Data model for transmitting peering parameters from SP to Enterprise";
+      description
+      "Data model for transmitting peering parameters from SP to Enterprise";
 
-revision 2019-05-06 {
-description "Initial revision of peering-response doc.";
-}
+      revision 2019-05-06 {
+        description "Initial revision of peering-response doc.";
+      }
             
-import ietf-inet-types {
-  prefix "inet";
-}           
+      import ietf-inet-types {
+        prefix "inet";
+      }           
   
-typedef ipv4-address-port {
-  type string {
-    pattern
-      '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}'
-    +  '([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
-    + ':^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$';
-  }
-  description
-    "The ipv4-address-port type represents an IPv4 address in
-    dotted-quad notation followed by a port number.";
-}
+      typedef ipv4-address-port {
+        type string {
+          pattern '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}'
+          +  '([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
+          + ':^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$';
+        }
+        description "The ipv4-address-port type represents an IPv4 address in
+        dotted-quad notation followed by a port number.";
+      }
   
-typedef ipv6-address-port {
-  type string {
-    pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}'
+      typedef ipv6-address-port {
+        type string {
+          pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}'
           + '((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|'
           + '(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}'
           + '(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))'
           + ':^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$';
-    pattern '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|'
+          pattern '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|'
           + '((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)'
           + ':^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$';
-  }
-      description
-        "The ipv6-address type represents an IPv6 address in full,
-     mixed, shortened, and shortened-mixed notation followed by a port number.";
-}
+        }
+          description "The ipv6-address type represents an IPv6 address in full,
+          mixed, shortened, and shortened-mixed notation followed by a port number.";
+      }
   
-typedef ip-address-port {
-  type union {
-        type ipv4-address-port;
-    type ipv6-address-port;
-  }
-  description
-    "The ip-address-port type represents an IP address:port number
+      typedef ip-address-port {
+        type union {
+          type ipv4-address-port;
+          type ipv6-address-port;
+        }
+        description "The ip-address-port type represents an IP address:port number
         and is IP version neutral.";
-}
+      }
   
 typedef domain-name-port {
   type string {
