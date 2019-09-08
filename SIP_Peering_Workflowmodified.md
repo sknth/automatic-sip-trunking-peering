@@ -15,12 +15,29 @@ area = "Internet"
 keyword = ["TBD"]
 
 [[author]]
-initials=""
+initials="K."
 surname="Inamdar"
 fullname="Kaustubh Inamdar"
-organization = "Cisco"
+organization = "Cisco Systems"
   [author.address]
   email = "kinamdar@cisco.com"
+
+[[author]]
+initials=".S"
+surname="Narayanan"
+fullname="Sreekanth Narayanan"
+organization = "Cisco Systems"
+  [author.address]
+  email = "sreenara@cisco.com"
+
+[[author]]
+initials="C."
+surname="Jennings"
+fullname="Cullen Jennings"
+organization = "Cisco Systems"
+  [author.address]
+  email = "fluffy@iii.ca"
+
 ]]></artwork></figure>
 
 <t>%%%</t>
