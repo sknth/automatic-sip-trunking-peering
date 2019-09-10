@@ -736,8 +736,8 @@ Internet-Draft                SIP Auto Peer               September 2019
    document.  It imports modules (ietf-yang-types and ietf-inet-types)
    from [RFC6991].
 
-    module ietf-peering {
-      namespace "urn:ietf:params:xml:ns:ietf-peering";
+    module ietf-sip-auto-peering {
+      namespace "urn:ietf:params:xml:ns:ietf-sip-auto-peering";
       prefix "peering";
 
       description

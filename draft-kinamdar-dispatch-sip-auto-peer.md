@@ -579,8 +579,8 @@ document. It imports modules (ietf-yang-types and ietf-inet-types) from
 [@!RFC6991].
 
 ```
-    module ietf-peering {
-      namespace "urn:ietf:params:xml:ns:ietf-peering";
+    module ietf-sip-auto-peering {
+      namespace "urn:ietf:params:xml:ns:ietf-sip-auto-peering";
       prefix "peering";
 
       description
@@ -592,7 +592,7 @@ document. It imports modules (ietf-yang-types and ietf-inet-types) from
             
       import ietf-inet-types {
         prefix "inet";
-      }           
+      }
   
       typedef ipv4-address-port {
         type string {

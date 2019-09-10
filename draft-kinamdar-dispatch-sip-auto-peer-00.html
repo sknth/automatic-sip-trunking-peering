@@ -785,8 +785,8 @@
 </h1>
 <p id="rfc.section.9.2.p.1">This section defines the YANG module for the peering capability set document. It imports modules (ietf-yang-types and ietf-inet-types) from <a href="#RFC6991" class="xref">[RFC6991]</a>.  </p>
 <pre>
-    module ietf-peering {
-      namespace "urn:ietf:params:xml:ns:ietf-peering";
+    module ietf-sip-auto-peering {
+      namespace "urn:ietf:params:xml:ns:ietf-sip-auto-peering";
       prefix "peering";
 
       description
@@ -798,7 +798,7 @@
             
       import ietf-inet-types {
         prefix "inet";
-      }           
+      }
   
       typedef ipv4-address-port {
         type string {
