@@ -857,7 +857,7 @@ IP address and port number, or a subdomain of the SIP service provider
 network, or the fully qualified domain name (FQDN) of the SIP service
 provider network. If the transport address of a registrar is specified
 using either a subdomain or a fully qualified domain name, the DNS
-element need to be populated with one or more valid DNS server IP
+element needs to be populated with one or more valid DNS server IP
 addresses.
 
 * **callControl**: A leaf-list that specifies the transport address of
