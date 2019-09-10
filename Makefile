@@ -12,12 +12,13 @@ clean:
 
 .PHONY: all clean diff
 
-.PRECIOUS: %.xml
+.PRECIOUS: %.xml ietf-sip-auto-peering.tree
 
-model.md: model.yang
-	echo "~~~" > model.md
-	cat model.yang >> model.md
-	echo "~~~"  >> model.md
+lint: ietf-sip-auto-peering.yang Makefile 
+	pyang --lint --max-line-length 69 ietf-sip-auto-peering.yang
+
+ietf-sip-auto-peering.tree: ietf-sip-auto-peering.yang Makefile 
+	pyang -f tree ietf-sip-auto-peering.yang > ietf-sip-auto-peering.tree
 
 %.html: %.xml
 	xml2rfc --html $^ -o $@
@@ -25,7 +26,7 @@ model.md: model.yang
 %.txt: %.xml
 	xml2rfc --text $^ -o $@
 
-$(DRAFT)-$(VERSION).xml: $(DRAFT).md  model.md 
+$(DRAFT)-$(VERSION).xml: $(DRAFT).md   ietf-sip-auto-peering.tree ietf-sip-auto-peering.yang
 	mmark -xml2 -page $(DRAFT).md $@
 
 $(DRAFT).diff.html: $(DRAFT)-$(VERSION).txt $(DRAFT)-old.txt 

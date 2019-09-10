@@ -686,7 +686,8 @@ Internet-Draft                SIP Auto Peer               September 2019
    The data model for the peering capability document has the following
    structure:
 
-                +--rw peering-response
+              module: ietf-sip-auto-peering
+                +--rw peering-info
                    +--rw variant           string
                    +--rw transport-info
                    |  +--rw transport?        enumeration
@@ -714,13 +715,12 @@ Internet-Draft                SIP Auto Peer               September 2019
                    |  +--rw payloadNumber?   int8
                    |  +--rw iteration?       boolean
                    +--rw security
-                   |  +--rw signaling?       string
+                   |  +--rw signaling
+                   |  |  +--rw type?      string
+                   |  |  +--rw version?   string
                    |  +--rw mediaSecurity
                    |     +--rw keyManagement?   string
                    +--rw extensions?       string
-
-
-
 
 
 
@@ -736,7 +736,6 @@ Internet-Draft                SIP Auto Peer               September 2019
    document.  It imports modules (ietf-yang-types and ietf-inet-types)
    from [RFC6991].
 
-~~~
     module ietf-sip-auto-peering {
       namespace "urn:ietf:params:xml:ns:ietf-sip-auto-peering";
       prefix "peering";
@@ -778,6 +777,7 @@ Internet-Draft                SIP Auto Peer               September 2019
           "The ipv6-address type represents an IPv6 address in full,
           mixed, shortened, and shortened-mixed notation followed by a port number.";
       }
+
 
 
 
@@ -1020,7 +1020,6 @@ Internet-Draft                SIP Auto Peer               September 2019
         }
       }
     }
-~~~
 
 9.3.  Node Definitions
 
@@ -1057,7 +1056,8 @@ Internet-Draft                SIP Auto Peer               September 2019
       fully qualified domain name, the DNS element needs to be populated
       with one or more valid DNS server IP addresses.
 
-
+   o  *callControl*: A leaf-list that specifies the transport address of
+      the call server(s) in the service provider network.  The
 
 
 
@@ -1066,8 +1066,6 @@ Inamdar, et al.          Expires March 13, 2020                [Page 19]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-   o  *callControl*: A leaf-list that specifies the transport address of
-      the call server(s) in the service provider network.  The
       enterprise network MUST use an applicable transport protocol in
       conjunction with the call control server(s) transport address when
       transmitting call setup requests.  The transport address of a call
@@ -1114,6 +1112,8 @@ Internet-Draft                SIP Auto Peer               September 2019
    o  *earlyMedia*: A leaf that specifies whether the service provider
       network is expected to deliver in-band announcements/tones before
       call connect.  The P-Early-Media header field can be used to
+      indicate pre-connect delivery of tones and announcements on a per-
+      call basis.  However, given that signalling and media could
 
 
 
@@ -1122,8 +1122,6 @@ Inamdar, et al.          Expires March 13, 2020                [Page 20]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-      indicate pre-connect delivery of tones and announcements on a per-
-      call basis.  However, given that signalling and media could
       traverse a large number of intermediaries with varying
       capabilities (in terms of handling of the P-Early-Media header
       field) within the enterprise, such devices can be appropriately
@@ -1170,6 +1168,8 @@ Internet-Draft                SIP Auto Peer               September 2019
       ordering of different media format leaf nodes from left to right
       indicates preference from the perspective of the service provider.
       Each mediaFormat node begins with the encoding name of the media
+      format, which is the same encoding name as used in the "RTP/AVP"
+      and "RTP/SAVP" profiles.  The encoding name is followed by
 
 
 
@@ -1178,8 +1178,6 @@ Inamdar, et al.          Expires March 13, 2020                [Page 21]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-      format, which is the same encoding name as used in the "RTP/AVP"
-      and "RTP/SAVP" profiles.  The encoding name is followed by
       required and optional parameters for the given media format as
       specified when the media format is registered [RFC4855].  Given
       that the parameters of media formats can vary from one
@@ -1226,6 +1224,8 @@ Internet-Draft                SIP Auto Peer               September 2019
       practise of preserving the enterprise network in a hairpinned call
       flow is fairly common, it is recommended that SIP service
       providers avoid this practise.  In the context of a hairpinned
+      call, the enterprise device retained in the call flow can easily
+      eavesdrop on the conversation between the offnet parties.
 
 
 
@@ -1233,9 +1233,6 @@ Inamdar, et al.          Expires March 13, 2020                [Page 22]
 
 Internet-Draft                SIP Auto Peer               September 2019
 
-
-      call, the enterprise device retained in the call flow can easily
-      eavesdrop on the conversation between the offnet parties.
 
    o  *symmetricRTP*: A leaf node indicating whether the SIP service
       provider expects the enterprise network to use symmetric RTP as
@@ -1282,6 +1279,9 @@ Internet-Draft                SIP Auto Peer               September 2019
       reports, whereas a value of 0 indicates that the enterprise can
       use asymmetric RTCP.
 
+   o  *dtmf*: A container that describes the various aspects of DTMF
+      relay via RTP Named Telephony Events.  The dtmf container allows
+
 
 
 
@@ -1290,8 +1290,6 @@ Inamdar, et al.          Expires March 13, 2020                [Page 23]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-   o  *dtmf*: A container that describes the various aspects of DTMF
-      relay via RTP Named Telephony Events.  The dtmf container allows
       SIP service providers to specify two facets of DTMF relay via
       Named Telephony Events:
 
@@ -1338,6 +1336,8 @@ Internet-Draft                SIP Auto Peer               September 2019
    o  *mediaSecurity*: A container that describes the various
       characteristics of securing media streams between enterprise and
       service provider networks.
+
+
 
 
 

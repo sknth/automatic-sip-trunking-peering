@@ -537,40 +537,7 @@ marked with a colon (“:”).
 The data model for the peering capability document has the following
 structure:
 
-```
-  +--rw peering-response
-     +--rw variant           string
-     +--rw transport-info
-     |  +--rw transport?        enumeration
-     |  +--rw registrar*        host-port
-     |  +--rw registrarRealm?   string
-     |  +--rw callControl*      host-port
-     |  +--rw dns*              inet:ip-address
-     |  +--rw outboundProxy?    host-port
-     +--rw call-specs
-     |  +--rw earlyMedia?         boolean
-     |  +--rw signalingForking?   boolean
-     |  +--rw supportedMethods?   string
-     +--rw media
-     |  +--rw mediaTypeAudio
-     |  |  +--rw mediaFormat*   string
-     |  +--rw fax
-     |  |  +--rw protocol*   enumeration
-     |  +--rw rtp
-     |  |  +--rw RTPTrigger?     boolean
-     |  |  +--rw symmetricRTP?   boolean
-     |  +--rw rtcp
-     |     +--rw symmetricRTCP?   boolean
-     |     +--rw RTCPfeedback?    boolean
-     +--rw dtmf
-     |  +--rw payloadNumber?   int8
-     |  +--rw iteration?       boolean
-     +--rw security
-     |  +--rw signaling?       string
-     |  +--rw mediaSecurity
-     |     +--rw keyManagement?   string
-     +--rw extensions?       string     
-```
+<{{ietf-sip-auto-peering.tree}}
 
 ## YANG Model
 
@@ -578,9 +545,7 @@ This section defines the YANG module for the peering capability set
 document. It imports modules (ietf-yang-types and ietf-inet-types) from
 [@!RFC6991].
 
-
-<{{model.md}}
-
+<{{ietf-sip-auto-peering.yang}}
 
 ## Node Definitions
 
