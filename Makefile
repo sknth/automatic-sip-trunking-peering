@@ -8,11 +8,16 @@ all: $(DRAFT)-$(VERSION).txt $(DRAFT)-$(VERSION).html
 diff: $(DRAFT).diff.html
 
 clean:
-	-rm -f $(DRAFT)-$(VERSION).{txt,html,xml,pdf} $(DRAFT).diff.html  ripp-api.{html,md}
+	-rm -f $(DRAFT)-$(VERSION).{txt,html,xml,pdf} $(DRAFT).diff.html  model.md
 
 .PHONY: all clean diff
 
 .PRECIOUS: %.xml
+
+model.md: model.yang
+	echo "~~~" > model.md
+	cat model.yang >> model.md
+	echo "~~~"  >> model.md
 
 %.html: %.xml
 	xml2rfc --html $^ -o $@
@@ -20,7 +25,7 @@ clean:
 %.txt: %.xml
 	xml2rfc --text $^ -o $@
 
-$(DRAFT)-$(VERSION).xml: $(DRAFT).md  
+$(DRAFT)-$(VERSION).xml: $(DRAFT).md  model.md 
 	mmark -xml2 -page $(DRAFT).md $@
 
 $(DRAFT).diff.html: $(DRAFT)-$(VERSION).txt $(DRAFT)-old.txt 
