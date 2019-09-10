@@ -8,17 +8,17 @@ all: $(DRAFT)-$(VERSION).txt $(DRAFT)-$(VERSION).html
 diff: $(DRAFT).diff.html
 
 clean:
-	-rm -f $(DRAFT)-$(VERSION).{txt,html,xml,pdf} $(DRAFT).diff.html  model.md
+	-rm -f $(DRAFT)-$(VERSION).{txt,html,xml,pdf} $(DRAFT).diff.html   ietf-sip-auto-peering.tree
 
 .PHONY: all clean diff
 
 .PRECIOUS: %.xml ietf-sip-auto-peering.tree
 
 lint: ietf-sip-auto-peering.yang Makefile 
-	pyang --lint --max-line-length 69 ietf-sip-auto-peering.yang
+	pyang --ietf --max-line-length 69 ietf-sip-auto-peering.yang
 
 ietf-sip-auto-peering.tree: ietf-sip-auto-peering.yang Makefile 
-	pyang -f tree ietf-sip-auto-peering.yang > ietf-sip-auto-peering.tree
+	- pyang -f tree ietf-sip-auto-peering.yang -o ietf-sip-auto-peering.tree
 
 %.html: %.xml
 	xml2rfc --html $^ -o $@
