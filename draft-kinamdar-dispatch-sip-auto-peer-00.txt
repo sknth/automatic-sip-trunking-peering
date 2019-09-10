@@ -1053,7 +1053,7 @@ Internet-Draft                SIP Auto Peer               September 2019
       of the SIP service provider network, or the fully qualified domain
       name (FQDN) of the SIP service provider network.  If the transport
       address of a registrar is specified using either a subdomain or a
-      fully qualified domain name, the DNS element need to be populated
+      fully qualified domain name, the DNS element needs to be populated
       with one or more valid DNS server IP addresses.
 
    o  *callControl*: A leaf-list that specifies the transport address of
@@ -1462,9 +1462,9 @@ Internet-Draft                SIP Auto Peer               September 2019
       "peering-info:variant": "1.0",
       "transport-info": {
         "transport": "TCP;TLS;UDP",
-        "registrar": ["registrar1.voip.cisco.com:5060", "registrar2.voip.cisco.com:5060"],
-        "registrarRealm": "voip.cisco.com",
-        "callControl": ["callServer1.voip.cisco.com:5060", "192.168.12.25:5065"],
+        "registrar": ["registrar1.voip.example.com:5060", "registrar2.voip.example.com:5060"],
+        "registrarRealm": "voip.example.com",
+        "callControl": ["callServer1.voip.example.com:5060", "192.168.12.25:5065"],
         "dns": [8.8.8.8, 208.67.222.222],
         "outboundProxy": "0.0.0.0"
       },
@@ -1522,10 +1522,10 @@ Internet-Draft                SIP Auto Peer               September 2019
       <variant>1.0</variant>
       <transport-info>
         <transport>TCP;TLS;UDP</transport>
-        <registrar>registrar1.voip.cisco.com:5060</registrar>
-        <registrar>registrar2.voip.cisco.com:5060</registrar>
-        <registrarRealm>voip.cisco.com</registrarRealm>
-        <callControl>callServer1.voip.cisco.com:5060</callControl>
+        <registrar>registrar1.voip.example.com:5060</registrar>
+        <registrar>registrar2.voip.example.com:5060</registrar>
+        <registrarRealm>voip.example.com</registrarRealm>
+        <callControl>callServer1.voip.example.com:5060</callControl>
         <callControl>192.168.12.25:5065</callControl>
         <dns>8.8.8.8</dns>
         <dns>208.67.222.222</dns>
