@@ -322,25 +322,29 @@ the obtain the capability set document. The bearer token is presented in
 the “Authorization” header field of the GET request as specified in
 Section 2.1 of [@RFC6750].
 
-The generated HTTPS GET request must not use the “Expect” and “Range”
-header fields. The requests must also not use any conditional request.
+The generated HTTPS GET request MUST NOT use the “Expect” and “Range”
+header fields. The requests also MUST NOT use any conditional request.
 
 ## Generating the Response
 
 Capability servers include the capability set documents in the body of a
 successful response. Capability set documents MUST be formatted in XML
 or JSON. For requests that are incorrectly formatted, the capability
-server must generate a “400 Bad Request” response. If the client
+server SHOULD generate a “400 Bad Request” response. If the client
 (enterprise edge element) includes any other MIME types in Accept header
 field other than “application/peering-info+json” or
-“application/peering-info+xml”, the capability set must reject the
+“application/peering-info+xml”, the capability set MUST reject the
 request with a “406 Not Acceptable” response.
 
 The capability server can respond to client requests with redirect
 responses, specifically, the server can respond with the following
 redirect responses:
 
-1. 301 Moved Temporarily 2. 302 Found 3. 307 Temporary Redirect
+1. 301 Moved Temporarily
+
+2. 302 Found
+
+3. 307 Temporary Redirect
 
 
 The server SHOULD include the Location header field in such responses.
@@ -833,7 +837,7 @@ element of an XML schema.
 * **variant**: This node identifies the version number of the capability
 set document. This draft defines the parameters for variant 1.0; future
 specifications might define a richer parameter set, in which case the
-variant must be changed to 2.0, 3.0 and so on. Future extensions to the
+variant can be changed to 2.0, 3.0 and so on. Future extensions to the
 capability set document MUST also ensure that the corresponding YANG
 module is defined.
 
@@ -853,12 +857,12 @@ IP address and port number, or a subdomain of the SIP service provider
 network, or the fully qualified domain name (FQDN) of the SIP service
 provider network. If the transport address of a registrar is specified
 using either a subdomain or a fully qualified domain name, the DNS
-element must be populated with one or more valid DNS server IP
+element need to be populated with one or more valid DNS server IP
 addresses.
 
 * **callControl**: A leaf-list that specifies the transport address of
 the call server(s) in the service provider network. The enterprise
-network must use an applicable transport protocol in conjunction with
+network MUST use an applicable transport protocol in conjunction with
 the call control server(s) transport address when transmitting call
 setup requests. The transport address of a call server(s) within the
 service provider network can be specified using a combination of a valid
@@ -866,7 +870,7 @@ IP address and port number, or a subdomain of the SIP service provider
 network, or a fully qualified domain name of the SIP service provider
 network. If the transport address of a call control server(s) is
 specified using either a subdomain or a fully qualified domain name, the
-DNS element must be populated with one or more valid DNS server IP
+DNS element MUST be populated with one or more valid DNS server IP
 addresses. The transport address specified in this element can also
 serve as the target for non-call requests such as SIP OPTIONS.
 
@@ -874,13 +878,13 @@ serve as the target for non-call requests such as SIP OPTIONS.
 servers hosted by the SIP service provider. If the enterprise network is
 unaware of the IP address, port number, and transport protocol of
 servers within the service provider network (for example, the registrar
-and call control server), it must use DNS NAPTR and SRV. Alternatively,
+and call control server), it MUST use DNS NAPTR and SRV. Alternatively,
 if the enterprise network has the fully qualified domain name of the SIP
-service provider network, it must use DNS to resolve the said FQDN to an
+service provider network, it MUST use DNS to resolve the said FQDN to an
 IP address. The dns element encodes the IP address of one or more DNS
 servers hosted in the service provider network. If however, either the
 registrar or callControl elements or both are populated with a valid IP
-address and port pair, the dns element must be set to the quadruple
+address and port pair, the dns element MUST be set to the quadruple
 octet of 0.0.0.0.
 
 * **outboundProxy**: A leaf list that specifies the transport address of
@@ -890,7 +894,7 @@ the SIP service provider network, or a fully qualified domain name and
 port number of the SIP service provider network. If the outbound-proxy
 sub-element is populated with a valid transport address, it represents
 the default destination for all outbound SIP requests and therefore, the
-registrar and callControl elements must be populated with the quadruple
+registrar and callControl elements MUST be populated with the quadruple
 octet of 0.0.0.0.
 
 * **call-specs**: A container that encapsulates information about call
@@ -951,14 +955,14 @@ is registered [@RFC4855]. Given that the parameters of media formats can
 vary from one communication session to another, for example, across two
 separate communication sessions, the packetization time (ptime) used for
 the PCMU media format might vary from 10 to 30 ms, the parameters
-included in the format element must be the ones that are expected to be
+included in the format element MUST be the ones that are expected to be
 invariant from the perspective of the service provider. Providing
 information about supported media formats and their respective
 parameters, allows enterprise networks to configure the media plane
 characteristics of various devices such as endpoints and middleboxes.
 The encoding name, one or more required parameters, one or more optional
 parameters are all separated by a semicolon. The formatting of a given
-media format parameter, must follow the formatting rules as specified
+media format parameter, MUST follow the formatting rules as specified
 for that media format.
 
 * **fax**: A container that encapsulates the fax protocol(s) supported
@@ -1018,7 +1022,7 @@ network. Modification of RTCP traffic would be required, for example, if
 the intermediary has performed media payload transformation operations
 such as transcoding or transrating. In a similar vein, for the
 RTCP-based feedback mechanism as defined in [@RFC4585] to be truly
-effective, intermediaries must ensure that feedback messages are passed
+effective, intermediaries MUST ensure that feedback messages are passed
 reliably and with the correct formatting to enterprise endpoints. This
 might require additional configuration and considerations that need to
 be dealt with at the time of provisioning the intermediary device. This
@@ -1074,7 +1078,7 @@ is set to the string “tls”.
 
 * **version**: A leaf node that specifies the version(s) of TLS
 supported in decimal format. If multiple versions of TLS are supported,
-they should be separated by semi-colons. If the service provide does not
+they MUST be separated by semi-colons. If the service provide does not
 support TLS for protecting SIP sessions, the signalling element is set
 to the string “NULL”.
 
@@ -1096,9 +1100,9 @@ set to “NULL”.
 
 * **extensions**: A leaf node that is a semicolon separated list of all
 possible SIP option tags supported by the service provider network.
-These extensions must be referenced using name registered under IANA. If
+These extensions MUST be referenced using name registered under IANA. If
 the service provider network does not support any extensions to baseline
-SIP, the extensions node must be set to “NULL”.
+SIP, the extensions node MUST be set to “NULL”.
 
 ## Extending the Capability Set
 
@@ -1434,8 +1438,8 @@ It is recommended that enterprise edge elements use the “trunkid”
 parameter in query strings when requesting for the capability set
 documents. The value of “trunkid” parameter is generated by the SIP
 service provider and provided to the administrator via some out-of-band
-mechanism. SIP service providers must ensure that value of the “trunkid”
-parameters should not inadvertently communicate sensitive information to
+mechanism. SIP service providers MUST ensure that value of the “trunkid”
+parameters does not inadvertently communicate sensitive information to
 an attacker such as a username or password credential.
 
 In addition to the considerations listed above, all the security
