@@ -1170,9 +1170,9 @@ JSON or XML.
       "peering-info:variant": "1.0",
       "transport-info": {
         "transport": "TCP;TLS;UDP",
-        "registrar": ["registrar1.voip.cisco.com:5060", "registrar2.voip.cisco.com:5060"],
-        "registrarRealm": "voip.cisco.com",
-        "callControl": ["callServer1.voip.cisco.com:5060", "192.168.12.25:5065"],
+        "registrar": ["registrar1.voip.example.com:5060", "registrar2.voip.example.com:5060"],
+        "registrarRealm": "voip.example.com",
+        "callControl": ["callServer1.voip.example.com:5060", "192.168.12.25:5065"],
         "dns": [8.8.8.8, 208.67.222.222],
         "outboundProxy": "0.0.0.0"
       },
@@ -1223,10 +1223,10 @@ JSON or XML.
       <variant>1.0</variant>
       <transport-info>
         <transport>TCP;TLS;UDP</transport>
-        <registrar>registrar1.voip.cisco.com:5060</registrar>
-        <registrar>registrar2.voip.cisco.com:5060</registrar>
-        <registrarRealm>voip.cisco.com</registrarRealm>
-        <callControl>callServer1.voip.cisco.com:5060</callControl>
+        <registrar>registrar1.voip.example.com:5060</registrar>
+        <registrar>registrar2.voip.example.com:5060</registrar>
+        <registrarRealm>voip.example.com</registrarRealm>
+        <callControl>callServer1.voip.example.com:5060</callControl>
         <callControl>192.168.12.25:5065</callControl>
         <dns>8.8.8.8</dns>
         <dns>208.67.222.222</dns>
