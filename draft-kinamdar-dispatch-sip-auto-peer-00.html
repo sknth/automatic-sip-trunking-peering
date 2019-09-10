@@ -389,7 +389,7 @@
 <link href="#rfc.section.7" rel="Chapter" title="7 State Deltas">
 <link href="#rfc.section.8" rel="Chapter" title="8 Encoding the Service Provider Capability Set">
 <link href="#rfc.section.9" rel="Chapter" title="9 Data Model for Capability Set">
-<link href="#rfc.section.9.1" rel="Chapter" title='9.1 Tree Diagram"'>
+<link href="#rfc.section.9.1" rel="Chapter" title="9.1 Tree Diagram">
 <link href="#rfc.section.9.2" rel="Chapter" title="9.2 YANG Model">
 <link href="#rfc.section.9.3" rel="Chapter" title="9.3 Node Definitions">
 <link href="#rfc.section.9.4" rel="Chapter" title="9.4 Extending the Capability Set">
@@ -495,7 +495,7 @@
 </li>
 <li>9.   <a href="#rfc.section.9">Data Model for Capability Set</a>
 </li>
-<ul><li>9.1.   <a href="#rfc.section.9.1">Tree Diagram"</a>
+<ul><li>9.1.   <a href="#rfc.section.9.1">Tree Diagram</a>
 </li>
 <li>9.2.   <a href="#rfc.section.9.2">YANG Model</a>
 </li>
@@ -532,7 +532,7 @@
 </h1>
 <p id="rfc.section.1.p.1">The deployment of a Session Initiation Protocol (SIP)-based infrastructure in enterprise and service provider communication networks is increasing at a rapid pace. Consequently, direct IP peering between enterprise and service provider networks is quickly replacing traditional methods of interconnection between enterprise and service provider networks.  </p>
 <p id="rfc.section.1.p.2">Currently published standards provide a strong foundation over which direct IP peering can be realized. However, given the sheer number of these standards, it is often not clear which behavioral subsets, extensions to baseline protocols and operating principles ought to be implemented by service provider and enterprise networks to ensure successful peering.  </p>
-<p id="rfc.section.1.p.3">The SIP Connect technical recommendations aim to solve this problem by providing a master reference that promotes seamless peering between enterprise and service provider SIP networks. However, despite the extensive set of implementation rules and operating guidelines, interoperability issues between service provider and enterprise networks persist. This is in large part because service providers and equipment manufacturers aren&#8217;t required to enforce the guidelines of the technical specifications and have a fair degree of freedom to deviate from them. Consequently, enterprise administrators usually undertake a fairly rigorous regimen of testing, analysis and troubleshooting to arrive at a configuration block that ensures seamless service provider peering.  </p>
+<p id="rfc.section.1.p.3">The SIP Connect technical recommendations aim to solve this problem by providing a master reference that promotes seamless peering between enterprise and service provider SIP networks. However, despite the extensive set of implementation rules and operating guidelines, interoperability issues between service provider and enterprise networks persist. This is in large part because service providers and equipment manufacturers aren&#8217;t required to enforce the guidelines of the technical specifications and have a fair degree of freedom to deviate from them.  Consequently, enterprise administrators usually undertake a fairly rigorous regimen of testing, analysis and troubleshooting to arrive at a configuration block that ensures seamless service provider peering.  </p>
 <p id="rfc.section.1.p.4">Another set of interoperability problems arise when enterprise administrators are required to translate a set of technical recommendations from service providers to configuration blocks across one or more devices in the enterprise, which is usually an error prone exercise. Additionally, such technical recommendations might not be nuanced enough to intuitively allow the generation of specific configuration blocks.  </p>
 <p id="rfc.section.1.p.5">This draft introduces a mechanism using which an enterprise network can solicit a detailed capability set from a SIP service provider; the detailed capability set can subsequently be used by automaton or an administrator to generate configuration blocks across one or more devices within the enterprise to ensure successful service provider peering.  </p>
 <h1 id="rfc.section.2">
@@ -542,7 +542,7 @@
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#reference-architecture" id="reference-architecture">Reference Architecture</a>
 </h1>
-<p id="rfc.section.3.p.1">Figure 1 illustrates a reference architecture that may be deployed to support the mechanism described in this document. The enterprise network consists of a SIP-PBX, media endpoints and a Session Border Controller. It may also include additional components such as application servers for voicemail, recording, fax etc. At a high level, the service provider consists of a SIP signaling entity (SP-SSE), a media entity and a HTTP(S) server.  </p>
+<p id="rfc.section.3.p.1">Figure 1 illustrates a reference architecture that may be deployed to support the mechanism described in this document. The enterprise network consists of a SIP-PBX, media endpoints and a Session Border Controller.  It may also include additional components such as application servers for voicemail, recording, fax etc. At a high level, the service provider consists of a SIP signaling entity (SP-SSE), a media entity and a HTTP(S) server.  </p>
 <pre>
 
     +-----------------------------------------------------+
@@ -596,18 +596,15 @@
 </ul>
 
 <p> </p>
-<p id="rfc.section.4.p.3">Taking the above considerations into account, this document proposes a Hypertext Transfer Protocol (HTTP)-based workflow using which the enterprise network can solicit and ultimately obtain the service provider capability set. The enterprise network creates a well formed HTTPS GET request to solicit the service provider capability set. Subsequently, the HTTPS response from the SIP service provider includes the capability set. The capability set is encoded in either XML or JSON, thus ensuring that the response can be easily parsed by automaton.  </p>
-<p id="rfc.section.4.p.4">There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package <a href="#RFC6665" class="xref">[RFC6665]</a>, such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set. This mechanism is likely to result in a significant amount of operational complexity. For example, not only would this workflow require enterprise and service provider equipment manufacturers to upgrade their software stacks, but it would also create a significant amount of ambiguity in terms of which device in the service provider network handles subscriptions and generates notifications. Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <a href="#RFC6020" class="xref">[RFC6020]</a> that enable configuration to be pushed over NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a> to enterprise networks from a centralized source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a &#8220;one-size-fits-all&#8221; YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.  </p>
+<p id="rfc.section.4.p.3">Taking the above considerations into account, this document proposes a Hypertext Transfer Protocol (HTTP)-based workflow using which the enterprise network can solicit and ultimately obtain the service provider capability set. The enterprise network creates a well formed HTTPS GET request to solicit the service provider capability set.  Subsequently, the HTTPS response from the SIP service provider includes the capability set. The capability set is encoded in either XML or JSON, thus ensuring that the response can be easily parsed by automaton.  </p>
+<p id="rfc.section.4.p.4">There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package <a href="#RFC6665" class="xref">[RFC6665]</a>, such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set. This mechanism is likely to result in a significant amount of operational complexity. For example, not only would this workflow require enterprise and service provider equipment manufacturers to upgrade their software stacks, but it would also create a significant amount of ambiguity in terms of which device in the service provider network handles subscriptions and generates notifications. Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <a href="#RFC6020" class="xref">[RFC6020]</a> that enable configuration to be pushed over NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a> to enterprise networks from a centralized source hosted in service provider networks.  The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a &#8220;one-size-fits-all&#8221; YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.  </p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#overview-of-operations" id="overview-of-operations">Overview of Operations</a>
 </h1>
 <p id="rfc.section.5.p.1">To solicit the capability set of the SIP service provider, the edge element in the enterprise network generates a well-formed HTTPS GET request. There are two reasons why it makes sense for the enterprise edge element to generate the HTTPs request: </p>
 <p></p>
 
-<ol>
-<li>Edge elements are devices that normalize any mismatches between the enterprise and service provider networks in the media and signaling planes. As a result, when the capability set is received from the SIP service provider network, the edge element can generate appropriate configuration blocks (possibly across multiple devices) to enable smooth IP peering.</li>
-<li>Given that edge elements are configured to &#8220;talk&#8221; to networks external to the enterprise, the complexity in terms of NAT traversal and firewall configuration would be minimal.</li>
-</ol>
+<ol><li>Edge elements are devices that normalize any mismatches between the enterprise and service provider networks in the media and signaling planes. As a result, when the capability set is received from the SIP service provider network, the edge element can generate appropriate configuration blocks (possibly across multiple devices) to enable smooth IP peering. 2. Given that edge elements are configured to &#8220;talk&#8221; to networks external to the enterprise, the complexity in terms of NAT traversal and firewall configuration would be minimal.</li></ol>
 
 <p> </p>
 <p id="rfc.section.5.p.3">The HTTPs GET request is targeted at a capability server that is managed by the SIP service provider such that this server processes, and on successfully processing the request, includes the capability set document in the response. The capability set document is constructed according the guidelines of the YANG model described in this draft. The capability set document included in a successful response is formatted in either XML or JSON. The formatting depends on the value of the &#8220;Accept&#8221; header field of the HTTP GET request. More details about the formatting of the HTTP request and response are provided in Section 6 </p>
@@ -641,11 +638,7 @@
 <p id="rfc.section.6.5.p.2">The capability server can respond to client requests with redirect responses, specifically, the server can respond with the following redirect responses: </p>
 <p></p>
 
-<ol>
-<li>301 Moved Temporarily</li>
-<li>302 Found</li>
-<li>307 Temporary Redirect</li>
-</ol>
+<ol><li>301 Moved Temporarily 2. 302 Found 3. 307 Temporary Redirect</li></ol>
 
 <p> </p>
 <p id="rfc.section.6.5.p.4">The server SHOULD include the Location header field in such responses.  </p>
@@ -656,34 +649,21 @@
 <p id="rfc.section.6.6.p.1">HTTPS GET requests from enterprise edge elements MUST carry a valid request-target. The enterprise edge element might obtain the URL of the resource hosted on the capability server in one of two ways: </p>
 <p></p>
 
-<ol>
-<li>Manual Configuration</li>
-<li>Using the WebFinger Protocol</li>
-</ol>
+<ol><li>Manual Configuration 2. Using the WebFinger Protocol</li></ol>
 
 <p> </p>
 <p id="rfc.section.6.6.p.3">The complete HTTPS URLs to be used when authenticating the enterprise edge element (optional) and obtaining the SIP service provider capability set can be obtained from the SIP service provider beforehand and entered into the edge element manually via some interface &#8211; for example, a CLI or GUI.  </p>
 <p id="rfc.section.6.6.p.4">However, if the resource URL is unknown to the administrator (and by extension of that to the edge element), the WebFinger protocol <a href="#RFC7033" class="xref">[RFC7033]</a> may be leveraged. From the perspective of this draft, three link relation types (rel) are defined, namely: </p>
 <p></p>
 
-<ol>
-<li>Capability Server: The base URL of the capability server hosting the capability set document.</li>
-<li>Authorization Endpoint: The URL of the authorization endpoint to be used for OAuth 2.0</li>
-<li>Token Endpoint: The URL of the token endpoint to be used for OAuth 2.0</li>
-</ol>
+<ol><li>Capability Server: The base URL of the capability server hosting the capability set document. 2. Authorization Endpoint: The URL of the authorization endpoint to be used for OAuth 2.0 3. Token Endpoint: The URL of the token endpoint to be used for OAuth 2.0</li></ol>
 
 <p> </p>
 <p id="rfc.section.6.6.p.6">The corresponding link relation type values are as follows: </p>
 <p></p>
 
-<ol>
-<li>Capability Server: &#8220;<span>&lt;</span><a href="http://sipserviceprovider/capserver%E2%80%9D">http://sipserviceprovider/capserver&#8221;</a><span>&gt;</span>
-</li>
-<li>Authorization Endpoint: &#8220;<span>&lt;</span><a href="http://sipserviceprovider/auth%E2%80%9D">http://sipserviceprovider/auth&#8221;</a><span>&gt;</span>
-</li>
-<li>Token Endpoint: &#8220;<span>&lt;</span><a href="http://sipserviceprovider/token%E2%80%9D">http://sipserviceprovider/token&#8221;</a><span>&gt;</span>
-</li>
-</ol>
+<ol><li>Capability Server: &#8220;<span>&lt;</span><a href="http://sipserviceprovider/capserver%E2%80%9D">http://sipserviceprovider/capserver&#8221;</a><span>&gt;</span> 2.  Authorization Endpoint: &#8220;<span>&lt;</span><a href="http://sipserviceprovider/auth%E2%80%9D">http://sipserviceprovider/auth&#8221;</a><span>&gt;</span> 3. Token Endpoint: &#8220;<span>&lt;</span><a href="http://sipserviceprovider/token%E2%80%9D">http://sipserviceprovider/token&#8221;</a><span>&gt;</span>
+</li></ol>
 
 <p> </p>
 <p id="rfc.section.6.6.p.8">If an enterprise edge element attempts to discover the URL of the endpoints hosted in the ssp1.example.com domain, it issues the following request (line wraps are for display purposes only) </p>
@@ -724,15 +704,15 @@
 <p id="rfc.section.6.6.p.10">SIP service providers MUST support the &#8220;https&#8221; URI and &#8220;acct&#8221; URI [link] schemes in WebFinger queries. The &#8220;acct&#8221; URI scheme might be used in the WebFinger query, if the enterprise adminsitrator is provided with a username by the SIP service provider. The SIP service provider might provide a unique username for each SIP purchased by the enterprise network or a single username that is applicable to all the trunks purchased by the enterprise network. This draft does not require SIP service providers or enterprise networks to favor one URI scheme over the other; rather, the choice of which scheme to use is left to the discretion of the SIP service provider. The security considerations of using the &#8220;acct&#8221; URI is provided in section 5 of <a href="#RFC7565" class="xref">[RFC7565]</a>.  </p>
 <p id="rfc.section.6.6.p.11">The base URL of the capability server returned in the WebFinger response SHOULD not contain a path or query component. Once the base URL is obtained, the enterprise edge element builds on the base URL to identify the capability set document on the capability server. The general format for identifying resources on a capability server is as follows: </p>
 <pre>
-    &lt;scheme&gt; /&lt;baseURL&gt;/&lt;path&gt;?&lt;query&gt;
+&lt;scheme&gt; /&lt;baseURL&gt;/&lt;path&gt;?&lt;query&gt;
 </pre>
 <p id="rfc.section.6.6.p.12">scheme: Is always HTTPS in the context of this draft.  </p>
 <p id="rfc.section.6.6.p.13">baseURL: The base URL of the capability server discovered as a result of the WebFinger query.  </p>
 <p id="rfc.section.6.6.p.14">path: The path expression identifying the capability set document on the capability server. The path expression MUST be set to the static string of &#8220;capdoc&#8221;.  </p>
 <p id="rfc.section.6.6.p.15">query: A query string identifying a specific representation of the capability set document. The format of the query string is in the form of a &#8220;name=value&#8221; pair. This draft defines the following optional query parameter: </p>
-<p><strong>trunkid</strong> : A parameter uniquely identifying the SIP trunk for which the capability set document is sought.  </p>
+<p id="rfc.section.6.6.p.16">trunkid: A parameter uniquely identifying the SIP trunk for which the capability set document is sought.  </p>
 <p id="rfc.section.6.6.p.17">The &#8220;trunkid&#8221; is useful in situations in which an enterprise SIP network has multiple SIP trunks with the SIP service provider, such that parameters for such trunks vary, perhaps because of the geographical distribution of these sites. The value of the &#8220;trunkid&#8221; parameter is generated by the SIP service provider and communicated to the enterprise SIP network by some out-of-band mechanism, for example, it may be provided in an email to the enterprise administrator after the trunk is purchased. It is recommended that SIP service providers generate unique trunk identifiers across enterprise networks.  </p>
-<p id="rfc.section.6.6.p.18">It is recommended that SIP service provider networks support the &#8220;trunkid&#8221; query parameter. SIP service providers expose varying capability sets to different enterprise SIP telephony networks. Using the &#8220;trunkid&#8221; query parameter not only helps the SIP service provider capability server to uniquely identify the trunk/enterprise/edge element for which the capability set document is being request, but also, it is helpful in generating unique URL strings for capability set documents. These unique URL strings are helpful in HTTP content caching.  </p>
+<p id="rfc.section.6.6.p.18">It is recommended that SIP service provider networks support the &#8220;trunkid&#8221; query parameter. SIP service providers expose varying capability sets to different enterprise SIP telephony networks. Using the &#8220;trunkid&#8221; query parameter not only helps the SIP service provider capability server to uniquely identify the trunk/enterprise/edge element for which the capability set document is being request, but also, it is helpful in generating unique URL strings for capability set documents.  These unique URL strings are helpful in HTTP content caching.  </p>
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> <a href="#state-deltas" id="state-deltas">State Deltas</a>
 </h1>
@@ -747,7 +727,7 @@
 </h1>
 <p id="rfc.section.9.p.1">This section defines a YANG module for encoding the service provider capability set. Section 9.1 provides the tree diagram, which is followed by a description of the various nodes within the module defined in this draft.  </p>
 <h1 id="rfc.section.9.1">
-<a href="#rfc.section.9.1">9.1.</a> <a href="#tree-diagram" id="tree-diagram">Tree Diagram"</a>
+<a href="#rfc.section.9.1">9.1.</a> <a href="#tree-diagram" id="tree-diagram">Tree Diagram</a>
 </h1>
 <p id="rfc.section.9.1.p.1">This section provides a tree diagram <a href="#RFC8340" class="xref">[RFC8340]</a> for the &#8220;ietf-capability-set&#8221; module. The interpretation of the symbols appearing in the tree diagram is as follows: </p>
 <p></p>
@@ -1072,9 +1052,9 @@
 <li>
 <strong>call-specs</strong>: A container that encapsulates information about call specifications, restrictions and additional handling criteria for SIP calls between the enterprise and service provider network.</li>
 <li>
-<strong>earlyMedia</strong>: A leaf that specifies whether the service provider network is expected to deliver in-band announcements/tones before call connect. The P-Early-Media header field can be used to indicate pre-connect delivery of tones and announcements on a per-call basis. However, given that signalling and media could traverse a large number of intermediaries with varying capabilities (in terms of handling of the P-Early-Media header field) within the enterprise, such devices can be appropriately configured for media cut through if it is known before-hand that early media is expected for some or all of the outbound calls. This element is a Boolean type, where a value of 1/true signifies that the service provider is capable of early media. A value of 0/false signifies that the service provider is not expected to generate early media.</li>
+<strong>earlyMedia</strong>: A leaf that specifies whether the service provider network is expected to deliver in-band announcements/tones before call connect. The P-Early-Media header field can be used to indicate pre-connect delivery of tones and announcements on a per-call basis.  However, given that signalling and media could traverse a large number of intermediaries with varying capabilities (in terms of handling of the P-Early-Media header field) within the enterprise, such devices can be appropriately configured for media cut through if it is known before-hand that early media is expected for some or all of the outbound calls. This element is a Boolean type, where a value of 1/true signifies that the service provider is capable of early media. A value of 0/false signifies that the service provider is not expected to generate early media.</li>
 <li>
-<strong>signalingForking</strong>: A leaf that specifies whether outbound call requests from the enterprise might be forked on the service provider network leading to multiple early dialogs. This information would be useful to the enterprise network in appropriately handling multiple early dialogs reliably and in enforcing local policy. This element is a Boolen type, where a value of 1/true signifies that the service provider network can potentially fork outbound call requests from the enterprise. A value of 0/false indicates that the service provider will not fork outbound call requests.</li>
+<strong>signalingForking</strong>: A leaf that specifies whether outbound call requests from the enterprise might be forked on the service provider network leading to multiple early dialogs. This information would be useful to the enterprise network in appropriately handling multiple early dialogs reliably and in enforcing local policy. This element is a Boolen type, where a value of 1/true signifies that the service provider network can potentially fork outbound call requests from the enterprise.  A value of 0/false indicates that the service provider will not fork outbound call requests.</li>
 <li>
 <strong>supportedMethods</strong>: A leaf node that specifies the various SIP methods supported by the SIP service provider. The list of supported methods help to appropriately configuration various devices within the enterprise network. For example, if the service provider enumerates support for the OPTIONS method, the enterprise network could periodically send OPTIONS requests as a keep-alive mechanism.</li>
 <li>
@@ -1082,7 +1062,7 @@
 <li>
 <strong>mediaTypeAudio</strong>: A container for the mediaFormat leaf-list. This container collectively encapsulates the various audio media formats supported by the SIP service provider.</li>
 <li>
-<strong>mediaFormat</strong>: A leaf-list encoding the various audio media formats supported by the SIP service provider. The relative ordering of different media format leaf nodes from left to right indicates preference from the perspective of the service provider. Each mediaFormat node begins with the encoding name of the media format, which is the same encoding name as used in the &#8220;RTP/AVP&#8221; and &#8220;RTP/SAVP&#8221; profiles. The encoding name is followed by required and optional parameters for the given media format as specified when the media format is registered <a href="#RFC4855" class="xref">[RFC4855]</a>. Given that the parameters of media formats can vary from one communication session to another, for example, across two separate communication sessions, the packetization time (ptime) used for the PCMU media format might vary from 10 to 30 ms, the parameters included in the format element must be the ones that are expected to be invariant from the perspective of the service provider. Providing information about supported media formats and their respective parameters, allows enterprise networks to configure the media plane characteristics of various devices such as endpoints and middleboxes. The encoding name, one or more required parameters, one or more optional parameters are all separated by a semicolon. The formatting of a given media format parameter, must follow the formatting rules as specified for that media format.</li>
+<strong>mediaFormat</strong>: A leaf-list encoding the various audio media formats supported by the SIP service provider. The relative ordering of different media format leaf nodes from left to right indicates preference from the perspective of the service provider. Each mediaFormat node begins with the encoding name of the media format, which is the same encoding name as used in the &#8220;RTP/AVP&#8221; and &#8220;RTP/SAVP&#8221; profiles. The encoding name is followed by required and optional parameters for the given media format as specified when the media format is registered <a href="#RFC4855" class="xref">[RFC4855]</a>. Given that the parameters of media formats can vary from one communication session to another, for example, across two separate communication sessions, the packetization time (ptime) used for the PCMU media format might vary from 10 to 30 ms, the parameters included in the format element must be the ones that are expected to be invariant from the perspective of the service provider. Providing information about supported media formats and their respective parameters, allows enterprise networks to configure the media plane characteristics of various devices such as endpoints and middleboxes.  The encoding name, one or more required parameters, one or more optional parameters are all separated by a semicolon. The formatting of a given media format parameter, must follow the formatting rules as specified for that media format.</li>
 <li>
 <strong>fax</strong>: A container that encapsulates the fax protocol(s) supported by the SIP service provider. The fax container encloses a leaf-list (named protocol) that enumerates whether the service provider supports t38 relay, protocol-based fax passthrough or both. The relative ordering of leaf nodes within the leaf lists indicates preference.</li>
 <li>
@@ -1090,7 +1070,7 @@
 <li>
 <strong>RTPTrigger</strong>: A leaf node indicating whether the SIP service provider network always expects the enterprise network to send the first RTP packet for an established communication session. This information is useful in scenarios such as &#8220;hairpinned&#8221; calls, in which the caller and callee are on the service provider network and because of sub-optimal media routing, an enterprise device such as an SBC is retained in the media path. Based on the encoding of this node, it is possible to configure enterprise devices such as SBCs to start streaming media (possibly filled with silence payloads) toward the address:port tuples provided by caller and callee. This node is a Boolean type. A value of 1/true indicates that the service provider expects the enterprise network to send the first RTP packet, whereas a value of 0/false indicates that the service provider network does not require the enterprise network to send the first media packet. While the practise of preserving the enterprise network in a hairpinned call flow is fairly common, it is recommended that SIP service providers avoid this practise. In the context of a hairpinned call, the enterprise device retained in the call flow can easily eavesdrop on the conversation between the offnet parties.</li>
 <li>
-<strong>symmetricRTP</strong>: A leaf node indicating whether the SIP service provider expects the enterprise network to use symmetric RTP as defined in <a href="#RFC4961" class="xref">[RFC4961]</a>. Uncovering this expectation is useful in scenarios where &#8220;latching&#8221; <a href="#RFC3762" class="xref">[RFC3762]</a> is implemented in the service provider network. This node is a Boolean type, a value of 1/true indicates that the service provider expects the enterprise network to use symmetric RTP, whereas a value of 0/false indicates that the enterprise network can use asymmetric RTP.</li>
+<strong>symmetricRTP</strong>: A leaf node indicating whether the SIP service provider expects the enterprise network to use symmetric RTP as defined in <a href="#RFC4961" class="xref">[RFC4961]</a>. Uncovering this expectation is useful in scenarios where &#8220;latching&#8221; <a href="#RFC3762" class="xref">[RFC3762]</a> is implemented in the service provider network.  This node is a Boolean type, a value of 1/true indicates that the service provider expects the enterprise network to use symmetric RTP, whereas a value of 0/false indicates that the enterprise network can use asymmetric RTP.</li>
 <li>
 <strong>rtcp</strong>: A container that encapsulates generic characteristics of RTCP sessions between the enterprise and service provider network. This node is a container for the &#8220;RTCPFeedback&#8221; and &#8220;SymmetricRTCP&#8221; leaf nodes.</li>
 <li>
@@ -1104,10 +1084,7 @@
 <p> </p>
 <p></p>
 
-<ol>
-<li>The payload type number using the payloadNumber leaf node.</li>
-<li>Support for <a href="#RFC2833" class="xref">[RFC2833]</a> or <a href="#RFC4733" class="xref">[RFC4733]</a> using the iteration leaf node.</li>
-</ol>
+<ol><li>The payload type number using the payloadNumber leaf node. 2. Support for <a href="#RFC2833" class="xref">[RFC2833]</a> or <a href="#RFC4733" class="xref">[RFC4733]</a> using the iteration leaf node.</li></ol>
 
 <p> </p>
 <p id="rfc.section.9.3.p.4">In the context of named telephony events, senders and receivers may negotiate asymmetric payload type numbers. For example, the sender might advertise payload type number 97 and the receiver might advertise payload type number 101. In such instances, it is either required for middleboxes to interwork payload type numbers or allow the endpoints to send and receive asymmetric payload numbers. The behaviour of middleboxes in this context is largely dependent on endpoint capabilities or on service provider constraints. Therefore, the payloadNumber leaf node can be used to determine middlebox configuration before-hand.  </p>
@@ -1128,7 +1105,7 @@
 <li>
 <strong>keyManagement</strong>: A leaf node that specifies the key management method used by the service provider. Possible values of this node include: &#8220;SDES&#8221; and &#8220;DTLS-SRTP&#8221;. A value of &#8220;SDES&#8221; signifies that the SIP service provider uses the methods defined in <a href="#RFC4568" class="xref">[RFC4568]</a> for the purpose of key management. A value of &#8220;DTLS-SRTP&#8221; signifies that the SIP service provider uses the methods defined in <a href="#RFC5764" class="xref">[RFC5764]</a> for the purpose of key management. If the value of this leaf node is set to &#8220;DTLS-SRTP&#8221;, the various versions of DTLS supported by the SIP service provider MUST be encoded as per the formatting rules of Section 9.2. If the service provider does not support media security, the keyManagement node MUST be set to &#8220;NULL&#8221;.</li>
 <li>
-<strong>extensions</strong>: A leaf node that is a semicolon separated list of all possible SIP option tags supported by the service provider network. These extensions must be referenced using name registered under IANA. If the service provider network does not support any extensions to baseline SIP, the extensions node must be set to &#8220;NULL&#8221;.</li>
+<strong>extensions</strong>: A leaf node that is a semicolon separated list of all possible SIP option tags supported by the service provider network.  These extensions must be referenced using name registered under IANA. If the service provider network does not support any extensions to baseline SIP, the extensions node must be set to &#8220;NULL&#8221;.</li>
 </ul>
 
 <p> </p>
@@ -1298,77 +1275,117 @@
       &amp;rel=http%3A%2f%2fsipserviceprovider%2auth
       &amp;rel= http%3A%2f%2fsipserviceprovider%2token
       HTTP/1.1
-    Host: ssp1.example.com 
+    Host: ssp1.example.com ```
+
+The resulting WebFinger response, contains the URLs of the capability
+server, the OAuth 2.0 authorization endpoint and OAuth 2.0 token
+endpoint.
+
 </pre>
-<p id="rfc.section.11.p.4">The resulting WebFinger response, contains the URLs of the capability server, the OAuth 2.0 authorization endpoint and OAuth 2.0 token endpoint.  </p>
 <pre>
-    HTTP/1.1 200 OK
-    Access-Control-Allow-Origin: *
-    Content-Type: application/jrd+json
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Type: application/jrd+json
+{
+  "subject" : "http://ssp1.example.com",
+  "links" :
+  [
     {
-      "subject" : "http://ssp1.example.com",
-      "links" :
-      [
-        {
-          "rel" : "http://sipserviceprovider/capserver",
-          "href" : "https://capserver.ssp1.com"
-        },
-        {
-          "rel" : "http://sipserviceprovider/auth",
-          "href" : "https://ssp1.com/authorize"
-        },
-        {
-          "rel" : "http://sipserviceprovider/token",
-          "href" : "https://ssp1.com/token"
-        },    
-      ]
-    }
-</pre>
-<p id="rfc.section.11.p.5">The endpoint URLs returned in the WebFinger response are stored by the edge element and referenced when required. Then, the administrator logs into the GUI of the edge element and initiates the download of the service provider capability set (perhaps by clicking on a button). This triggers the edge element to redirect the administrator to the OAuth 2.0 authorization endpoint (discovered via WebFinger). Once the administrator is authenticated and provides authorization, flow is redirected to the callback URL of the edge element application. The edge element then contacts the OAuth 2.0 token endpoint (discovered via WebFinger) to authenticate itself and obtain access and refresh tokens. Accordingly, the edge element mints a JWT bearer token  to authenticate itself with the token endpoint and obtain an access and refresh token. Below is an example of client authentication using a JWT during the presentation of an authorization code grant for an access token request (line wraps are for display purposes only).  </p>
-<pre>
-    POST /token  HTTP/1.1
-    Host: ssp1.com
-    Content-Type: application/x-www-form-urlencoded
-
-    grant_type=authorization_code&amp;
-    code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4&amp;
-    client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
-    client-assertion-type%3Ajwt-bearer&amp;
-    client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.
-    eyJpc3Mi[...omitted for brevity...].
-    cC4hiUPo[...omitted for brevity...] ```
-</pre>
-<p id="rfc.section.11.p.6">If the request is acceptable to the token endpoint, an access token and a refresh token is provided in the response. For example: </p>
-<pre>
-    HTTP/1.1 200 OK
-    Content-Type: application/json;charset=UTF-8
-    Cache-Control: no-store
-    Pragma: no-cache
-
+      "rel" : "http://sipserviceprovider/capserver",
+      "href" : "https://capserver.ssp1.com"
+    },
     {
-      "access_token":"sF_9.B5f-4.1JqM",
-      "token_type":"Bearer",
-      "expires_in":86400,
-      "refresh_token":"hGzv3JOkF0XG5Qx2TlKWIA"
-    }
+      "rel" : "http://sipserviceprovider/auth",
+      "href" : "https://ssp1.com/authorize"
+    },
+    {
+      "rel" : "http://sipserviceprovider/token",
+      "href" : "https://ssp1.com/token"
+    },    
+  ]
+}
 </pre>
-<p id="rfc.section.11.p.7">The obtained bearer access token can subsequently be used to obtain the capability set document for the capability server. The edge element generates a HTTPS GET request with the bearer token included in the Authorization header field.  </p>
 <pre>
-    GET //capdoc?trunkid=trunkent1456 HTTP/1.1
-    Host: capserver.ssp1.com
-    Authorization: Bearer mF_9.B5f-4.1JqM
-    Accept:application/peering-info+xml
-</pre>
-<p id="rfc.section.11.p.8">The capability set document is obtained in the body of the response and is encoded in XML.  </p>
-<pre>
-    HTTP/1.1 200 OK
-    Content-Type: application/peering-info+xml
-    Content-Length: nnn
 
-    &lt;peering-info&gt;
-    &#8230;
-    &lt;/peering-info&gt; 
+The endpoint URLs returned in the WebFinger response are stored by the
+edge element and referenced when required. Then, the administrator logs
+into the GUI of the edge element and initiates the download of the
+service provider capability set (perhaps by clicking on a button). This
+triggers the edge element to redirect the administrator to the OAuth 2.0
+authorization endpoint (discovered via WebFinger). Once the
+administrator is authenticated and provides authorization, flow is
+redirected to the callback URL of the edge element application. The edge
+element then contacts the OAuth 2.0 token endpoint (discovered via
+WebFinger) to authenticate itself and obtain access and refresh tokens.
+Accordingly, the edge element mints a JWT bearer token to authenticate
+itself with the token endpoint and obtain an access and refresh token.
+Below is an example of client authentication using a JWT during the
+presentation of an authorization code grant for an access token request
+(line wraps are for display purposes only).
+
 </pre>
+<pre>
+POST /token  HTTP/1.1
+Host: ssp1.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&amp;
+code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4&amp;
+client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
+client-assertion-type%3Ajwt-bearer&amp;
+client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.
+eyJpc3Mi[...omitted for brevity...].
+cC4hiUPo[...omitted for brevity...] ```
+</pre>
+<pre>
+
+If the request is acceptable to the token endpoint, an access token and
+a refresh token is provided in the response. For example:
+
+</pre>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+  "access_token":"sF_9.B5f-4.1JqM",
+  "token_type":"Bearer",
+  "expires_in":86400,
+  "refresh_token":"hGzv3JOkF0XG5Qx2TlKWIA"
+}
+</pre>
+<pre>
+
+The obtained bearer access token can subsequently be used to obtain the
+capability set document for the capability server. The edge element
+generates a HTTPS GET request with the bearer token included in the
+Authorization header field.
+
+</pre>
+<pre>
+GET //capdoc?trunkid=trunkent1456 HTTP/1.1
+Host: capserver.ssp1.com
+Authorization: Bearer mF_9.B5f-4.1JqM
+Accept:application/peering-info+xml
+</pre>
+<pre>
+
+The capability set document is obtained in the body of the response and
+is encoded in XML.
+
+</pre>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/peering-info+xml
+Content-Length: nnn
+
+&lt;peering-info&gt;
+&#8230;
+&lt;/peering-info&gt; 
+</pre>
+<p id="rfc.section.11.p.4">``` </p>
 <h1 id="rfc.section.12">
 <a href="#rfc.section.12">12.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
 </h1>
@@ -1379,7 +1396,7 @@
 <ul><li>Integrity and Confidentiality</li></ul>
 
 <p> </p>
-<p id="rfc.section.12.p.4">Request and responses for the capability set documents are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP using Transport Layer Security. The enterprise edge element and capability server MUST be compliant to <a href="#RFC7235" class="xref">[RFC7235]</a>.  The enterprise edge element and capability server MUST support the use of the https uri scheme as defined in <a href="#RFC7230" class="xref">[RFC7230]</a>.  </p>
+<p id="rfc.section.12.p.4">Request and responses for the capability set documents are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP using Transport Layer Security. The enterprise edge element and capability server MUST be compliant to <a href="#RFC7235" class="xref">[RFC7235]</a>. The enterprise edge element and capability server MUST support the use of the https uri scheme as defined in <a href="#RFC7230" class="xref">[RFC7230]</a>.  </p>
 <p></p>
 
 <ul><li>Authenticated Client Identity</li></ul>

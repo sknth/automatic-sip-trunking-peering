@@ -79,7 +79,7 @@ Table of Contents
    7.  State Deltas  . . . . . . . . . . . . . . . . . . . . . . . .  12
    8.  Encoding the Service Provider Capability Set  . . . . . . . .  12
    9.  Data Model for Capability Set . . . . . . . . . . . . . . . .  12
-     9.1.  Tree Diagram" . . . . . . . . . . . . . . . . . . . . . .  12
+     9.1.  Tree Diagram  . . . . . . . . . . . . . . . . . . . . . .  12
      9.2.  YANG Model  . . . . . . . . . . . . . . . . . . . . . . .  14
      9.3.  Node Definitions  . . . . . . . . . . . . . . . . . . . .  19
      9.4.  Extending the Capability Set  . . . . . . . . . . . . . .  25
@@ -318,11 +318,10 @@ Internet-Draft                SIP Auto Peer               September 2019
        signaling planes.  As a result, when the capability set is
        received from the SIP service provider network, the edge element
        can generate appropriate configuration blocks (possibly across
-       multiple devices) to enable smooth IP peering.
-
-   2.  Given that edge elements are configured to "talk" to networks
-       external to the enterprise, the complexity in terms of NAT
-       traversal and firewall configuration would be minimal.
+       multiple devices) to enable smooth IP peering. 2.  Given that
+       edge elements are configured to "talk" to networks external to
+       the enterprise, the complexity in terms of NAT traversal and
+       firewall configuration would be minimal.
 
    The HTTPs GET request is targeted at a capability server that is
    managed by the SIP service provider such that this server processes,
@@ -330,6 +329,7 @@ Internet-Draft                SIP Auto Peer               September 2019
    set document in the response.  The capability set document is
    constructed according the guidelines of the YANG model described in
    this draft.  The capability set document included in a successful
+   response is formatted in either XML or JSON.  The formatting depends
 
 
 
@@ -338,7 +338,6 @@ Inamdar, et al.          Expires March 13, 2020                 [Page 6]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-   response is formatted in either XML or JSON.  The formatting depends
    on the value of the "Accept" header field of the HTTP GET request.
    More details about the formatting of the HTTP request and response
    are provided in Section 6
@@ -386,6 +385,7 @@ Internet-Draft                SIP Auto Peer               September 2019
    service provider networks by encoding the essential session and media
    characteristics.  It is NOT RECOMMENDED to encode information that is
    sensitive in nature.  It is only required for the client (enterprise
+   edge element) to authenticate the SIP service provider.  If however,
 
 
 
@@ -394,7 +394,6 @@ Inamdar, et al.          Expires March 13, 2020                 [Page 7]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-   edge element) to authenticate the SIP service provider.  If however,
    there is a need for the SIP service provider to authenticate the
    enterprise edge element, client authentication mechanisms based on
    OAuth 2.0 token are RECOMMENDED.  The specifics of how the client
@@ -440,7 +439,8 @@ Internet-Draft                SIP Auto Peer               September 2019
    responses, specifically, the server can respond with the following
    redirect responses:
 
-   1.  301 Moved Temporarily
+   1.  301 Moved Temporarily 2. 302 Found 3. 307 Temporary Redirect
+
 
 
 
@@ -449,10 +449,6 @@ Inamdar, et al.          Expires March 13, 2020                 [Page 8]
 
 Internet-Draft                SIP Auto Peer               September 2019
 
-
-   2.  302 Found
-
-   3.  307 Temporary Redirect
 
    The server SHOULD include the Location header field in such
    responses.
@@ -467,9 +463,7 @@ Internet-Draft                SIP Auto Peer               September 2019
    request-target.  The enterprise edge element might obtain the URL of
    the resource hosted on the capability server in one of two ways:
 
-   1.  Manual Configuration
-
-   2.  Using the WebFinger Protocol
+   1.  Manual Configuration 2.  Using the WebFinger Protocol
 
    The complete HTTPS URLs to be used when authenticating the enterprise
    edge element (optional) and obtaining the SIP service provider
@@ -483,21 +477,27 @@ Internet-Draft                SIP Auto Peer               September 2019
    three link relation types (rel) are defined, namely:
 
    1.  Capability Server: The base URL of the capability server hosting
-       the capability set document.
-
-   2.  Authorization Endpoint: The URL of the authorization endpoint to
-       be used for OAuth 2.0
-
-   3.  Token Endpoint: The URL of the token endpoint to be used for
-       OAuth 2.0
+       the capability set document. 2.  Authorization Endpoint: The URL
+       of the authorization endpoint to be used for OAuth 2.0 3.  Token
+       Endpoint: The URL of the token endpoint to be used for OAuth 2.0
 
    The corresponding link relation type values are as follows:
 
-   1.  Capability Server: "<http://sipserviceprovider/capserver">
+   1.  Capability Server: "<http://sipserviceprovider/capserver"> 2.
+       Authorization Endpoint: "<http://sipserviceprovider/auth"> 3.
+       Token Endpoint: "<http://sipserviceprovider/token">
 
-   2.  Authorization Endpoint: "<http://sipserviceprovider/auth">
+   If an enterprise edge element attempts to discover the URL of the
+   endpoints hosted in the ssp1.example.com domain, it issues the
+   following request (line wraps are for display purposes only)
 
-   3.  Token Endpoint: "<http://sipserviceprovider/token">
+
+
+
+
+
+
+
 
 
 
@@ -505,10 +505,6 @@ Inamdar, et al.          Expires March 13, 2020                 [Page 9]
 
 Internet-Draft                SIP Auto Peer               September 2019
 
-
-   If an enterprise edge element attempts to discover the URL of the
-   endpoints hosted in the ssp1.example.com domain, it issues the
-   following request (line wraps are for display purposes only)
 
               GET /.well-known/webfinger?
                 resource=http%3A%2F%2Fssp1.example.com
@@ -553,7 +549,11 @@ Internet-Draft                SIP Auto Peer               September 2019
    This draft does not require SIP service providers or enterprise
    networks to favor one URI scheme over the other; rather, the choice
    of which scheme to use is left to the discretion of the SIP service
+   provider.  The security considerations of using the "acct" URI is
+   provided in section 5 of [RFC7565].
 
+   The base URL of the capability server returned in the WebFinger
+   response SHOULD not contain a path or query component.  Once the base
 
 
 
@@ -562,17 +562,12 @@ Inamdar, et al.          Expires March 13, 2020                [Page 10]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-   provider.  The security considerations of using the "acct" URI is
-   provided in section 5 of [RFC7565].
-
-   The base URL of the capability server returned in the WebFinger
-   response SHOULD not contain a path or query component.  Once the base
    URL is obtained, the enterprise edge element builds on the base URL
    to identify the capability set document on the capability server.
    The general format for identifying resources on a capability server
    is as follows:
 
-                      <scheme> /<baseURL>/<path>?<query>
+                    <scheme> /<baseURL>/<path>?<query>
 
    scheme: Is always HTTPS in the context of this draft.
 
@@ -588,8 +583,8 @@ Internet-Draft                SIP Auto Peer               September 2019
    form of a "name=value" pair.  This draft defines the following
    optional query parameter:
 
-   *trunkid* : A parameter uniquely identifying the SIP trunk for which
-   the capability set document is sought.
+   trunkid: A parameter uniquely identifying the SIP trunk for which the
+   capability set document is sought.
 
    The "trunkid" is useful in situations in which an enterprise SIP
    network has multiple SIP trunks with the SIP service provider, such
@@ -609,6 +604,11 @@ Internet-Draft                SIP Auto Peer               September 2019
    provider capability server to uniquely identify the trunk/enterprise/
    edge element for which the capability set document is being request,
    but also, it is helpful in generating unique URL strings for
+   capability set documents.  These unique URL strings are helpful in
+   HTTP content caching.
+
+
+
 
 
 
@@ -617,9 +617,6 @@ Inamdar, et al.          Expires March 13, 2020                [Page 11]
 
 Internet-Draft                SIP Auto Peer               September 2019
 
-
-   capability set documents.  These unique URL strings are helpful in
-   HTTP content caching.
 
 7.  State Deltas
 
@@ -659,7 +656,7 @@ Internet-Draft                SIP Auto Peer               September 2019
    followed by a description of the various nodes within the module
    defined in this draft.
 
-9.1.  Tree Diagram"
+9.1.  Tree Diagram
 
    This section provides a tree diagram [RFC8340] for the "ietf-
    capability-set" module.  The interpretation of the symbols appearing
@@ -667,15 +664,15 @@ Internet-Draft                SIP Auto Peer               September 2019
 
    o  Brackets "[" and "]" enclose list keys.
 
+   o  Abbreviations before data node names: "rw" means configuration
+      (read-write), and "ro" means state data (read-only).
+
 
 
 Inamdar, et al.          Expires March 13, 2020                [Page 12]
 
 Internet-Draft                SIP Auto Peer               September 2019
 
-
-   o  Abbreviations before data node names: "rw" means configuration
-      (read-write), and "ro" means state data (read-only).
 
    o  Symbols after data node names: "?" means an optional node, "!"
       means a presence container, and "*" denotes a list and leaf-list.
@@ -721,6 +718,9 @@ Internet-Draft                SIP Auto Peer               September 2019
                    |  +--rw mediaSecurity
                    |     +--rw keyManagement?   string
                    +--rw extensions?       string
+
+
+
 
 
 
@@ -1293,9 +1293,8 @@ Internet-Draft                SIP Auto Peer               September 2019
       SIP service providers to specify two facets of DTMF relay via
       Named Telephony Events:
 
-   1.  The payload type number using the payloadNumber leaf node.
-
-   2.  Support for [RFC2833] or [RFC4733] using the iteration leaf node.
+   1.  The payload type number using the payloadNumber leaf node. 2.
+       Support for [RFC2833] or [RFC4733] using the iteration leaf node.
 
    In the context of named telephony events, senders and receivers may
    negotiate asymmetric payload type numbers.  For example, the sender
@@ -1337,6 +1336,7 @@ Internet-Draft                SIP Auto Peer               September 2019
    o  *mediaSecurity*: A container that describes the various
       characteristics of securing media streams between enterprise and
       service provider networks.
+
 
 
 
@@ -1595,13 +1595,13 @@ Internet-Draft                SIP Auto Peer               September 2019
    endpoints hosted in the ssp1.example.com domain (line wraps are for
    display purposes only)
 
-              GET /.well-known/webfinger?
-                resource=http%3A%2F%2Fssp1.example.com
-                &rel=http%3A%2f%2fsipserviceprovider%2fcapserver
-                &rel=http%3A%2f%2fsipserviceprovider%2auth
-                &rel= http%3A%2f%2fsipserviceprovider%2token
-                HTTP/1.1
-              Host: ssp1.example.com
+       GET /.well-known/webfinger?
+         resource=http%3A%2F%2Fssp1.example.com
+         &rel=http%3A%2f%2fsipserviceprovider%2fcapserver
+         &rel=http%3A%2f%2fsipserviceprovider%2auth
+         &rel= http%3A%2f%2fsipserviceprovider%2token
+         HTTP/1.1
+       Host: ssp1.example.com ```
 
    The resulting WebFinger response, contains the URLs of the capability
    server, the OAuth 2.0 authorization endpoint and OAuth 2.0 token
@@ -1626,44 +1626,44 @@ Inamdar, et al.          Expires March 13, 2020                [Page 29]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-             HTTP/1.1 200 OK
-             Access-Control-Allow-Origin: *
-             Content-Type: application/jrd+json
-             {
-               "subject" : "http://ssp1.example.com",
-               "links" :
-               [
-                 {
-                   "rel" : "http://sipserviceprovider/capserver",
-                   "href" : "https://capserver.ssp1.com"
-                 },
-                 {
-                   "rel" : "http://sipserviceprovider/auth",
-                   "href" : "https://ssp1.com/authorize"
-                 },
-                 {
-                   "rel" : "http://sipserviceprovider/token",
-                   "href" : "https://ssp1.com/token"
-                 },
-               ]
-             }
+           HTTP/1.1 200 OK
+           Access-Control-Allow-Origin: *
+           Content-Type: application/jrd+json
+           {
+             "subject" : "http://ssp1.example.com",
+             "links" :
+             [
+               {
+                 "rel" : "http://sipserviceprovider/capserver",
+                 "href" : "https://capserver.ssp1.com"
+               },
+               {
+                 "rel" : "http://sipserviceprovider/auth",
+                 "href" : "https://ssp1.com/authorize"
+               },
+               {
+                 "rel" : "http://sipserviceprovider/token",
+                 "href" : "https://ssp1.com/token"
+               },
+             ]
+           }
 
-   The endpoint URLs returned in the WebFinger response are stored by
-   the edge element and referenced when required.  Then, the
-   administrator logs into the GUI of the edge element and initiates the
-   download of the service provider capability set (perhaps by clicking
-   on a button).  This triggers the edge element to redirect the
-   administrator to the OAuth 2.0 authorization endpoint (discovered via
-   WebFinger).  Once the administrator is authenticated and provides
-   authorization, flow is redirected to the callback URL of the edge
-   element application.  The edge element then contacts the OAuth 2.0
-   token endpoint (discovered via WebFinger) to authenticate itself and
-   obtain access and refresh tokens.  Accordingly, the edge element
-   mints a JWT bearer token to authenticate itself with the token
-   endpoint and obtain an access and refresh token.  Below is an example
-   of client authentication using a JWT during the presentation of an
-   authorization code grant for an access token request (line wraps are
-   for display purposes only).
+
+The endpoint URLs returned in the WebFinger response are stored by the
+edge element and referenced when required. Then, the administrator logs
+into the GUI of the edge element and initiates the download of the
+service provider capability set (perhaps by clicking on a button). This
+triggers the edge element to redirect the administrator to the OAuth 2.0
+authorization endpoint (discovered via WebFinger). Once the
+administrator is authenticated and provides authorization, flow is
+redirected to the callback URL of the edge element application. The edge
+element then contacts the OAuth 2.0 token endpoint (discovered via
+WebFinger) to authenticate itself and obtain access and refresh tokens.
+Accordingly, the edge element mints a JWT bearer token to authenticate
+itself with the token endpoint and obtain an access and refresh token.
+Below is an example of client authentication using a JWT during the
+presentation of an authorization code grant for an access token request
+(line wraps are for display purposes only).
 
 
 
@@ -1682,53 +1682,53 @@ Inamdar, et al.          Expires March 13, 2020                [Page 30]
 Internet-Draft                SIP Auto Peer               September 2019
 
 
-             POST /token  HTTP/1.1
-             Host: ssp1.com
-             Content-Type: application/x-www-form-urlencoded
+           POST /token  HTTP/1.1
+           Host: ssp1.com
+           Content-Type: application/x-www-form-urlencoded
 
-             grant_type=authorization_code&
-             code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4&
-             client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
-             client-assertion-type%3Ajwt-bearer&
-             client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.
-             eyJpc3Mi[...omitted for brevity...].
-             cC4hiUPo[...omitted for brevity...] ```
+           grant_type=authorization_code&
+           code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4&
+           client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
+           client-assertion-type%3Ajwt-bearer&
+           client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.
+           eyJpc3Mi[...omitted for brevity...].
+           cC4hiUPo[...omitted for brevity...] ```
 
-   If the request is acceptable to the token endpoint, an access token
-   and a refresh token is provided in the response.  For example:
 
-                 HTTP/1.1 200 OK
-                 Content-Type: application/json;charset=UTF-8
-                 Cache-Control: no-store
-                 Pragma: no-cache
+ If the request is acceptable to the token endpoint, an access token and
+ a refresh token is provided in the response. For example:
 
-                 {
-                   "access_token":"sF_9.B5f-4.1JqM",
-                   "token_type":"Bearer",
-                   "expires_in":86400,
-                   "refresh_token":"hGzv3JOkF0XG5Qx2TlKWIA"
-                 }
 
-   The obtained bearer access token can subsequently be used to obtain
-   the capability set document for the capability server.  The edge
-   element generates a HTTPS GET request with the bearer token included
-   in the Authorization header field.
+               HTTP/1.1 200 OK
+               Content-Type: application/json;charset=UTF-8
+               Cache-Control: no-store
+               Pragma: no-cache
 
-                  GET //capdoc?trunkid=trunkent1456 HTTP/1.1
-                  Host: capserver.ssp1.com
-                  Authorization: Bearer mF_9.B5f-4.1JqM
-                  Accept:application/peering-info+xml
+               {
+                 "access_token":"sF_9.B5f-4.1JqM",
+                 "token_type":"Bearer",
+                 "expires_in":86400,
+                 "refresh_token":"hGzv3JOkF0XG5Qx2TlKWIA"
+               }
 
-   The capability set document is obtained in the body of the response
-   and is encoded in XML.
 
-                  HTTP/1.1 200 OK
-                  Content-Type: application/peering-info+xml
-                  Content-Length: nnn
+ The obtained bearer access token can subsequently be used to obtain the
+ capability set document for the capability server. The edge element
+ generates a HTTPS GET request with the bearer token included in the
+ Authorization header field.
 
-                  <peering-info>
-                  ...
-                  </peering-info>
+
+                GET //capdoc?trunkid=trunkent1456 HTTP/1.1
+                Host: capserver.ssp1.com
+                Authorization: Bearer mF_9.B5f-4.1JqM
+                Accept:application/peering-info+xml
+
+
+ The capability set document is obtained in the body of the response and
+ is encoded in XML.
+
+
+
 
 
 
@@ -1737,6 +1737,16 @@ Inamdar, et al.          Expires March 13, 2020                [Page 31]
 
 Internet-Draft                SIP Auto Peer               September 2019
 
+
+                HTTP/1.1 200 OK
+                Content-Type: application/peering-info+xml
+                Content-Length: nnn
+
+                <peering-info>
+                ...
+                </peering-info>
+
+   ```
 
 12.  Security Considerations
 
@@ -1776,16 +1786,6 @@ Internet-Draft                SIP Auto Peer               September 2019
 
    o  The "trunkid" parameter
 
-   It is recommended that enterprise edge elements use the "trunkid"
-   parameter in query strings when requesting for the capability set
-   documents.  The value of "trunkid" parameter is generated by the SIP
-   service provider and provided to the administrator via some out-of-
-   band mechanism.  SIP service providers must ensure that value of the
-   "trunkid" parameters should not inadvertently communicate sensitive
-   information to an attacker such as a username or password credential.
-
-
-
 
 
 
@@ -1793,6 +1793,14 @@ Inamdar, et al.          Expires March 13, 2020                [Page 32]
 
 Internet-Draft                SIP Auto Peer               September 2019
 
+
+   It is recommended that enterprise edge elements use the "trunkid"
+   parameter in query strings when requesting for the capability set
+   documents.  The value of "trunkid" parameter is generated by the SIP
+   service provider and provided to the administrator via some out-of-
+   band mechanism.  SIP service providers must ensure that value of the
+   "trunkid" parameters should not inadvertently communicate sensitive
+   information to an attacker such as a username or password credential.
 
    In addition to the considerations listed above, all the security
    considerations that are part of the WebFinger and OAuth 2.0
@@ -1831,6 +1839,17 @@ Internet-Draft                SIP Auto Peer               September 2019
               Registration for H.323", RFC 3762, DOI 10.17487/RFC3762,
               April 2004, <https://www.rfc-editor.org/info/rfc3762>.
 
+
+
+
+
+
+
+Inamdar, et al.          Expires March 13, 2020                [Page 33]
+
+Internet-Draft                SIP Auto Peer               September 2019
+
+
    [RFC4568]  Andreasen, F., Baugher, M., and D. Wing, "Session
               Description Protocol (SDP) Security Descriptions for Media
               Streams", RFC 4568, DOI 10.17487/RFC4568, July 2006,
@@ -1841,14 +1860,6 @@ Internet-Draft                SIP Auto Peer               September 2019
               Protocol (RTCP)-Based Feedback (RTP/AVPF)", RFC 4585,
               DOI 10.17487/RFC4585, July 2006,
               <https://www.rfc-editor.org/info/rfc4585>.
-
-
-
-
-Inamdar, et al.          Expires March 13, 2020                [Page 33]
-
-Internet-Draft                SIP Auto Peer               September 2019
-
 
    [RFC4733]  Schulzrinne, H. and T. Taylor, "RTP Payload for DTMF
               Digits, Telephony Tones, and Telephony Signals", RFC 4733,
@@ -1887,6 +1898,14 @@ Internet-Draft                SIP Auto Peer               September 2019
               "WebFinger", RFC 7033, DOI 10.17487/RFC7033, September
               2013, <https://www.rfc-editor.org/info/rfc7033>.
 
+
+
+
+Inamdar, et al.          Expires March 13, 2020                [Page 34]
+
+Internet-Draft                SIP Auto Peer               September 2019
+
+
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
@@ -1896,15 +1915,6 @@ Internet-Draft                SIP Auto Peer               September 2019
               Protocol (HTTP/1.1): Semantics and Content", RFC 7231,
               DOI 10.17487/RFC7231, June 2014,
               <https://www.rfc-editor.org/info/rfc7231>.
-
-
-
-
-
-Inamdar, et al.          Expires March 13, 2020                [Page 34]
-
-Internet-Draft                SIP Auto Peer               September 2019
-
 
    [RFC7235]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Authentication", RFC 7235,
@@ -1941,16 +1951,6 @@ Authors' Addresses
    Cisco Systems
 
    Email: fluffy@iii.ca
-
-
-
-
-
-
-
-
-
-
 
 
 
