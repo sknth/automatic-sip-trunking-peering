@@ -1,6 +1,5 @@
-<t>%%%</t>
+%%%
 
-<figure><artwork><![CDATA[
 #
 # SIP Peering Workflow
 # Generation tool: mmark (https://github.com/miekg/mmark)
@@ -12,7 +11,11 @@ category = "std"
 docName = "draft-kinamdar-dispatch-sip-peer-00"
 ipr= "trust200902"
 area = "Internet"
-keyword = ["TBD"]
+keyword = ["SIP","YANG"]
+
+[pi]
+symrefs = "yes"
+sortrefs = "yes"
 
 [[author]]
 initials="K."
@@ -38,14 +41,13 @@ organization = "Cisco Systems"
   [author.address]
   email = "fluffy@iii.ca"
 
-]]></artwork></figure>
+%%%
 
-<t>%%%</t>
-
-# Abstract
+.# Abstract
 
 This draft specifies a configuration workflow to enable enterprise Session Initiation Protocol (SIP) networks to solicit the capability set of a SIP service provider network. The capability set can subsequently be used to configure features and services on the enterprise edge element, such as a Session Border Controller (SBC), to ensure smooth peering between enterprise and service provider networks.
 
+{mainmatter}
 
 # Introduction
 
@@ -117,7 +119,7 @@ A workflow that facilitates an enterprise network to solicit the capability set 
 
 Taking the above considerations into account, this document proposes a Hypertext Transfer Protocol (HTTP)-based workflow using which the enterprise network can solicit and ultimately obtain the service provider capability set. The enterprise network creates a well formed HTTPS GET request to solicit the service provider capability set. Subsequently, the HTTPS response from the SIP service provider includes the capability set. The capability set is encoded in either XML or JSON, thus ensuring that the response can be easily parsed by automaton.
 
-There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package [RFC 6665](https://tools.ietf.org/html/rfc6665), such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set. This mechanism is likely to result in a significant amount of operational complexity. For example, not only would this workflow require enterprise and service provider equipment manufacturers to upgrade their software stacks, but it would also create a significant amount of ambiguity in terms of which device in the service provider network handles subscriptions and generates notifications. Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models [RFC 6020]("https://tools.ietf.org/html/rfc6020") that enable configuration to be pushed over NETCONF [RFC 6241](https://tools.ietf.org/html/rfc6241) to enterprise networks from a centralized source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a “one-size-fits-all” YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.
+There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package [RFC 6665](https://tools.ietf.org/html/rfc6665), such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set. This mechanism is likely to result in a significant amount of operational complexity. For example, not only would this workflow require enterprise and service provider equipment manufacturers to upgrade their software stacks, but it would also create a significant amount of ambiguity in terms of which device in the service provider network handles subscriptions and generates notifications. Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models [RFC 6020](https://tools.ietf.org/html/rfc6020) that enable configuration to be pushed over NETCONF [RFC 6241](https://tools.ietf.org/html/rfc6241) to enterprise networks from a centralized source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a “one-size-fits-all” YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.
 
 # Overview of Operations
 
@@ -160,9 +162,9 @@ Capability servers include the capability set documents in the body of a success
 
 The capability server can respond to client requests with redirect responses, specifically, the server can respond with the following redirect responses:
 
-1. 301 Moved Temporarily</t>
-2. 302 Found</t>
-3. 307 Temporary Redirect</t>
+1. 301 Moved Temporarily
+2. 302 Found
+3. 307 Temporary Redirect
 
 
 The server SHOULD include the Location header field in such responses.
@@ -173,8 +175,8 @@ For requests that carry an invalid bearer token in the Authorization header fiel
 
 HTTPS GET requests from enterprise edge elements MUST carry a valid request-target. The enterprise edge element might obtain the URL of the resource hosted on the capability server in one of two ways:
 
-1. Manual Configuration</t>
-2. Using the WebFinger Protocol</t>
+1. Manual Configuration
+2. Using the WebFinger Protocol
 
 The complete HTTPS URLs to be used when authenticating the enterprise edge element (optional) and obtaining the SIP service provider capability set can be obtained from the SIP service provider beforehand and entered into the edge element manually via some interface – for example, a CLI or GUI.
 
@@ -267,7 +269,7 @@ This section defines a YANG module for encoding the service provider capability 
 
 ## Tree Diagram"
 
-This section provides a tree diagram [RFC 8340](https://tools.ietf.org/html/rfc8340) for the “ietf-capability-set” module. The interpretation of the symbols appearing in the tree diagram is as follows:</t>
+This section provides a tree diagram [RFC 8340](https://tools.ietf.org/html/rfc8340) for the “ietf-capability-set” module. The interpretation of the symbols appearing in the tree diagram is as follows:
 
 * Brackets “[” and “]” enclose list keys.
 * Abbreviations before data node names: “rw” means configuration (read-write), and “ro” means state data (read-only).
@@ -613,12 +615,12 @@ This sub-sections provides the definition and encoding rules of the various node
 
 * **dtmf**: A container that describes the various aspects of DTMF relay via RTP Named Telephony Events. The dtmf container allows SIP service providers to specify two facets of DTMF relay via Named Telephony Events:
 
-1. The payload type number using the payloadNumber leaf node.</t>
-2. Support for [RFC 2833](https://tools.ietf.org/html/rfc2833) or [RFC 4733](https://tools.ietf.org/html/rfc4733) using the iteration leaf node.</t>
+1. The payload type number using the payloadNumber leaf node.
+2. Support for [RFC 2833](https://tools.ietf.org/html/rfc2833) or [RFC 4733](https://tools.ietf.org/html/rfc4733) using the iteration leaf node.
 
 In the context of named telephony events, senders and receivers may negotiate asymmetric payload type numbers. For example, the sender might advertise payload type number 97 and the receiver might advertise payload type number 101. In such instances, it is either required for middleboxes to interwork payload type numbers or allow the endpoints to send and receive asymmetric payload numbers. The behaviour of middleboxes in this context is largely dependent on endpoint capabilities or on service provider constraints. Therefore, the payloadNumber leaf node can be used to determine middlebox configuration before-hand.
 
-[RFC 4733](https://tools.ietf.org/html/rfc4733)iterates over [RFC 2833](https://tools.ietf.org/html/rfc2833) by introducing certain changes in the way NTE events are transmitted. SIP service providers can indicate support for [RFC 4733](https://tools.ietf.org/html/rfc4733) by setting the iteration flag to 1 or indicating support for [RFC 2833](https://tools.ietf.org/html/rfc2833) by setting the iteration flag to 0.</t>
+[RFC 4733](https://tools.ietf.org/html/rfc4733)iterates over [RFC 2833](https://tools.ietf.org/html/rfc2833) by introducing certain changes in the way NTE events are transmitted. SIP service providers can indicate support for [RFC 4733](https://tools.ietf.org/html/rfc4733) by setting the iteration flag to 1 or indicating support for [RFC 2833](https://tools.ietf.org/html/rfc2833) by setting the iteration flag to 0.
 
 * **security**: A container that encapsulates characteristics about encrypting signalling streams between the enterprise and SIP service provider networks.
 
@@ -909,49 +911,9 @@ It is recommended that enterprise edge elements use the “trunkid” parameter 
 In addition to the considerations listed above, all the security considerations that are part of the WebFinger and OAuth 2.0 specifications are applicable to this draft.
 
 
-# References
-
-## Normative References
-
-[1] Bradner, S., “Key Words for Use in RFCs to Indicate Requirement Levels”, BCP 14, [RFC 2119](https://tools.ietf.org/html/rfc2119), March 1997.
-
-[2] Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston, A., Peterson, J., Sparks, R., Handley, M., and E. Schooler, “SIP: Session Initiation Protocol”, [RFC 3261](https://tools.ietf.org/html/rfc3261), June 2002.
-
-[3] Roach, A. B., “SIP-Specific Event Notification”, [RFC 6665](https://tools.ietf.org/html/rfc6665), July 2012.
-
-[4] Bjorklund, M., “YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)”, [RFC 6020](https://tools.ietf.org/html/rfc6020), October 2010.
-
-[5] Fielding, R., Reschke, J., “Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content”, [RFC 7231](https://tools.ietf.org/html/rfc7231), June 2014.
-
-[6] Enns, R., Bjorklund, M., Schoenwaelder, J., Bierman, A., “Network Configuration Protocol (NETCONF)”, [RFC 6231](https://tools.ietf.org/html/rfc6231), June 2011.
-
-[7] Bjorklund, M., Berger, L., “YANG Tree Diagrams”, [RFC 8340](https://tools.ietf.org/html/rfc8340), March 2018.
-
-[8] Schoenwaelder, J., “Common YANG Data Types”, [RFC 6991](https://tools.ietf.org/html/rfc6991), July 2013.
-
-[9] Wing, D., “Symmetric RTP / RTP Control Protocol (RTCP)”, [RFC 4961](https://tools.ietf.org/html/rfc4961), July 2007.
-
-[10] Ott, J., Wenger, S., Sato, N., Burmeister, C., Matsushita, “Extended RTP Profile for
-Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)”, [RFC 4585](https://tools.ietf.org/html/rfc4585), July 2006.
-
-[11] Schulzrinne, H., Petrack, S., “RTP Payload for DTMF Digits, Telephony Tones and Telephony Signals”, [RFC 2833](https://tools.ietf.org/html/rfc2833), May 2000.
-
-[12] Schulzrinne, H., Taylor, T., “RTP Payload for DTMF Digits, Telephony Tones, and Telephony Signals”, [RFC 4733](https://tools.ietf.org/html/rfc4733), December, 2006.
-
-[13] Casner, S., “Media Type Registration of RTP Payload Formats”, [RFC 4855](https://tools.ietf.org/html/rfc4855), February 2007.
-
-[14] Dierks, T., Rescorla, E., “The Transport Layer Security (TLS) Protocol Version 1.2”, [RFC 5246](https://tools.ietf.org/html/rfc5246), August 2008.
-
-[15] Rescorla, E., “The Transport Layer Security (TLS) Protocol Version 1.3”, [RFC 8446](https://tools.ietf.org/html/rfc8446), August 2018.
-
-[17] Ivov, E., Kaplan, H., Wing, D., “Latching: Hosted NAT Traversal (HNT) for Media in Real-Time Communication”, [RFC 7362](https://tools.ietf.org/html/rfc7362), September 2014.
-
-[18]  Jones, P., Salgueiro, G., Jones, M., Smarr, J., “WebFinger”, [RFC 7033](https://tools.ietf.org/html/rfc7033), September 2013.
-
-[19]  Hardt, D., Ed., “The OAuth 2.0 Authorization Framework”, [RFC 6749](https://tools.ietf.org/html/rfc6749), October 2012.
-
-[20] “SIP-PBX / Service Provider Interoperability SIPconnect 2.0 - Technical Recommendation”, SIP Forum, [SIP CONNECT 2.0](https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0-2/), December 7, 2016
-
 # Acknowledgments
 
 TBD
+
+{backmatter}
+
