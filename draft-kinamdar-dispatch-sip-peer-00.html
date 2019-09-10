@@ -399,6 +399,9 @@
 <link href="#rfc.section.11" rel="Chapter" title="11 Example Exchange">
 <link href="#rfc.section.12" rel="Chapter" title="12 Security Considerations">
 <link href="#rfc.section.13" rel="Chapter" title="13 Acknowledgments">
+<link href="#rfc.references" rel="Chapter" title="14 References">
+<link href="#rfc.references.1" rel="Chapter" title="14.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="14.2 Informative References">
 <link href="#rfc.authors" rel="Chapter">
 
 
@@ -512,7 +515,13 @@
 </li>
 <li>13.   <a href="#rfc.section.13">Acknowledgments</a>
 </li>
-<li><a href="#rfc.authors">Authors' Addresses</a>
+<li>14.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>14.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>14.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a>
 </li>
 
 
@@ -529,7 +538,7 @@
 <h1 id="rfc.section.2">
 <a href="#rfc.section.2">2.</a> <a href="#conventions-and-terminology" id="conventions-and-terminology">Conventions and Terminology</a>
 </h1>
-<p id="rfc.section.2.p.1">The The keywords &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in <a href="https://tools.ietf.org/html/rfc2119">RFC 2119</a> </p>
+<p id="rfc.section.2.p.1">The The keywords &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in <a href="#RFC2119" class="xref">[RFC2119]</a> </p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#reference-architecture" id="reference-architecture">Reference Architecture</a>
 </h1>
@@ -588,7 +597,7 @@
 
 <p> </p>
 <p id="rfc.section.4.p.3">Taking the above considerations into account, this document proposes a Hypertext Transfer Protocol (HTTP)-based workflow using which the enterprise network can solicit and ultimately obtain the service provider capability set. The enterprise network creates a well formed HTTPS GET request to solicit the service provider capability set. Subsequently, the HTTPS response from the SIP service provider includes the capability set. The capability set is encoded in either XML or JSON, thus ensuring that the response can be easily parsed by automaton.  </p>
-<p id="rfc.section.4.p.4">There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package <a href="https://tools.ietf.org/html/rfc6665">RFC 6665</a>, such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set. This mechanism is likely to result in a significant amount of operational complexity. For example, not only would this workflow require enterprise and service provider equipment manufacturers to upgrade their software stacks, but it would also create a significant amount of ambiguity in terms of which device in the service provider network handles subscriptions and generates notifications. Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <a href="https://tools.ietf.org/html/rfc6020">RFC 6020</a> that enable configuration to be pushed over NETCONF <a href="https://tools.ietf.org/html/rfc6241">RFC 6241</a> to enterprise networks from a centralized source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a &#8220;one-size-fits-all&#8221; YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.  </p>
+<p id="rfc.section.4.p.4">There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package <a href="#RFC6665" class="xref">[RFC6665]</a>, such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set. This mechanism is likely to result in a significant amount of operational complexity. For example, not only would this workflow require enterprise and service provider equipment manufacturers to upgrade their software stacks, but it would also create a significant amount of ambiguity in terms of which device in the service provider network handles subscriptions and generates notifications. Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <a href="#RFC6020" class="xref">[RFC6020]</a> that enable configuration to be pushed over NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a> to enterprise networks from a centralized source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a &#8220;one-size-fits-all&#8221; YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.  </p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#overview-of-operations" id="overview-of-operations">Overview of Operations</a>
 </h1>
@@ -611,11 +620,11 @@
 <a href="#rfc.section.6.1">6.1.</a> <a href="#http-methods" id="http-methods">HTTP Methods</a>
 </h1>
 <p id="rfc.section.6.1.p.1">The workflow defined in this document leverages the HTTP GET method and its corresponding response(s) to request for and subsequently obtain the service provider capability set document. The HTTP POST method and its corresponding response(s) is also used for client authentication.  </p>
-<p id="rfc.section.6.1.p.2">To ensure the smooth operation of this workflow, this draft enforces certain controls (not to be confused with HTTP controls as defined in <a href="https://tools.ietf.org/html/rfc7231">RFC 7231</a> on the HTTP client and server. These controls as they relate to formatting, operational guidelines, security concerns and more, are detailed in subsequent sections of this draft.  </p>
+<p id="rfc.section.6.1.p.2">To ensure the smooth operation of this workflow, this draft enforces certain controls (not to be confused with HTTP controls as defined in <a href="#RFC7231" class="xref">[RFC7231]</a> on the HTTP client and server. These controls as they relate to formatting, operational guidelines, security concerns and more, are detailed in subsequent sections of this draft.  </p>
 <h1 id="rfc.section.6.2">
 <a href="#rfc.section.6.2">6.2.</a> <a href="#integrity-and-confidentiality" id="integrity-and-confidentiality">Integrity and Confidentiality</a>
 </h1>
-<p id="rfc.section.6.2.p.1">Peering requests and responses are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP using Transport Layer Security.  The enterprise edge element and capability server MUST be compliant to <a href="https://tools.ietf.org/html/rfc7235">RFC 7235</a>. The enterprise edge element and capability server MUST support the use of the https uri scheme as defined in <a href="https://tools.ietf.org/html/rfc7230">RFC 7230</a>.  </p>
+<p id="rfc.section.6.2.p.1">Peering requests and responses are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP using Transport Layer Security.  The enterprise edge element and capability server MUST be compliant to <a href="#RFC7235" class="xref">[RFC7235]</a>. The enterprise edge element and capability server MUST support the use of the https uri scheme as defined in <a href="#RFC7230" class="xref">[RFC7230]</a>.  </p>
 <h1 id="rfc.section.6.3">
 <a href="#rfc.section.6.3">6.3.</a> <a href="#authenticated-client-identity" id="authenticated-client-identity">Authenticated Client Identity</a>
 </h1>
@@ -623,7 +632,7 @@
 <h1 id="rfc.section.6.4">
 <a href="#rfc.section.6.4">6.4.</a> <a href="#encoding-the-request" id="encoding-the-request">Encoding the Request</a>
 </h1>
-<p id="rfc.section.6.4.p.1">The edge element in the enterprise network generates a HTTPS GET request such that the request-target is obtained using the procedure outlined in section 6.6 The MIME types for the capability set document defined in this draft are &#8220;application/peering-info+json&#8221; and &#8220;application/peering-info+xml&#8221;. Accordingly, the Accept header field value MUST be restricted only to these MIME types. It is possible that the edge element supports responses formatted in both JSON and XML. In such situations, the edge element might generate a HTTPS GET request such that the Accept header field includes both MIME types along with the corresponding &#8220;qvalue&#8221; for each MIME type. For implementations that require client authentication, the bearer access token acquired by the client (see section 6.3) MUST be presented to the capability server to the obtain the capability set document. The bearer token is presented in the &#8220;Authorization&#8221; header field of the GET request as specified in Section 2.1 of <a href="https://tools.ietf.org/html/rfc6750">RFC 6750</a>.  </p>
+<p id="rfc.section.6.4.p.1">The edge element in the enterprise network generates a HTTPS GET request such that the request-target is obtained using the procedure outlined in section 6.6 The MIME types for the capability set document defined in this draft are &#8220;application/peering-info+json&#8221; and &#8220;application/peering-info+xml&#8221;. Accordingly, the Accept header field value MUST be restricted only to these MIME types. It is possible that the edge element supports responses formatted in both JSON and XML. In such situations, the edge element might generate a HTTPS GET request such that the Accept header field includes both MIME types along with the corresponding &#8220;qvalue&#8221; for each MIME type. For implementations that require client authentication, the bearer access token acquired by the client (see section 6.3) MUST be presented to the capability server to the obtain the capability set document. The bearer token is presented in the &#8220;Authorization&#8221; header field of the GET request as specified in Section 2.1 of <a href="#RFC6750" class="xref">[RFC6750]</a>.  </p>
 <p id="rfc.section.6.4.p.2">The generated HTTPS GET request must not use the &#8220;Expect&#8221; and &#8220;Range&#8221; header fields. The requests must also not use any conditional request.  </p>
 <h1 id="rfc.section.6.5">
 <a href="#rfc.section.6.5">6.5.</a> <a href="#generating-the-response" id="generating-the-response">Generating the Response</a>
@@ -654,7 +663,7 @@
 
 <p> </p>
 <p id="rfc.section.6.6.p.3">The complete HTTPS URLs to be used when authenticating the enterprise edge element (optional) and obtaining the SIP service provider capability set can be obtained from the SIP service provider beforehand and entered into the edge element manually via some interface &#8211; for example, a CLI or GUI.  </p>
-<p id="rfc.section.6.6.p.4">However, if the resource URL is unknown to the administrator (and by extension of that to the edge element), the WebFinger protocol <a href="https://tools.ietf.org/html/rfc7033">RFC 7033</a> may be leveraged. From the perspective of this draft, three link relation types (rel) are defined, namely: </p>
+<p id="rfc.section.6.6.p.4">However, if the resource URL is unknown to the administrator (and by extension of that to the edge element), the WebFinger protocol <a href="#RFC7033" class="xref">[RFC7033]</a> may be leveraged. From the perspective of this draft, three link relation types (rel) are defined, namely: </p>
 <p></p>
 
 <ol>
@@ -712,7 +721,7 @@
       ]
     }
 </pre>
-<p id="rfc.section.6.6.p.10">SIP service providers MUST support the &#8220;https&#8221; URI and &#8220;acct&#8221; URI [link] schemes in WebFinger queries. The &#8220;acct&#8221; URI scheme might be used in the WebFinger query, if the enterprise adminsitrator is provided with a username by the SIP service provider. The SIP service provider might provide a unique username for each SIP purchased by the enterprise network or a single username that is applicable to all the trunks purchased by the enterprise network. This draft does not require SIP service providers or enterprise networks to favor one URI scheme over the other; rather, the choice of which scheme to use is left to the discretion of the SIP service provider. The security considerations of using the &#8220;acct&#8221; URI is provided in section 5 of <a href="https://tools.ietf.org/html/rfc7565">RFC 7565</a>.  </p>
+<p id="rfc.section.6.6.p.10">SIP service providers MUST support the &#8220;https&#8221; URI and &#8220;acct&#8221; URI [link] schemes in WebFinger queries. The &#8220;acct&#8221; URI scheme might be used in the WebFinger query, if the enterprise adminsitrator is provided with a username by the SIP service provider. The SIP service provider might provide a unique username for each SIP purchased by the enterprise network or a single username that is applicable to all the trunks purchased by the enterprise network. This draft does not require SIP service providers or enterprise networks to favor one URI scheme over the other; rather, the choice of which scheme to use is left to the discretion of the SIP service provider. The security considerations of using the &#8220;acct&#8221; URI is provided in section 5 of <a href="#RFC7565" class="xref">[RFC7565]</a>.  </p>
 <p id="rfc.section.6.6.p.11">The base URL of the capability server returned in the WebFinger response SHOULD not contain a path or query component. Once the base URL is obtained, the enterprise edge element builds on the base URL to identify the capability set document on the capability server. The general format for identifying resources on a capability server is as follows: </p>
 <pre>
     &lt;scheme&gt; /&lt;baseURL&gt;/&lt;path&gt;?&lt;query&gt;
@@ -740,7 +749,7 @@
 <h1 id="rfc.section.9.1">
 <a href="#rfc.section.9.1">9.1.</a> <a href="#tree-diagram" id="tree-diagram">Tree Diagram"</a>
 </h1>
-<p id="rfc.section.9.1.p.1">This section provides a tree diagram <a href="https://tools.ietf.org/html/rfc8340">RFC 8340</a> for the &#8220;ietf-capability-set&#8221; module. The interpretation of the symbols appearing in the tree diagram is as follows: </p>
+<p id="rfc.section.9.1.p.1">This section provides a tree diagram <a href="#RFC8340" class="xref">[RFC8340]</a> for the &#8220;ietf-capability-set&#8221; module. The interpretation of the symbols appearing in the tree diagram is as follows: </p>
 <p></p>
 
 <ul>
@@ -790,7 +799,7 @@
 <h1 id="rfc.section.9.2">
 <a href="#rfc.section.9.2">9.2.</a> <a href="#yang-model" id="yang-model">YANG Model</a>
 </h1>
-<p id="rfc.section.9.2.p.1">This section defines the YANG module for the peering capability set document. It imports modules (ietf-yang-types and ietf-inet-types) from <a href="https://tools.ietf.org/html/rfc6991">RFC 6991</a>.  </p>
+<p id="rfc.section.9.2.p.1">This section defines the YANG module for the peering capability set document. It imports modules (ietf-yang-types and ietf-inet-types) from <a href="#RFC6991" class="xref">[RFC6991]</a>.  </p>
 <pre>
     module ietf-peering {
       namespace "urn:ietf:params:xml:ns:ietf-peering";
@@ -967,7 +976,7 @@
             leaf symmetricRTP {
               type boolean;
               description "Flag indicating whether the service provider expects 
-              symmetric RTP defined in [RFC 4961](https://tools.ietf.org/html/rfc4961)";
+              symmetric RTP defined in [@RFC4961]";
             }
           }
     
@@ -975,13 +984,13 @@
             leaf symmetricRTCP {
               type boolean;
               description " Flag indicating whether the service provider expects 
-              symmetric RTP defined in [RFC 4961](https://tools.ietf.org/html/rfc4961).";
+              symmetric RTP defined in [@RFC4961].";
             }
             
             leaf RTCPfeedback {
               type boolean;
               description "Flag Indicating support for RTP profile extension for 
-              RTCP-based feedback, as defined in [RFC 4585](https://tools.ietf.org/html/rfc4585)";
+              RTCP-based feedback, as defined in [@RFC4585]";
             }
           }
         }
@@ -998,7 +1007,7 @@
           leaf iteration {
             type boolean;
             description "Flag identifying whether the service provider supports 
-            NTE DTMF relay using the procedures of [RFC 2833](https://tools.ietf.org/html/rfc2833) or [RFC 4733](https://tools.ietf.org/html/rfc4733) .";
+            NTE DTMF relay using the procedures of [@RFC2833] or [@RFC4733] .";
           }
         }
     
@@ -1073,7 +1082,7 @@
 <li>
 <strong>mediaTypeAudio</strong>: A container for the mediaFormat leaf-list. This container collectively encapsulates the various audio media formats supported by the SIP service provider.</li>
 <li>
-<strong>mediaFormat</strong>: A leaf-list encoding the various audio media formats supported by the SIP service provider. The relative ordering of different media format leaf nodes from left to right indicates preference from the perspective of the service provider. Each mediaFormat node begins with the encoding name of the media format, which is the same encoding name as used in the &#8220;RTP/AVP&#8221; and &#8220;RTP/SAVP&#8221; profiles. The encoding name is followed by required and optional parameters for the given media format as specified when the media format is registered <a href="https://tools.ietf.org/html/rfc4855">RFC 4855</a>. Given that the parameters of media formats can vary from one communication session to another, for example, across two separate communication sessions, the packetization time (ptime) used for the PCMU media format might vary from 10 to 30 ms, the parameters included in the format element must be the ones that are expected to be invariant from the perspective of the service provider. Providing information about supported media formats and their respective parameters, allows enterprise networks to configure the media plane characteristics of various devices such as endpoints and middleboxes. The encoding name, one or more required parameters, one or more optional parameters are all separated by a semicolon. The formatting of a given media format parameter, must follow the formatting rules as specified for that media format.</li>
+<strong>mediaFormat</strong>: A leaf-list encoding the various audio media formats supported by the SIP service provider. The relative ordering of different media format leaf nodes from left to right indicates preference from the perspective of the service provider. Each mediaFormat node begins with the encoding name of the media format, which is the same encoding name as used in the &#8220;RTP/AVP&#8221; and &#8220;RTP/SAVP&#8221; profiles. The encoding name is followed by required and optional parameters for the given media format as specified when the media format is registered <a href="#RFC4855" class="xref">[RFC4855]</a>. Given that the parameters of media formats can vary from one communication session to another, for example, across two separate communication sessions, the packetization time (ptime) used for the PCMU media format might vary from 10 to 30 ms, the parameters included in the format element must be the ones that are expected to be invariant from the perspective of the service provider. Providing information about supported media formats and their respective parameters, allows enterprise networks to configure the media plane characteristics of various devices such as endpoints and middleboxes. The encoding name, one or more required parameters, one or more optional parameters are all separated by a semicolon. The formatting of a given media format parameter, must follow the formatting rules as specified for that media format.</li>
 <li>
 <strong>fax</strong>: A container that encapsulates the fax protocol(s) supported by the SIP service provider. The fax container encloses a leaf-list (named protocol) that enumerates whether the service provider supports t38 relay, protocol-based fax passthrough or both. The relative ordering of leaf nodes within the leaf lists indicates preference.</li>
 <li>
@@ -1081,13 +1090,13 @@
 <li>
 <strong>RTPTrigger</strong>: A leaf node indicating whether the SIP service provider network always expects the enterprise network to send the first RTP packet for an established communication session. This information is useful in scenarios such as &#8220;hairpinned&#8221; calls, in which the caller and callee are on the service provider network and because of sub-optimal media routing, an enterprise device such as an SBC is retained in the media path. Based on the encoding of this node, it is possible to configure enterprise devices such as SBCs to start streaming media (possibly filled with silence payloads) toward the address:port tuples provided by caller and callee. This node is a Boolean type. A value of 1/true indicates that the service provider expects the enterprise network to send the first RTP packet, whereas a value of 0/false indicates that the service provider network does not require the enterprise network to send the first media packet. While the practise of preserving the enterprise network in a hairpinned call flow is fairly common, it is recommended that SIP service providers avoid this practise. In the context of a hairpinned call, the enterprise device retained in the call flow can easily eavesdrop on the conversation between the offnet parties.</li>
 <li>
-<strong>symmetricRTP</strong>: A leaf node indicating whether the SIP service provider expects the enterprise network to use symmetric RTP as defined in <a href="https://tools.ietf.org/html/rfc4961">RFC 4961</a>. Uncovering this expectation is useful in scenarios where &#8220;latching&#8221; <a href="https://tools.ietf.org/html/rfc7362">RFC 3762</a> is implemented in the service provider network. This node is a Boolean type, a value of 1/true indicates that the service provider expects the enterprise network to use symmetric RTP, whereas a value of 0/false indicates that the enterprise network can use asymmetric RTP.</li>
+<strong>symmetricRTP</strong>: A leaf node indicating whether the SIP service provider expects the enterprise network to use symmetric RTP as defined in <a href="#RFC4961" class="xref">[RFC4961]</a>. Uncovering this expectation is useful in scenarios where &#8220;latching&#8221; <a href="#RFC3762" class="xref">[RFC3762]</a> is implemented in the service provider network. This node is a Boolean type, a value of 1/true indicates that the service provider expects the enterprise network to use symmetric RTP, whereas a value of 0/false indicates that the enterprise network can use asymmetric RTP.</li>
 <li>
 <strong>rtcp</strong>: A container that encapsulates generic characteristics of RTCP sessions between the enterprise and service provider network. This node is a container for the &#8220;RTCPFeedback&#8221; and &#8220;SymmetricRTCP&#8221; leaf nodes.</li>
 <li>
-<strong>RTCPFeedback</strong>: A leaf node that indicates whether the SIP service provider supports the RTP profile extension for RTCP-based feedback <a href="https://tools.ietf.org/html/rfc4585">RFC 4585</a>. Media sessions spanning enterprise and service provider networks, are rarely made to flow directly between the caller and callee, rather, it is often the case that media traffic flows through network intermediaries such as SBCs. As a result, RTCP traffic from the service provider network is intercepted by these intermediaries, which in turn can either pass across RTCP traffic unmodified or modify RTCP traffic before it is forwarded to the endpoint in the enterprise network. Modification of RTCP traffic would be required, for example, if the intermediary has performed media payload transformation operations such as transcoding or transrating. In a similar vein, for the RTCP-based feedback mechanism as defined in <a href="https://tools.ietf.org/html/rfc4585">RFC 4585</a> to be truly effective, intermediaries must ensure that feedback messages are passed reliably and with the correct formatting to enterprise endpoints. This might require additional configuration and considerations that need to be dealt with at the time of provisioning the intermediary device. This node is a Boolean type, a value of 1/true indicates that the service provider supports the RTP profile extension for RTP-based feedback and a value of 0/false indicates that the service provider does not support the RTP profile extension for RTP-based feedback.</li>
+<strong>RTCPFeedback</strong>: A leaf node that indicates whether the SIP service provider supports the RTP profile extension for RTCP-based feedback <a href="#RFC4585" class="xref">[RFC4585]</a>. Media sessions spanning enterprise and service provider networks, are rarely made to flow directly between the caller and callee, rather, it is often the case that media traffic flows through network intermediaries such as SBCs. As a result, RTCP traffic from the service provider network is intercepted by these intermediaries, which in turn can either pass across RTCP traffic unmodified or modify RTCP traffic before it is forwarded to the endpoint in the enterprise network. Modification of RTCP traffic would be required, for example, if the intermediary has performed media payload transformation operations such as transcoding or transrating. In a similar vein, for the RTCP-based feedback mechanism as defined in <a href="#RFC4585" class="xref">[RFC4585]</a> to be truly effective, intermediaries must ensure that feedback messages are passed reliably and with the correct formatting to enterprise endpoints. This might require additional configuration and considerations that need to be dealt with at the time of provisioning the intermediary device. This node is a Boolean type, a value of 1/true indicates that the service provider supports the RTP profile extension for RTP-based feedback and a value of 0/false indicates that the service provider does not support the RTP profile extension for RTP-based feedback.</li>
 <li>
-<strong>symmetricRTCP</strong>: A leaf node indicating whether the SIP service provider expects the enterprise network to use symmetric RTCP as defined in <a href="https://tools.ietf.org/html/rfc4961">RFC 4961</a>. This node is a Boolean type, a value of 1 indicates that the service provider expects symmetric RTCP reports, whereas a value of 0 indicates that the enterprise can use asymmetric RTCP.</li>
+<strong>symmetricRTCP</strong>: A leaf node indicating whether the SIP service provider expects the enterprise network to use symmetric RTCP as defined in <a href="#RFC4961" class="xref">[RFC4961]</a>. This node is a Boolean type, a value of 1 indicates that the service provider expects symmetric RTCP reports, whereas a value of 0 indicates that the enterprise can use asymmetric RTCP.</li>
 <li>
 <strong>dtmf</strong>: A container that describes the various aspects of DTMF relay via RTP Named Telephony Events. The dtmf container allows SIP service providers to specify two facets of DTMF relay via Named Telephony Events:</li>
 </ul>
@@ -1097,12 +1106,12 @@
 
 <ol>
 <li>The payload type number using the payloadNumber leaf node.</li>
-<li>Support for <a href="https://tools.ietf.org/html/rfc2833">RFC 2833</a> or <a href="https://tools.ietf.org/html/rfc4733">RFC 4733</a> using the iteration leaf node.</li>
+<li>Support for <a href="#RFC2833" class="xref">[RFC2833]</a> or <a href="#RFC4733" class="xref">[RFC4733]</a> using the iteration leaf node.</li>
 </ol>
 
 <p> </p>
 <p id="rfc.section.9.3.p.4">In the context of named telephony events, senders and receivers may negotiate asymmetric payload type numbers. For example, the sender might advertise payload type number 97 and the receiver might advertise payload type number 101. In such instances, it is either required for middleboxes to interwork payload type numbers or allow the endpoints to send and receive asymmetric payload numbers. The behaviour of middleboxes in this context is largely dependent on endpoint capabilities or on service provider constraints. Therefore, the payloadNumber leaf node can be used to determine middlebox configuration before-hand.  </p>
-<p><a href="https://tools.ietf.org/html/rfc4733">RFC 4733</a>iterates over <a href="https://tools.ietf.org/html/rfc2833">RFC 2833</a> by introducing certain changes in the way NTE events are transmitted. SIP service providers can indicate support for <a href="https://tools.ietf.org/html/rfc4733">RFC 4733</a> by setting the iteration flag to 1 or indicating support for <a href="https://tools.ietf.org/html/rfc2833">RFC 2833</a> by setting the iteration flag to 0.  </p>
+<p><a href="#RFC4733" class="xref">[RFC4733]</a>iterates over <a href="#RFC2833" class="xref">[RFC2833]</a> by introducing certain changes in the way NTE events are transmitted. SIP service providers can indicate support for <a href="#RFC4733" class="xref">[RFC4733]</a> by setting the iteration flag to 1 or indicating support for <a href="#RFC2833" class="xref">[RFC2833]</a> by setting the iteration flag to 0.  </p>
 <p></p>
 
 <ul>
@@ -1117,7 +1126,7 @@
 <li>
 <strong>mediaSecurity</strong>: A container that describes the various characteristics of securing media streams between enterprise and service provider networks.</li>
 <li>
-<strong>keyManagement</strong>: A leaf node that specifies the key management method used by the service provider. Possible values of this node include: &#8220;SDES&#8221; and &#8220;DTLS-SRTP&#8221;. A value of &#8220;SDES&#8221; signifies that the SIP service provider uses the methods defined in <a href="https://tools.ietf.org/html/rfc4568">RFC 4568</a> for the purpose of key management. A value of &#8220;DTLS-SRTP&#8221; signifies that the SIP service provider uses the methods defined in <a href="https://tools.ietf.org/html/rfc5764">RFC 5764</a> for the purpose of key management. If the value of this leaf node is set to &#8220;DTLS-SRTP&#8221;, the various versions of DTLS supported by the SIP service provider MUST be encoded as per the formatting rules of Section 9.2. If the service provider does not support media security, the keyManagement node MUST be set to &#8220;NULL&#8221;.</li>
+<strong>keyManagement</strong>: A leaf node that specifies the key management method used by the service provider. Possible values of this node include: &#8220;SDES&#8221; and &#8220;DTLS-SRTP&#8221;. A value of &#8220;SDES&#8221; signifies that the SIP service provider uses the methods defined in <a href="#RFC4568" class="xref">[RFC4568]</a> for the purpose of key management. A value of &#8220;DTLS-SRTP&#8221; signifies that the SIP service provider uses the methods defined in <a href="#RFC5764" class="xref">[RFC5764]</a> for the purpose of key management. If the value of this leaf node is set to &#8220;DTLS-SRTP&#8221;, the various versions of DTLS supported by the SIP service provider MUST be encoded as per the formatting rules of Section 9.2. If the service provider does not support media security, the keyManagement node MUST be set to &#8220;NULL&#8221;.</li>
 <li>
 <strong>extensions</strong>: A leaf node that is a semicolon separated list of all possible SIP option tags supported by the service provider network. These extensions must be referenced using name registered under IANA. If the service provider network does not support any extensions to baseline SIP, the extensions node must be set to &#8220;NULL&#8221;.</li>
 </ul>
@@ -1161,7 +1170,7 @@
       }      
     }     
 </pre>
-<p id="rfc.section.9.4.p.4">In the example above, a custom module named &#8220;vendorA-config&#8221; uses the &#8220;augment&#8221; statement as defined in Section 4.2.8 of <a href="https://tools.ietf.org/html/rfc7950">RFC 7950</a> to extend the module defined in this draft.  </p>
+<p id="rfc.section.9.4.p.4">In the example above, a custom module named &#8220;vendorA-config&#8221; uses the &#8220;augment&#8221; statement as defined in Section 4.2.8 of <a href="#RFC7950" class="xref">[RFC7950]</a> to extend the module defined in this draft.  </p>
 <h1 id="rfc.section.10">
 <a href="#rfc.section.10">10.</a> <a href="#example-capability-set-document-encoding" id="example-capability-set-document-encoding">Example Capability Set Document Encoding</a>
 </h1>
@@ -1370,7 +1379,7 @@
 <ul><li>Integrity and Confidentiality</li></ul>
 
 <p> </p>
-<p id="rfc.section.12.p.4">Request and responses for the capability set documents are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP using Transport Layer Security. The enterprise edge element and capability server MUST be compliant to <a href="https://tools.ietf.org/html/rfc7235">RFC 7235</a>.  The enterprise edge element and capability server MUST support the use of the https uri scheme as defined in <a href="https://tools.ietf.org/html/rfc7230">RFC 7230</a>.  </p>
+<p id="rfc.section.12.p.4">Request and responses for the capability set documents are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP using Transport Layer Security. The enterprise edge element and capability server MUST be compliant to <a href="#RFC7235" class="xref">[RFC7235]</a>.  The enterprise edge element and capability server MUST support the use of the https uri scheme as defined in <a href="#RFC7230" class="xref">[RFC7230]</a>.  </p>
 <p></p>
 
 <ul><li>Authenticated Client Identity</li></ul>
@@ -1388,6 +1397,121 @@
 <a href="#rfc.section.13">13.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a>
 </h1>
 <p id="rfc.section.13.p.1">TBD </p>
+<h1 id="rfc.references">
+<a href="#rfc.references">14.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">14.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6020">[RFC6020]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc6020">YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</a>", RFC 6020, DOI 10.17487/RFC6020, October 2010.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6991">[RFC6991]</b></td>
+<td class="top">
+<a>Schoenwaelder, J.</a>, "<a href="https://tools.ietf.org/html/rfc6991">Common YANG Data Types</a>", RFC 6991, DOI 10.17487/RFC6991, July 2013.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">14.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC2833">[RFC2833]</b></td>
+<td class="top">
+<a>Schulzrinne, H.</a> and <a>S. Petrack</a>, "<a href="https://tools.ietf.org/html/rfc2833">RTP Payload for DTMF Digits, Telephony Tones and Telephony Signals</a>", RFC 2833, DOI 10.17487/RFC2833, May 2000.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC3762">[RFC3762]</b></td>
+<td class="top">
+<a>Levin, O.</a>, "<a href="https://tools.ietf.org/html/rfc3762">Telephone Number Mapping (ENUM) Service Registration for H.323</a>", RFC 3762, DOI 10.17487/RFC3762, April 2004.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4568">[RFC4568]</b></td>
+<td class="top">
+<a>Andreasen, F.</a>, <a>Baugher, M.</a> and <a>D. Wing</a>, "<a href="https://tools.ietf.org/html/rfc4568">Session Description Protocol (SDP) Security Descriptions for Media Streams</a>", RFC 4568, DOI 10.17487/RFC4568, July 2006.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4585">[RFC4585]</b></td>
+<td class="top">
+<a>Ott, J.</a>, <a>Wenger, S.</a>, <a>Sato, N.</a>, <a>Burmeister, C.</a> and <a>J. Rey</a>, "<a href="https://tools.ietf.org/html/rfc4585">Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)</a>", RFC 4585, DOI 10.17487/RFC4585, July 2006.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4733">[RFC4733]</b></td>
+<td class="top">
+<a>Schulzrinne, H.</a> and <a>T. Taylor</a>, "<a href="https://tools.ietf.org/html/rfc4733">RTP Payload for DTMF Digits, Telephony Tones, and Telephony Signals</a>", RFC 4733, DOI 10.17487/RFC4733, December 2006.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4855">[RFC4855]</b></td>
+<td class="top">
+<a>Casner, S.</a>, "<a href="https://tools.ietf.org/html/rfc4855">Media Type Registration of RTP Payload Formats</a>", RFC 4855, DOI 10.17487/RFC4855, February 2007.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4961">[RFC4961]</b></td>
+<td class="top">
+<a>Wing, D.</a>, "<a href="https://tools.ietf.org/html/rfc4961">Symmetric RTP / RTP Control Protocol (RTCP)</a>", BCP 131, RFC 4961, DOI 10.17487/RFC4961, July 2007.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5764">[RFC5764]</b></td>
+<td class="top">
+<a>McGrew, D.</a> and <a>E. Rescorla</a>, "<a href="https://tools.ietf.org/html/rfc5764">Datagram Transport Layer Security (DTLS) Extension to Establish Keys for the Secure Real-time Transport Protocol (SRTP)</a>", RFC 5764, DOI 10.17487/RFC5764, May 2010.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6241">[RFC6241]</b></td>
+<td class="top">
+<a>Enns, R.</a>, <a>Bjorklund, M.</a>, <a>Schoenwaelder, J.</a> and <a>A. Bierman</a>, "<a href="https://tools.ietf.org/html/rfc6241">Network Configuration Protocol (NETCONF)</a>", RFC 6241, DOI 10.17487/RFC6241, June 2011.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6665">[RFC6665]</b></td>
+<td class="top">
+<a>Roach, A.</a>, "<a href="https://tools.ietf.org/html/rfc6665">SIP-Specific Event Notification</a>", RFC 6665, DOI 10.17487/RFC6665, July 2012.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6750">[RFC6750]</b></td>
+<td class="top">
+<a>Jones, M.</a> and <a>D. Hardt</a>, "<a href="https://tools.ietf.org/html/rfc6750">The OAuth 2.0 Authorization Framework: Bearer Token Usage</a>", RFC 6750, DOI 10.17487/RFC6750, October 2012.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7033">[RFC7033]</b></td>
+<td class="top">
+<a>Jones, P.</a>, <a>Salgueiro, G.</a>, <a>Jones, M.</a> and <a>J. Smarr</a>, "<a href="https://tools.ietf.org/html/rfc7033">WebFinger</a>", RFC 7033, DOI 10.17487/RFC7033, September 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7230">[RFC7230]</b></td>
+<td class="top">
+<a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="https://tools.ietf.org/html/rfc7230">Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing</a>", RFC 7230, DOI 10.17487/RFC7230, June 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7231">[RFC7231]</b></td>
+<td class="top">
+<a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>", RFC 7231, DOI 10.17487/RFC7231, June 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7235">[RFC7235]</b></td>
+<td class="top">
+<a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="https://tools.ietf.org/html/rfc7235">Hypertext Transfer Protocol (HTTP/1.1): Authentication</a>", RFC 7235, DOI 10.17487/RFC7235, June 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7565">[RFC7565]</b></td>
+<td class="top">
+<a>Saint-Andre, P.</a>, "<a href="https://tools.ietf.org/html/rfc7565">The 'acct' URI Scheme</a>", RFC 7565, DOI 10.17487/RFC7565, May 2015.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7950">[RFC7950]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7950">The YANG 1.1 Data Modeling Language</a>", RFC 7950, DOI 10.17487/RFC7950, August 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8340">[RFC8340]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a> and <a>L. Berger</a>, "<a href="https://tools.ietf.org/html/rfc8340">YANG Tree Diagrams</a>", BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018.</td>
+</tr>
+</tbody></table>
 <h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
 <div class="avoidbreak">
   <address class="vcard">
