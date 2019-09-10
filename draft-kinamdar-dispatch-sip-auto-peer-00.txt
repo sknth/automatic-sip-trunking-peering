@@ -9,8 +9,8 @@ Expires: March 13, 2020                                    Cisco Systems
                                                       September 10, 2019
 
 
-                          SIP Peering Workflow
-                  draft-kinamdar-dispatch-sip-peer-00
+                    Automatic Peering for SIP Trunks
+                draft-kinamdar-dispatch-sip-audo-peer-00
 
 Abstract
 
@@ -55,7 +55,7 @@ Copyright Notice
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 1]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    include Simplified BSD License text as described in Section 4.e of
@@ -111,7 +111,7 @@ Table of Contents
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 2]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    extensions to baseline protocols and operating principles ought to be
@@ -167,7 +167,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 3]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
     +-----------------------------------------------------+
@@ -223,7 +223,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 4]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    o  Call Control: Call Control within a telephony networks refers to
@@ -279,7 +279,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 5]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    There are alternative mechanisms using which the SIP service provider
@@ -335,7 +335,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 6]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    response is formatted in either XML or JSON.  The formatting depends
@@ -391,7 +391,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 7]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    edge element) to authenticate the SIP service provider.  If however,
@@ -447,7 +447,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 8]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    2.  302 Found
@@ -503,7 +503,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                 [Page 9]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    If an enterprise edge element attempts to discover the URL of the
@@ -559,7 +559,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 10]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    provider.  The security considerations of using the "acct" URI is
@@ -615,7 +615,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 11]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    capability set documents.  These unique URL strings are helpful in
@@ -671,7 +671,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 12]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    o  Abbreviations before data node names: "rw" means configuration
@@ -727,7 +727,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 13]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
 9.2.  YANG Model
@@ -783,7 +783,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 14]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
       typedef ip-address-port {
@@ -839,7 +839,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 15]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
               enum "TCP;TLS;UDP";
@@ -895,7 +895,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 16]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
           leaf supportedMethods {
@@ -951,7 +951,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 17]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
             leaf RTCPfeedback {
@@ -1007,7 +1007,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 18]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
             }
@@ -1063,7 +1063,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 19]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
       enterprise network must use an applicable transport protocol in
@@ -1119,7 +1119,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 20]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
       traverse a large number of intermediaries with varying
@@ -1175,7 +1175,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 21]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
       required and optional parameters for the given media format as
@@ -1231,7 +1231,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 22]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    o  *symmetricRTP*: A leaf node indicating whether the SIP service
@@ -1287,7 +1287,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 23]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
       SIP service providers to specify two facets of DTMF relay via
@@ -1343,7 +1343,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 24]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    o  *keyManagement*: A leaf node that specifies the key management
@@ -1399,7 +1399,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 25]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
     module vendorA-config {
@@ -1455,7 +1455,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 26]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
     {
@@ -1511,7 +1511,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 27]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
 10.2.  XML Capability Set Document
@@ -1567,7 +1567,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 28]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
           <version>1.0;1.2</version>
@@ -1623,7 +1623,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 29]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
              HTTP/1.1 200 OK
@@ -1679,7 +1679,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 30]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
              POST /token  HTTP/1.1
@@ -1735,7 +1735,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 31]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
 12.  Security Considerations
@@ -1791,7 +1791,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 32]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    In addition to the considerations listed above, all the security
@@ -1847,7 +1847,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 33]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    [RFC4733]  Schulzrinne, H. and T. Taylor, "RTP Payload for DTMF
@@ -1903,7 +1903,7 @@ Internet-Draft           Private Media Workflow           September 2019
 
 Inamdar, et al.          Expires March 13, 2020                [Page 34]
 
-Internet-Draft           Private Media Workflow           September 2019
+Internet-Draft                SIP Auto Peer               September 2019
 
 
    [RFC7235]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer

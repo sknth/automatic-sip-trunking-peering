@@ -1,6 +1,6 @@
 # Makefile to build Internet Drafts from markdown using mmarc
 
-DRAFT = draft-kinamdar-dispatch-sip-peer
+DRAFT = draft-kinamdar-dispatch-sip-auto-peer
 VERSION = 00
 
 all: $(DRAFT)-$(VERSION).txt $(DRAFT)-$(VERSION).html 

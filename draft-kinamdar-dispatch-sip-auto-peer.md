@@ -5,10 +5,10 @@
 # Generation tool: mmark (https://github.com/miekg/mmark)
 #
 
-Title = "SIP Peering Workflow"
-abbrev = "Private Media Workflow"
+Title = "Automatic Peering for SIP Trunks"
+abbrev = "SIP Auto Peer"
 category = "std"
-docName = "draft-kinamdar-dispatch-sip-peer-00"
+docName = "draft-kinamdar-dispatch-sip-audo-peer-00"
 ipr= "trust200902"
 area = "Internet"
 keyword = ["SIP","YANG"]
