@@ -1,0 +1,35 @@
+module: ietf-sip-auto-peering
+  +--rw peering-info
+     +--rw variant           string
+     +--rw transport-info
+     |  +--rw transport?        enumeration
+     |  +--rw registrar*        host-port
+     |  +--rw registrarRealm?   string
+     |  +--rw callControl*      host-port
+     |  +--rw dns*              inet:ip-address
+     |  +--rw outboundProxy?    host-port
+     +--rw call-specs
+     |  +--rw earlyMedia?         boolean
+     |  +--rw signalingForking?   boolean
+     |  +--rw supportedMethods?   string
+     +--rw media
+     |  +--rw mediaTypeAudio
+     |  |  +--rw mediaFormat*   string
+     |  +--rw fax
+     |  |  +--rw protocol*   enumeration
+     |  +--rw rtp
+     |  |  +--rw RTPTrigger?     boolean
+     |  |  +--rw symmetricRTP?   boolean
+     |  +--rw rtcp
+     |     +--rw symmetricRTCP?   boolean
+     |     +--rw RTCPfeedback?    boolean
+     +--rw dtmf
+     |  +--rw payloadNumber?   int8
+     |  +--rw iteration?       boolean
+     +--rw security
+     |  +--rw signaling
+     |  |  +--rw type?      string
+     |  |  +--rw version?   string
+     |  +--rw mediaSecurity
+     |     +--rw keyManagement?   string
+     +--rw extensions?       string

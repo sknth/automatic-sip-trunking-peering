@@ -322,25 +322,29 @@ the obtain the capability set document. The bearer token is presented in
 the “Authorization” header field of the GET request as specified in
 Section 2.1 of [@RFC6750].
 
-The generated HTTPS GET request must not use the “Expect” and “Range”
-header fields. The requests must also not use any conditional request.
+The generated HTTPS GET request MUST NOT use the “Expect” and “Range”
+header fields. The requests also MUST NOT use any conditional request.
 
 ## Generating the Response
 
 Capability servers include the capability set documents in the body of a
 successful response. Capability set documents MUST be formatted in XML
 or JSON. For requests that are incorrectly formatted, the capability
-server must generate a “400 Bad Request” response. If the client
+server SHOULD generate a “400 Bad Request” response. If the client
 (enterprise edge element) includes any other MIME types in Accept header
 field other than “application/peering-info+json” or
-“application/peering-info+xml”, the capability set must reject the
+“application/peering-info+xml”, the capability set MUST reject the
 request with a “406 Not Acceptable” response.
 
 The capability server can respond to client requests with redirect
 responses, specifically, the server can respond with the following
 redirect responses:
 
-1. 301 Moved Temporarily 2. 302 Found 3. 307 Temporary Redirect
+1. 301 Moved Temporarily
+
+2. 302 Found
+
+3. 307 Temporary Redirect
 
 
 The server SHOULD include the Location header field in such responses.
@@ -533,40 +537,7 @@ marked with a colon (“:”).
 The data model for the peering capability document has the following
 structure:
 
-```
-  +--rw peering-response
-     +--rw variant           string
-     +--rw transport-info
-     |  +--rw transport?        enumeration
-     |  +--rw registrar*        host-port
-     |  +--rw registrarRealm?   string
-     |  +--rw callControl*      host-port
-     |  +--rw dns*              inet:ip-address
-     |  +--rw outboundProxy?    host-port
-     +--rw call-specs
-     |  +--rw earlyMedia?         boolean
-     |  +--rw signalingForking?   boolean
-     |  +--rw supportedMethods?   string
-     +--rw media
-     |  +--rw mediaTypeAudio
-     |  |  +--rw mediaFormat*   string
-     |  +--rw fax
-     |  |  +--rw protocol*   enumeration
-     |  +--rw rtp
-     |  |  +--rw RTPTrigger?     boolean
-     |  |  +--rw symmetricRTP?   boolean
-     |  +--rw rtcp
-     |     +--rw symmetricRTCP?   boolean
-     |     +--rw RTCPfeedback?    boolean
-     +--rw dtmf
-     |  +--rw payloadNumber?   int8
-     |  +--rw iteration?       boolean
-     +--rw security
-     |  +--rw signaling?       string
-     |  +--rw mediaSecurity
-     |     +--rw keyManagement?   string
-     +--rw extensions?       string     
-```
+<{{ietf-sip-auto-peering.tree}}
 
 ## YANG Model
 
@@ -574,252 +545,7 @@ This section defines the YANG module for the peering capability set
 document. It imports modules (ietf-yang-types and ietf-inet-types) from
 [@!RFC6991].
 
-```
-    module ietf-peering {
-      namespace "urn:ietf:params:xml:ns:ietf-peering";
-      prefix "peering";
-
-      description
-      "Data model for transmitting peering parameters from SP to Enterprise";
-
-      revision 2019-05-06 {
-        description "Initial revision of peering-response doc.";
-      }
-            
-      import ietf-inet-types {
-        prefix "inet";
-      }           
-  
-      typedef ipv4-address-port {
-        type string {
-          pattern '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}'
-          +  '([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
-          + ':^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$';
-        }
-        description "The ipv4-address-port type represents an IPv4 address in
-        dotted-quad notation followed by a port number.";
-      }
-  
-      typedef ipv6-address-port {
-        type string {
-          pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}'
-          + '((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|'
-          + '(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}'
-          + '(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))'
-          + ':^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$';
-          pattern 
-          '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|'
-          + '((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)'
-          + ':^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$';
-        }
-          description 
-          "The ipv6-address type represents an IPv6 address in full,
-          mixed, shortened, and shortened-mixed notation followed by a port number.";
-      }
-  
-      typedef ip-address-port {
-        type union {
-          type ipv4-address-port;
-          type ipv6-address-port;
-        }
-        description 
-        "The ip-address-port type represents an IP address:port number
-        and is IP version neutral.";
-      }
-  
-      typedef domain-name-port {
-        type string {
-          pattern
-          '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.)*'
-          + '([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?)'
-          + '|\.'
-          + ':^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$';
-          length "1..258";
-        }
-        description
-        "The domain-name-port type represents a DNS domain name followed by a port number.
-        The name SHOULD be fully qualified whenever possible.";
-      }
-  
-      typedef host-port {
-        type union {
-          type ip-address-port;
-          type domain-name-port;
-        }
-        description
-        "The host type represents either an IP address or a DNS
-        domain name followed by a port number.";
-      }
-  
-      container peering-info {
-        leaf variant {
-          type string;
-          mandatory true;
-          description "Variant of peering-response document";
-        }
-            
-        container transport-info {
-          leaf transport {
-            type enumeration {
-              enum "TCP";
-              enum "TLS";
-              enum "UDP";
-              enum "TCP;TLS";
-              enum "TCP;TLS;UDP";
-              enum "TCP;UDP";
-            }
-            description "Transport Protocol(s) used in SIP communication";
-          }
-            
-          leaf-list registrar {
-            type host-port;
-            max-elements 3;
-            description "List of service provider registrar servers";
-          }
-            
-          leaf registrarRealm {
-            type string;
-            description "Realm for REGISTER requests carrying credentials";
-          }
-            
-          leaf-list callControl {
-            type host-port;
-            max-elements 3;
-            description "List of service provider call control servers";
-          }
-            
-          leaf-list dns {
-            type inet:ip-address;
-            max-elements 2;
-            description "IP address of the DNS Server(s) hosted by the service provider";
-          }
-            
-          leaf outboundProxy {
-            type host-port;
-            description "SIP Outbound Proxy";
-          }                             
-        }
-    
-        container call-specs {
-          leaf earlyMedia {
-            type boolean;
-            description "Flag indicating whether the service provider is expected
-            to deliver early media.";
-          }
-
-          leaf signalingForking {
-            type boolean;
-            description "Flag indicating whether the service provider is capable
-            of forking incoming calls ";
-          }
-            
-          leaf supportedMethods {
-            type string;
-            description "Leaf/Leaf List indicating the different SIP methods
-            support by the service provider.";
-          }
-        }
-    
-        container media {
-          container mediaTypeAudio {
-            leaf-list mediaFormat {
-              type string;
-              description "Leaf List indicating the audio media formats supported.";
-            }
-          }
-                 
-          container fax {
-            leaf-list protocol {
-              type enumeration {
-                enum "pass-through";
-                enum "t38";
-              }
-              max-elements 2;
-              description "Leaf List indicating the different fax protocols
-              supported by the service provider.";
-            }
-          }
-      
-          container rtp {
-            leaf RTPTrigger {
-              type boolean;
-              description "Flag indicating whether the service provider expects to 
-              receive the first media packet.";
-            }
-            
-            leaf symmetricRTP {
-              type boolean;
-              description "Flag indicating whether the service provider expects 
-              symmetric RTP defined in [@RFC4961]";
-            }
-          }
-    
-          container rtcp {
-            leaf symmetricRTCP {
-              type boolean;
-              description " Flag indicating whether the service provider expects 
-              symmetric RTP defined in [@RFC4961].";
-            }
-            
-            leaf RTCPfeedback {
-              type boolean;
-              description "Flag Indicating support for RTP profile extension for 
-              RTCP-based feedback, as defined in [@RFC4585]";
-            }
-          }
-        }
-
-        container dtmf {
-          leaf payloadNumber {
-            type int8 {
-              range "96..127";
-            }
-            description "Leaf that indicates the payload number(s) supported by 
-            the service provider for DTMF relay via Named-Telephony-Events";
-          }
-
-          leaf iteration {
-            type boolean;
-            description "Flag identifying whether the service provider supports 
-            NTE DTMF relay using the procedures of [@RFC2833] or [@RFC4733] .";
-          }
-        }
-    
-        container security {
-          container signaling {
-            leaf type {
-              type string {
-                pattern "TLS";
-              }
-              description "Type of signaling security supported.";
-            }
-            
-            leaf version {
-              type string {
-                pattern "([1-9]\.[0-9])(;[1-9]\.[0-9])?|(NULL)";
-              }
-              description "Indicates TLS version for SIP signaling";
-            }
-          }   
-    
-          container mediaSecurity {
-            leaf keyManagement {
-              type string {
-                pattern "(SDES(;DTLS-SRTP,version=[1-9]\.[0-9](,[1-9]\.[0-9])?)?)|(DTLS-SRTP,version=[1-9]\.[0-9](,[1-9]\.[0-9])?)|(NULL)";
-              }
-              description "Leaf that identifies the key management methods 
-              supported by the service provider for SRTP.";
-            }
-          }
-        }
-    
-        leaf extensions {
-          type string;
-          description "Lists the various SIP extensions supported by SP";
-        }
-      }
-    }
-```
+<{{ietf-sip-auto-peering.yang}}
 
 ## Node Definitions
 
@@ -833,7 +559,7 @@ element of an XML schema.
 * **variant**: This node identifies the version number of the capability
 set document. This draft defines the parameters for variant 1.0; future
 specifications might define a richer parameter set, in which case the
-variant must be changed to 2.0, 3.0 and so on. Future extensions to the
+variant can be changed to 2.0, 3.0 and so on. Future extensions to the
 capability set document MUST also ensure that the corresponding YANG
 module is defined.
 
@@ -853,12 +579,12 @@ IP address and port number, or a subdomain of the SIP service provider
 network, or the fully qualified domain name (FQDN) of the SIP service
 provider network. If the transport address of a registrar is specified
 using either a subdomain or a fully qualified domain name, the DNS
-element must be populated with one or more valid DNS server IP
+element needs to be populated with one or more valid DNS server IP
 addresses.
 
 * **callControl**: A leaf-list that specifies the transport address of
 the call server(s) in the service provider network. The enterprise
-network must use an applicable transport protocol in conjunction with
+network MUST use an applicable transport protocol in conjunction with
 the call control server(s) transport address when transmitting call
 setup requests. The transport address of a call server(s) within the
 service provider network can be specified using a combination of a valid
@@ -866,7 +592,7 @@ IP address and port number, or a subdomain of the SIP service provider
 network, or a fully qualified domain name of the SIP service provider
 network. If the transport address of a call control server(s) is
 specified using either a subdomain or a fully qualified domain name, the
-DNS element must be populated with one or more valid DNS server IP
+DNS element MUST be populated with one or more valid DNS server IP
 addresses. The transport address specified in this element can also
 serve as the target for non-call requests such as SIP OPTIONS.
 
@@ -874,13 +600,13 @@ serve as the target for non-call requests such as SIP OPTIONS.
 servers hosted by the SIP service provider. If the enterprise network is
 unaware of the IP address, port number, and transport protocol of
 servers within the service provider network (for example, the registrar
-and call control server), it must use DNS NAPTR and SRV. Alternatively,
+and call control server), it MUST use DNS NAPTR and SRV. Alternatively,
 if the enterprise network has the fully qualified domain name of the SIP
-service provider network, it must use DNS to resolve the said FQDN to an
+service provider network, it MUST use DNS to resolve the said FQDN to an
 IP address. The dns element encodes the IP address of one or more DNS
 servers hosted in the service provider network. If however, either the
 registrar or callControl elements or both are populated with a valid IP
-address and port pair, the dns element must be set to the quadruple
+address and port pair, the dns element MUST be set to the quadruple
 octet of 0.0.0.0.
 
 * **outboundProxy**: A leaf list that specifies the transport address of
@@ -890,7 +616,7 @@ the SIP service provider network, or a fully qualified domain name and
 port number of the SIP service provider network. If the outbound-proxy
 sub-element is populated with a valid transport address, it represents
 the default destination for all outbound SIP requests and therefore, the
-registrar and callControl elements must be populated with the quadruple
+registrar and callControl elements MUST be populated with the quadruple
 octet of 0.0.0.0.
 
 * **call-specs**: A container that encapsulates information about call
@@ -951,14 +677,14 @@ is registered [@RFC4855]. Given that the parameters of media formats can
 vary from one communication session to another, for example, across two
 separate communication sessions, the packetization time (ptime) used for
 the PCMU media format might vary from 10 to 30 ms, the parameters
-included in the format element must be the ones that are expected to be
+included in the format element MUST be the ones that are expected to be
 invariant from the perspective of the service provider. Providing
 information about supported media formats and their respective
 parameters, allows enterprise networks to configure the media plane
 characteristics of various devices such as endpoints and middleboxes.
 The encoding name, one or more required parameters, one or more optional
 parameters are all separated by a semicolon. The formatting of a given
-media format parameter, must follow the formatting rules as specified
+media format parameter, MUST follow the formatting rules as specified
 for that media format.
 
 * **fax**: A container that encapsulates the fax protocol(s) supported
@@ -1018,7 +744,7 @@ network. Modification of RTCP traffic would be required, for example, if
 the intermediary has performed media payload transformation operations
 such as transcoding or transrating. In a similar vein, for the
 RTCP-based feedback mechanism as defined in [@RFC4585] to be truly
-effective, intermediaries must ensure that feedback messages are passed
+effective, intermediaries MUST ensure that feedback messages are passed
 reliably and with the correct formatting to enterprise endpoints. This
 might require additional configuration and considerations that need to
 be dealt with at the time of provisioning the intermediary device. This
@@ -1074,7 +800,7 @@ is set to the string “tls”.
 
 * **version**: A leaf node that specifies the version(s) of TLS
 supported in decimal format. If multiple versions of TLS are supported,
-they should be separated by semi-colons. If the service provide does not
+they MUST be separated by semi-colons. If the service provide does not
 support TLS for protecting SIP sessions, the signalling element is set
 to the string “NULL”.
 
@@ -1096,9 +822,9 @@ set to “NULL”.
 
 * **extensions**: A leaf node that is a semicolon separated list of all
 possible SIP option tags supported by the service provider network.
-These extensions must be referenced using name registered under IANA. If
+These extensions MUST be referenced using name registered under IANA. If
 the service provider network does not support any extensions to baseline
-SIP, the extensions node must be set to “NULL”.
+SIP, the extensions node MUST be set to “NULL”.
 
 ## Extending the Capability Set
 
@@ -1166,9 +892,9 @@ JSON or XML.
       "peering-info:variant": "1.0",
       "transport-info": {
         "transport": "TCP;TLS;UDP",
-        "registrar": ["registrar1.voip.cisco.com:5060", "registrar2.voip.cisco.com:5060"],
-        "registrarRealm": "voip.cisco.com",
-        "callControl": ["callServer1.voip.cisco.com:5060", "192.168.12.25:5065"],
+        "registrar": ["registrar1.voip.example.com:5060", "registrar2.voip.example.com:5060"],
+        "registrarRealm": "voip.example.com",
+        "callControl": ["callServer1.voip.example.com:5060", "192.168.12.25:5065"],
         "dns": [8.8.8.8, 208.67.222.222],
         "outboundProxy": "0.0.0.0"
       },
@@ -1219,10 +945,10 @@ JSON or XML.
       <variant>1.0</variant>
       <transport-info>
         <transport>TCP;TLS;UDP</transport>
-        <registrar>registrar1.voip.cisco.com:5060</registrar>
-        <registrar>registrar2.voip.cisco.com:5060</registrar>
-        <registrarRealm>voip.cisco.com</registrarRealm>
-        <callControl>callServer1.voip.cisco.com:5060</callControl>
+        <registrar>registrar1.voip.example.com:5060</registrar>
+        <registrar>registrar2.voip.example.com:5060</registrar>
+        <registrarRealm>voip.example.com</registrarRealm>
+        <callControl>callServer1.voip.example.com:5060</callControl>
         <callControl>192.168.12.25:5065</callControl>
         <dns>8.8.8.8</dns>
         <dns>208.67.222.222</dns>
@@ -1434,8 +1160,8 @@ It is recommended that enterprise edge elements use the “trunkid”
 parameter in query strings when requesting for the capability set
 documents. The value of “trunkid” parameter is generated by the SIP
 service provider and provided to the administrator via some out-of-band
-mechanism. SIP service providers must ensure that value of the “trunkid”
-parameters should not inadvertently communicate sensitive information to
+mechanism. SIP service providers MUST ensure that value of the “trunkid”
+parameters does not inadvertently communicate sensitive information to
 an attacker such as a username or password credential.
 
 In addition to the considerations listed above, all the security
