@@ -318,10 +318,10 @@ Internet-Draft                SIP Auto Peer               September 2019
        signaling planes.  As a result, when the capability set is
        received from the SIP service provider network, the edge element
        can generate appropriate configuration blocks (possibly across
-       multiple devices) to enable smooth IP peering. 2.  Given that
-       edge elements are configured to "talk" to networks external to
-       the enterprise, the complexity in terms of NAT traversal and
-       firewall configuration would be minimal.
+       multiple devices) to enable smooth IP peering. 
+   2.  Given that edge elements are configured to "talk" to networks 
+       external to the enterprise, the complexity in terms of NAT 
+       traversal and firewall configuration would be minimal.
 
    The HTTPs GET request is targeted at a capability server that is
    managed by the SIP service provider such that this server processes,
