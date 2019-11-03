@@ -80,7 +80,10 @@ manufacturers aren’t required to enforce the guidelines of the technical
 specifications and have a fair degree of freedom to deviate from them.
 Consequently, enterprise administrators usually undertake a fairly
 rigorous regimen of testing, analysis and troubleshooting to arrive at a
-configuration block that ensures seamless service provider peering.
+configuration block that ensures seamless service provider peering. However,
+this workflow complements the SIP Connect technical recommendations, in
+that both endeavours aim to promote/achieve interop between the
+enterprise and service provider.
 
 Another set of interoperability problems arise when enterprise
 administrators are required to translate a set of technical
@@ -299,30 +302,19 @@ this draft allow for smooth IP peering between enterprise and SIP
 service provider networks by encoding the essential session and media
 characteristics. It is NOT RECOMMENDED to encode information that is
 sensitive in nature. It is only required for the client (enterprise edge
-element) to authenticate the SIP service provider. If however, there is
-a need for the SIP service provider to authenticate the enterprise edge
-element, client authentication mechanisms based on OAuth 2.0 token are
-RECOMMENDED. The specifics of how the client obtains such tokens is
-outside the scope of this draft. Section 11 provides an example of how
-clients may be authenticated using OAuth 2.0 tokens.
+element) to authenticate the SIP service provider. 
 
 ## Encoding the Request
 
 The edge element in the enterprise network generates a HTTPS GET request
-such that the request-target is obtained using the procedure outlined in
-section 6.6 The MIME types for the capability set document defined in
-this draft are “application/peering-info+json” and
-“application/peering-info+xml”. Accordingly, the Accept header field
-value MUST be restricted only to these MIME types. It is possible that
-the edge element supports responses formatted in both JSON and XML. In
-such situations, the edge element might generate a HTTPS GET request
-such that the Accept header field includes both MIME types along with
-the corresponding “qvalue” for each MIME type. For implementations that
-require client authentication, the bearer access token acquired by the
-client (see section 6.3) MUST be presented to the capability server to
-the obtain the capability set document. The bearer token is presented in
-the “Authorization” header field of the GET request as specified in
-Section 2.1 of [@RFC6750].
+with the request-target obtained either manually or automatically.
+The MIME types for the capability set document defined in this draft 
+are “application/peering-info+json” and “application/peering-info+xml”.
+Accordingly, the Accept header field value MUST be restricted only to 
+these MIME types. It is possible that the edge element supports responses
+formatted in both JSON and XML. In such situations, the edge element might
+generate a HTTPS GET request such that the Accept header field includes 
+both MIME types along with the corresponding “qvalue” for each MIME type. 
 
 The generated HTTPS GET request MUST NOT use the “Expect” and “Range”
 header fields. The requests also MUST NOT use any conditional request.
@@ -362,128 +354,10 @@ request-target. The enterprise edge element might obtain the URL of the
 resource hosted on the capability server in one of two ways:
 
 1. Manual Configuration 
-2. Using the WebFinger Protocol
+2. Discovery and Automatic configuration
 
-The complete HTTPS URLs to be used when authenticating the enterprise
-edge element (optional) and obtaining the SIP service provider
-capability set can be obtained from the SIP service provider beforehand
-and entered into the edge element manually via some interface – for
-example, a CLI or GUI.
+[TBD]
 
-However, if the resource URL is unknown to the administrator (and by
-extension of that to the edge element), the WebFinger protocol
-[@RFC7033] may be leveraged. From the perspective of this draft, three
-link relation types (rel) are defined, namely:
-
-1. Capability Server: The base URL of the capability server hosting the
-capability set document. 
-2. Authorization Endpoint: The URL of the authorization endpoint to be used for OAuth 2.0 
-3. Token Endpoint: The URL of the token endpoint to be used for OAuth 2.0
-
-The corresponding link relation type values are as follows:
-
-1. Capability Server: “http://sipserviceprovider/capserver” 
-2. Authorization Endpoint: “http://sipserviceprovider/auth” 
-3. Token Endpoint: “http://sipserviceprovider/token”
-
-If an enterprise edge element attempts to discover the URL of the
-endpoints hosted in the ssp1.example.com domain, it issues the following
-request (line wraps are for display purposes only)
-
-```
-    GET /.well-known/webfinger?
-      resource=http%3A%2F%2Fssp1.example.com
-      &rel=http%3A%2f%2fsipserviceprovider%2fcapserver
-      &rel=http%3A%2f%2fsipserviceprovider%2auth
-      &rel= http%3A%2f%2fsipserviceprovider%2token
-      HTTP/1.1
-    Host: ssp1.example.com
-
-```
-
-The response to the above request might be as follows:
-
-```
-    HTTP/1.1 200 OK
-    Access-Control-Allow-Origin: *
-    Content-Type: application/jrd+json
-    {
-      "subject" : "http://ssp1.example.com",
-      "links" :
-      [
-        {
-          "rel" : "http://sipserviceprovider/capserver",
-          "href" : "https://capserver.ssp1.com"
-        },
-        {
-          "rel" : "http://sipserviceprovider/auth",
-          "href" : "https://ssp1.com/authorize"
-        },
-        {
-          "rel" : "http://sipserviceprovider/token",
-          "href" : "https://ssp1.com/token"
-        }
-      ]
-    }
-```
-
-SIP service providers MUST support the “https” URI and “acct” URI [link]
-schemes in WebFinger queries. The “acct” URI scheme might be used in the
-WebFinger query, if the enterprise adminsitrator is provided with a
-username by the SIP service provider. The SIP service provider might
-provide a unique username for each SIP trunk purchased by the enterprise
-network or a single username that is applicable to all the trunks
-purchased by the enterprise network. This draft does not require SIP
-service providers or enterprise networks to favor one URI scheme over
-the other; rather, the choice of which scheme to use is left to the
-discretion of the SIP service provider. The security considerations of
-using the “acct” URI is provided in section 5 of [@RFC7565].
-
-The base URL of the capability server returned in the WebFinger response
-SHOULD not contain a path or query component. Once the base URL is
-obtained, the enterprise edge element builds on the base URL to identify
-the capability set document on the capability server. The general format
-for identifying resources on a capability server is as follows:
-
-```
-<scheme> /<baseURL>/<path>?<query>
-```
-
-scheme: Is always HTTPS in the context of this draft.
-
-baseURL: The base URL of the capability server discovered as a result of
-the WebFinger query.
-
-path: The path expression identifying the capability set document on the
-capability server. The path expression MUST be set to the static string
-of “capdoc”.
-
-query: A query string identifying a specific representation of the
-capability set document. The format of the query string is in the form
-of a “name=value” pair. This draft defines the following optional query
-parameter:
-
-trunkid: A parameter uniquely identifying the SIP trunk for which
-the capability set document is sought.
-
-The “trunkid” is useful in situations in which an enterprise SIP network
-has multiple SIP trunks with the SIP service provider, such that
-parameters for such trunks vary, perhaps because of the geographical
-distribution of these sites. The value of the “trunkid” parameter is
-generated by the SIP service provider and communicated to the enterprise
-SIP network by some out-of-band mechanism, for example, it may be
-provided in an email to the enterprise administrator after the trunk is
-purchased. It is RECOMMENDED that SIP service providers generate unique
-trunk identifiers across enterprise networks.
-
-It is RECOMMENDED that SIP service provider networks support the
-“trunkid” query parameter. SIP service providers expose varying
-capability sets to different enterprise SIP telephony networks. Using
-the “trunkid” query parameter not only helps the SIP service provider
-capability server to uniquely identify the trunk/enterprise/edge element
-for which the capability set document is being request, but also, it is
-helpful in generating unique URL strings for capability set documents.
-These unique URL strings are helpful in HTTP content caching.
 
 # State Deltas
 
@@ -888,57 +762,6 @@ This section provides examples of how capability set documents that
 leverage the YANG module defined in this document can be encoded over
 JSON or XML.
 
-## JSON Capability Set Document
-
-```
-    {       
-      "peering-info:variant": "1.0",
-      "transport-info": {
-        "transport": "TCP;TLS;UDP",
-        "registrar": ["registrar1.voip.example.com:5060", "registrar2.voip.example.com:5060"],
-        "registrarRealm": "voip.example.com",
-        "callControl": ["callServer1.voip.example.com:5060", "192.168.12.25:5065"],
-        "dns": [8.8.8.8, 208.67.222.222],
-        "outboundProxy": "0.0.0.0"
-      },
-      "call-specs": {
-        "earlyMedia": "true",
-        "signalingForking": "false",
-        "supportedMethods": "INVITE;OPTIONS;BYE;CANCEL;ACK;PRACK;SUBSCRIBE;NOTIFY;REGISTER"
-      },
-      "media": {
-        "mediaTypeAudio": {
-          "mediaFormat": ["PCMU;rate=8000;ptime=20","G729;rate=8000;annexb=yes","G722;rate=8000;bitrate=56k,64k"]
-        },
-        "fax": {
-          "protocol": ["pass-through", "t38"]
-        },
-        "rtp": {
-          "RTPTrigger": "false",
-          "symmetricRTP": "true"
-        },
-        "rtcp": {
-          "symmetricRTCP": "true",
-          "RTCPFeedback": "true"
-        }
-      },
-      "dtmf": {
-        "payloadNumber": "101",
-        "iteration": "0"
-      },
-      "security": {
-        "signaling": {
-          "type": "TLS",
-          "version": "1.0;1.2"
-        },
-        "mediaSecurity": {
-          "keyManagement": "SDES;DTLS-SRTP,version=1.2"
-        }
-      },
-      "extensions": "timer;rel100;gin;path"
-    } 
-```
-
 ## XML Capability Set Document
 
 ```
@@ -1004,110 +827,15 @@ This section depicts an example of the configuration flow that
 ultimately results in the enterprise edge element obtaining the
 capability set document from the SIP service provider.
 
-Assuming the enterprise edge element isn’t pre-configured with the
-request target for the capability set document and is required to
-authenticate with the SIP service provider capability server, the
-following sequence of events are put into motion to obtain the
-capability set document:
-
-The enterprise edge element generates a WebFinger query to discover
-endpoints hosted in the ssp1.example.com domain (line wraps are for
-display purposes only)
-
-```
-    GET /.well-known/webfinger?
-      resource=http%3A%2F%2Fssp1.example.com
-      &rel=http%3A%2f%2fsipserviceprovider%2fcapserver
-      &rel=http%3A%2f%2fsipserviceprovider%2auth
-      &rel= http%3A%2f%2fsipserviceprovider%2token
-      HTTP/1.1
-    Host: ssp1.example.com 
-```
-
-The resulting WebFinger response, contains the URLs of the capability
-server, the OAuth 2.0 authorization endpoint and OAuth 2.0 token
-endpoint.
-
-```
-    HTTP/1.1 200 OK
-    Access-Control-Allow-Origin: *
-    Content-Type: application/jrd+json
-    {
-      "subject" : "http://ssp1.example.com",
-      "links" :
-      [
-        {
-          "rel" : "http://sipserviceprovider/capserver",
-          "href" : "https://capserver.ssp1.com"
-        },
-        {
-          "rel" : "http://sipserviceprovider/auth",
-          "href" : "https://ssp1.com/authorize"
-        },
-        {
-          "rel" : "http://sipserviceprovider/token",
-          "href" : "https://ssp1.com/token"
-        },    
-      ]
-    }
-```
-
-The endpoint URLs returned in the WebFinger response are stored by the
-edge element and referenced when required. Then, the administrator logs
-into the GUI of the edge element and initiates the download of the
-service provider capability set (perhaps by clicking on a button). This
-triggers the edge element to redirect the administrator to the OAuth 2.0
-authorization endpoint (discovered via WebFinger). Once the
-administrator is authenticated and provides authorization, flow is
-redirected to the callback URL of the edge element application. The edge
-element then contacts the OAuth 2.0 token endpoint (discovered via
-WebFinger) to authenticate itself and obtain access and refresh tokens.
-Accordingly, the edge element mints a JWT bearer token to authenticate
-itself with the token endpoint and obtain an access and refresh token.
-Below is an example of client authentication using a JWT during the
-presentation of an authorization code grant for an access token request
-(line wraps are for display purposes only).
-
-```
-    POST /token  HTTP/1.1
-    Host: ssp1.com
-    Content-Type: application/x-www-form-urlencoded
-
-    grant_type=authorization_code&
-    code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4&
-    client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
-    client-assertion-type%3Ajwt-bearer&
-    client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.
-    eyJpc3Mi[...omitted for brevity...].
-    cC4hiUPo[...omitted for brevity...] 
-```
-
-If the request is acceptable to the token endpoint, an access token and
-a refresh token is provided in the response. For example:
-
-```
-    HTTP/1.1 200 OK
-    Content-Type: application/json;charset=UTF-8
-    Cache-Control: no-store
-    Pragma: no-cache
-
-    {
-      "access_token":"sF_9.B5f-4.1JqM",
-      "token_type":"Bearer",
-      "expires_in":86400,
-      "refresh_token":"hGzv3JOkF0XG5Qx2TlKWIA"
-    }
-```
-
-The obtained bearer access token can subsequently be used to obtain the
-capability set document for the capability server. The edge element
-generates a HTTPS GET request with the bearer token included in the
-Authorization header field.
+Assuming the enterprise edge element has been pre-configured with the
+request target for the capability set document or has dynamically 
+found the request target, the edge element generates a HTTPS GET request.
+This request can be challenged by the service provider to authenticate
+the enterprise.
 
 ```
     GET //capdoc?trunkid=trunkent1456 HTTP/1.1
     Host: capserver.ssp1.com
-    Authorization: Bearer mF_9.B5f-4.1JqM
     Accept:application/peering-info+xml
 ```
 
@@ -1126,56 +854,11 @@ is encoded in XML.
 
 # Security Considerations
 
-Capability set documents have a significant bearing on the quality of
-the peering relationship between an enterprise and service provider
-network. These documents can be modified by an attacker to drastically
-impact the quality of communication sessions between enterprise and
-service provider networks. Additionally, capability set documents
-contain parameters that may be considered sensitive from the perspective
-of the SIP service provider. For example, the YANG model defined in this
-document might be extended by SIP service providers to include account
-sensitive information such as the username and password to used when
-generating an MD5 response to 401/407 SIP challenges.
-
-To ensure the problems discussed in the previous paragraph are accounted
-for, the following considerations MUST be taken into account:
-
-* Integrity and Confidentiality
-
-Request and responses for the capability set documents are defined over
-HTTP. However, due to the sensitive nature of information transmitted
-between client and server, it is required to secure HTTP using Transport
-Layer Security. The enterprise edge element and capability server MUST
-be compliant to [@RFC7235]. The enterprise edge element and capability
-server MUST support the use of the https uri scheme as defined in
-[@RFC7230].
-
-* Authenticated Client Identity
-
-While this draft does not enforce client authentication, there are
-situations in which client need to authenticated by SIP service
-providers before they are provided capability set documents. In such
-situations client MUST be authenticated using the procedures outlined in
-section 6.3 of this draft.
-
-* The “trunkid” parameter
-
-It is RECOMMENDED that enterprise edge elements use the “trunkid”
-parameter in query strings when requesting for the capability set
-documents. The value of “trunkid” parameter is generated by the SIP
-service provider and provided to the administrator via some out-of-band
-mechanism. SIP service providers MUST ensure that value of the “trunkid”
-parameters does not inadvertently communicate sensitive information to
-an attacker such as a username or password credential.
-
-In addition to the considerations listed above, all the security
-considerations that are part of the WebFinger and OAuth 2.0
-specifications are applicable to this draft.
-
+[TBD]
 
 # Acknowledgments
 
-TBD
+[TBD]
 
 {backmatter}
 
