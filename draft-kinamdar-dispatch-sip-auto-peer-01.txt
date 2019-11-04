@@ -10,7 +10,7 @@ Expires: May 6, 2020                                       Cisco Systems
 
 
                     Automatic Peering for SIP Trunks
-                draft-kinamdar-dispatch-sip-audo-peer-01
+                draft-kinamdar-dispatch-sip-auto-peer-01
 
 Abstract
 
@@ -130,7 +130,7 @@ Internet-Draft                SIP Auto Peer                November 2019
    testing, analysis and troubleshooting to arrive at a configuration
    block that ensures seamless service provider peering.  However, this
    workflow complements the SIP Connect technical recommendations, in
-   that both endeavours aim to promote/achieve interop between the
+   that both endeavours aim to promote/achieve interoperability between the
    enterprise and service provider.
 
    Another set of interoperability problems arise when enterprise
