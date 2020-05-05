@@ -8,7 +8,7 @@
 Title = "Automatic Peering for SIP Trunks"
 abbrev = "SIP Auto Peer"
 category = "std"
-docName = "draft-kinamdar-dispatch-sip-auto-peer-01"
+docName = "draft-kinamdar-dispatch-sip-auto-peer-02"
 ipr= "trust200902"
 area = "Internet"
 keyword = ["SIP","YANG"]
@@ -429,27 +429,27 @@ document. It imports modules (ietf-yang-types and ietf-inet-types) from
 This sub-sections provides the definition and encoding rules of the
 various nodes of the YANG module defined in section 9.2
 
-* **capability-set**: This node serves as a container for all the other
+* capability-set: This node serves as a container for all the other
 nodes in the YANG module; the capability-set node is akin to the root
 element of an XML schema.
 
-* **variant**: This node identifies the version number of the capability
+* variant: This node identifies the version number of the capability
 set document. This draft defines the parameters for variant 1.0; future
 specifications might define a richer parameter set, in which case the
 variant can be changed to 2.0, 3.0 and so on. Future extensions to the
 capability set document MUST also ensure that the corresponding YANG
 module is defined.
 
-* **transport-info**: The transport-info node is a container that
+* transport-info: The transport-info node is a container that
 encapsulates transport characteristics of SIP sessions between
 enterprise and service provider networks.
 
-* **transport**: A leaf node that enumerates the different Transport
+* transport: A leaf node that enumerates the different Transport
 Layer protocols supported by the SIP service provider. Valid transport
 layer protocols include: UDP, TCP, TLS or a combination of them (with
 the exception of TLS and UDP).
 
-* **registrar**: A leaf-list that specifies the transport address of one
+* registrar: A leaf-list that specifies the transport address of one
 or more registrar servers in the service provider network. The transport
 address of the registrar can be provided using a combination of a valid
 IP address and port number, or a subdomain of the SIP service provider
@@ -459,7 +459,7 @@ using either a subdomain or a fully qualified domain name, the DNS
 element needs to be populated with one or more valid DNS server IP
 addresses.
 
-* **callControl**: A leaf-list that specifies the transport address of
+* callControl: A leaf-list that specifies the transport address of
 the call server(s) in the service provider network. The enterprise
 network MUST use an applicable transport protocol in conjunction with
 the call control server(s) transport address when transmitting call
@@ -473,7 +473,7 @@ DNS element MUST be populated with one or more valid DNS server IP
 addresses. The transport address specified in this element can also
 serve as the target for non-call requests such as SIP OPTIONS.
 
-* **dns**: A leaf list that encodes the IP address of one or more DNS
+* dns: A leaf list that encodes the IP address of one or more DNS
 servers hosted by the SIP service provider. If the enterprise network is
 unaware of the IP address, port number, and transport protocol of
 servers within the service provider network (for example, the registrar
@@ -486,7 +486,7 @@ registrar or callControl elements or both are populated with a valid IP
 address and port pair, the dns element MUST be set to the quadruple
 octet of 0.0.0.0.
 
-* **outboundProxy**: A leaf list that specifies the transport address of
+* outboundProxy: A leaf list that specifies the transport address of
 one or more outbound proxies. The transport address can be specified by
 using a combination of an IP address and a port number, a subdomain of
 the SIP service provider network, or a fully qualified domain name and
@@ -496,11 +496,11 @@ the default destination for all outbound SIP requests and therefore, the
 registrar and callControl elements MUST be populated with the quadruple
 octet of 0.0.0.0.
 
-* **call-specs**: A container that encapsulates information about call
+* call-specs: A container that encapsulates information about call
 specifications, restrictions and additional handling criteria for SIP
 calls between the enterprise and service provider network.
 
-* **earlyMedia**: A leaf that specifies whether the service provider
+* earlyMedia: A leaf that specifies whether the service provider
 network is expected to deliver in-band announcements/tones before call
 connect. The P-Early-Media header field can be used to indicate
 pre-connect delivery of tones and announcements on a per-call basis.
@@ -514,7 +514,7 @@ that the service provider is capable of early media. A value of 0/false
 signifies that the service provider is not expected to generate early
 media.
 
-* **signalingForking**: A leaf that specifies whether outbound call
+* signalingForking: A leaf that specifies whether outbound call
 requests from the enterprise might be forked on the service provider
 network leading to multiple early dialogs. This information would be
 useful to the enterprise network in appropriately handling multiple
@@ -524,25 +524,25 @@ network can potentially fork outbound call requests from the enterprise.
 A value of 0/false indicates that the service provider will not fork
 outbound call requests.
 
-* **supportedMethods**: A leaf node that specifies the various SIP
+* supportedMethods: A leaf node that specifies the various SIP
 methods supported by the SIP service provider. The list of supported
 methods help to appropriately configuration various devices within the
 enterprise network. For example, if the service provider enumerates
 support for the OPTIONS method, the enterprise network could
 periodically send OPTIONS requests as a keep-alive mechanism.
 
-* **media**: A container that is used to collectively encapsulate the
+* media: A container that is used to collectively encapsulate the
 characteristics of UDP-based audio streams. A future extension
 to this draft may extend the media container to describe other media
 types. The media container is also used to encapsulate basic information
 about Real-Time Transport Protocol (RTP) and Real-Time Transport Control
 Protocol (RTCP) from the perspective of the service provider network.
 
-* **mediaTypeAudio**: A container for the mediaFormat leaf-list. This
+* mediaTypeAudio: A container for the mediaFormat leaf-list. This
 container collectively encapsulates the various audio media formats
 supported by the SIP service provider.
 
-* **mediaFormat**: A leaf-list encoding the various audio media formats
+* mediaFormat: A leaf-list encoding the various audio media formats
 supported by the SIP service provider. The relative ordering of
 different media format leaf nodes from left to right indicates
 preference from the perspective of the service provider. Each
@@ -564,17 +564,17 @@ parameters are all separated by a semicolon. The formatting of a given
 media format parameter, MUST follow the formatting rules as specified
 for that media format.
 
-* **fax**: A container that encapsulates the fax protocol(s) supported
+* fax: A container that encapsulates the fax protocol(s) supported
 by the SIP service provider. The fax container encloses a leaf-list
 (named protocol) that enumerates whether the service provider supports
 t38 relay, protocol-based fax passthrough or both. The relative ordering
 of leaf nodes within the leaf lists indicates preference.
 
-* **rtp**: A container that encapsulates generic characteristics of RTP
+* rtp: A container that encapsulates generic characteristics of RTP
 sessions between the enterprise and service provider network. This node
 is a container for the “RTPTrigger” and “SymmetricRTP” leaf nodes.
 
-* **RTPTrigger**: A leaf node indicating whether the SIP service
+* RTPTrigger: A leaf node indicating whether the SIP service
 provider network always expects the enterprise network to send the first
 RTP packet for an established communication session. This information is
 useful in scenarios such as “hairpinned” calls, in which the caller and
@@ -594,7 +594,7 @@ practise. In the context of a hairpinned call, the enterprise device
 retained in the call flow can easily eavesdrop on the conversation
 between the offnet parties.
 
-* **symmetricRTP**: A leaf node indicating whether the SIP service
+* symmetricRTP: A leaf node indicating whether the SIP service
 provider expects the enterprise network to use symmetric RTP as defined
 in [@RFC4961]. Uncovering this expectation is useful in scenarios where
 “latching” [@RFC3762] is implemented in the service provider network.
@@ -603,12 +603,12 @@ service provider expects the enterprise network to use symmetric RTP,
 whereas a value of 0/false indicates that the enterprise network can use
 asymmetric RTP.
 
-* **rtcp**: A container that encapsulates generic characteristics of
+* rtcp: A container that encapsulates generic characteristics of
 RTCP sessions between the enterprise and service provider network. This
 node is a container for the “RTCPFeedback” and “SymmetricRTCP” leaf
 nodes.
 
-* **RTCPFeedback**: A leaf node that indicates whether the SIP service
+* RTCPFeedback: A leaf node that indicates whether the SIP service
 provider supports the RTP profile extension for RTCP-based feedback
 [@RFC4585]. Media sessions spanning enterprise and service provider
 networks, are rarely made to flow directly between the caller and
@@ -630,13 +630,13 @@ provider supports the RTP profile extension for RTP-based feedback and a
 value of 0/false indicates that the service provider does not support
 the RTP profile extension for RTP-based feedback.
 
-* **symmetricRTCP**: A leaf node indicating whether the SIP service
+* symmetricRTCP: A leaf node indicating whether the SIP service
 provider expects the enterprise network to use symmetric RTCP as defined
 in [@RFC4961]. This node is a Boolean type, a value of 1 indicates that
 the service provider expects symmetric RTCP reports, whereas a value of
 0 indicates that the enterprise can use asymmetric RTCP.
 
-* **dtmf**: A container that describes the various aspects of DTMF relay
+* dtmf: A container that describes the various aspects of DTMF relay
 via RTP Named Telephony Events. The dtmf container allows SIP service
 providers to specify two facets of DTMF relay via Named Telephony
 Events:
@@ -660,32 +660,32 @@ way NTE events are transmitted. SIP service providers can indicate
 support for [@RFC4733] by setting the iteration flag to 1 or indicating
 support for [@RFC2833] by setting the iteration flag to 0.
 
-* **security**: A container that encapsulates characteristics about
+* security: A container that encapsulates characteristics about
 encrypting signalling streams between the enterprise and SIP service
 provider networks.
 
-* **signaling**: A container that encapsulates the type of security
+* signaling: A container that encapsulates the type of security
 protocol for the SIP communication between the enterprise SBC and the
 service provider.
 
-* **type**: A leaf node that specifies the protocol used for protecting
+* type: A leaf node that specifies the protocol used for protecting
 SIP signalling messages between the enterprise and service provider
 network. The value of the type leaf node is only defined for Transport
 Layer Security (TLS). Accordingly, if TLS is allowed for SIP sessions
 between the enterprise and service provider network, the type leaf node
 is set to the string “tls”.
 
-* **version**: A leaf node that specifies the version(s) of TLS
+* version: A leaf node that specifies the version(s) of TLS
 supported in decimal format. If multiple versions of TLS are supported,
 they MUST be separated by semi-colons. If the service provide does not
 support TLS for protecting SIP sessions, the signalling element is set
 to the string “NULL”.
 
-* **mediaSecurity**: A container that describes the various
+* mediaSecurity: A container that describes the various
 characteristics of securing media streams between enterprise and service
 provider networks.
 
-* **keyManagement**: A leaf node that specifies the key management
+* keyManagement: A leaf node that specifies the key management
 method used by the service provider. Possible values of this node
 include: “SDES” and “DTLS-SRTP”. A value of “SDES” signifies that the
 SIP service provider uses the methods defined in [@RFC4568] for the
@@ -697,7 +697,7 @@ be encoded as per the formatting rules of Section 9.2. If the service
 provider does not support media security, the keyManagement node MUST be
 set to “NULL”.
 
-* **extensions**: A leaf node that is a semicolon separated list of all
+* extensions: A leaf node that is a semicolon separated list of all
 possible SIP option tags supported by the service provider network.
 These extensions MUST be referenced using name registered under IANA. If
 the service provider network does not support any extensions to baseline
