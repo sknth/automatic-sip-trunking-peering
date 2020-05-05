@@ -8,7 +8,7 @@
 Title = "Automatic Peering for SIP Trunks"
 abbrev = "SIP Auto Peer"
 category = "std"
-docName = "draft-kinamdar-dispatch-sip-auto-peer-02"
+docName = "draft-kinamdar-dispatch-sip-auto-peer-03"
 ipr= "trust200902"
 area = "Internet"
 keyword = ["SIP","YANG"]
