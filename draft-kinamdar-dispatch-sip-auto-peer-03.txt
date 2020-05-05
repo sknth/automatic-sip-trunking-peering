@@ -10,7 +10,7 @@ Expires: Nov 5, 2020                                       Cisco Systems
 
 
                     Automatic Peering for SIP Trunks
-                draft-kinamdar-dispatch-sip-auto-peer-02
+                draft-kinamdar-dispatch-sip-auto-peer-03
 
 Abstract
 
