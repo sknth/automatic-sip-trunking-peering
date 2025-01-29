@@ -1,17 +1,30 @@
 module: ietf-sip-auto-peering
   +--rw peering-info
      +--rw variant           string
+     +--rw revision
+     |  +--rw notBefore    string
+     |  +--rw location     string
      +--rw transport-info
-     |  +--rw transport?        enumeration
-     |  +--rw registrar*        host-port
-     |  +--rw registrarRealm?   string
-     |  +--rw callControl*      host-port
-     |  +--rw dns*              inet:ip-address
-     |  +--rw outboundProxy?    host-port
+     |  +--rw transport        enumeration
+     |  +--rw registrar*       host-port
+     |  +--rw realms* [name]
+     |  |  +--rw name        string
+     |  |  +--rw username?   string
+     |  |  +--rw password?   string
+     |  +--rw callControl*     host-port
+     |  +--rw dns*             inet:ip-address
+     |  +--rw outboundProxy?   host-port
      +--rw call-specs
      |  +--rw earlyMedia?         boolean
      |  +--rw signalingForking?   boolean
      |  +--rw supportedMethods?   string
+     |  +--rw callerId
+     |  |  +--rw e164Format?        boolean
+     |  |  +--rw preferredMethod?   string
+     |  +--rw numRange
+     |     +--rw numRangeType?   string
+     |     +--rw count?          int32
+     |     +--rw value*          string
      +--rw media
      |  +--rw mediaTypeAudio
      |  |  +--rw mediaFormat*   string
@@ -28,8 +41,13 @@ module: ietf-sip-auto-peering
      |  +--rw iteration?       boolean
      +--rw security
      |  +--rw signaling
-     |  |  +--rw type?      string
+     |  |  +--rw secure?    boolean
      |  |  +--rw version?   string
      |  +--rw mediaSecurity
-     |     +--rw keyManagement?   string
+     |  |  +--rw keyManagement?   string
+     |  +--rw certLocation?              string
+     |  +--rw secureTelephonyIdentity
+     |     +--rw STIRCompliance?   boolean
+     |     +--rw certDelegation?   boolean
+     |     +--rw ACMEDirectory?    string
      +--rw extensions?       string
