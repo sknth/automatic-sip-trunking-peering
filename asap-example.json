@@ -1,0 +1,86 @@
+    {
+    	"ietf-sip-auto-peering:peering-info": {
+            "variant": "1.0",
+            "revision": {
+                "notBefore": "2021-10-16T00:00:00.00000Z",
+                "location":
+                "https://capserver.example.org/capserver/capdoc.json"
+            },
+            "transport-info": {
+                "transport": "TCP;TLS;UDP",
+                "registrar": ["registrar1.voip.example.com:5060",
+                 "registrar2.voip.example.com:5060"],
+                "realms": [{
+                    "name": "voip.example.com",
+                    "username": "voip",
+                    "password": "TYnsdfji@312=="
+                }],
+                "callControl": ["callServer1.voip.example.com:5060",
+                 "192.168.12.25:5065"],
+                "dns": ["8.8.8.8", "208.67.222.222"],
+                "outboundProxy": "0.0.0.0:5060"
+            },
+            "call-specs": {
+                "earlyMedia": true,
+                "signalingForking": false,
+                "supportedMethods": "INVITE;OPTIONS;BYE;CANCEL;ACK;PRACK;SUBSCRIBE;NOTIFY;REGISTER",
+                "callerId": {
+                    "e164Format": true,
+                    "preferredMethod": "P-Asserted-Identity"
+                },
+                "numRanges": [{
+                    "index": 0,
+                    "type": "range",
+                    "count": 20,
+                    "value": ["19725455000"]
+                },
+                {
+                    "index": 1,
+                    "type": "collection",
+                    "count": 2,
+                    "value": ["19725455000", "19725455001"]
+                }]
+            },
+            "media": {
+                "mediaTypeAudio": {
+                    "mediaFormat": ["PCMU;rate=8000;ptime=20",
+                     "G729;rate=8000;annexb=yes",
+                     "G722;rate=8000;bitrate=56k,64k"]
+                },
+                "fax": {
+                    "protocol": ["t38", "pass-through"]
+                },
+                "rtp": {
+                    "RTPTrigger": true,
+                    "symmetricRTP": true
+                },
+                "rtcp": {
+                    "symmetricRTCP": true,
+                    "RTCPFeedback": true
+                }
+            },
+            "dtmf": {
+                "payloadNumber": 101,
+                "iteration": false
+            },
+            "security": {
+                "signaling": {
+                    "secure": true,
+                    "version": "1.0;1.2"
+                },
+                "mediaSecurity": {
+                    "keyManagement": "SDES;DTLS-SRTP,version=1.2"
+                },
+                "certLocation":
+                  "https://sipserviceprovider.com/certificateList.pem",
+                "secureTelephonyIdentity": {
+                    "STIRCompliance": true,
+                    "certDelegation": true,
+                    "ACMEDirectory":
+                        "https://sipserviceprovider.com/acme.html"
+                }
+            },
+            "extensions": "timer;rel100;gin;path"
+        }
+    }
+
