@@ -380,7 +380,8 @@ module: ietf-sip-auto-peering
         <t>
 This section defines the YANG module for the peering capability set
 document.</t>
-    <sourcecode name="ietf-sip-auto-peering@2022-12-26.yang" markers="true">
+    <sourcecode name="ietf-sip-auto-peering@2022-12-26.yang"
+      markers="true">
     <![CDATA[
     module ietf-sip-auto-peering {
       namespace "urn:ietf:params:xml:ns:ietf-sip-auto-peering";
@@ -846,7 +847,7 @@ Consider a new YANG module "vendorA" specified for VendorA's enterprise
 SBC. The "vendorA-config" YANG module is configured as follows:
 
 </t>
-        <artwork name="" type="" align="left" alt=""><![CDATA[
+    <artwork name="" type="" align="left" alt=""><![CDATA[
     module vendorA-config {
       namespace "urn:ietf:params:xml:ns:yang:vendorA-config";
       prefix "vendorA";
@@ -905,9 +906,10 @@ edge element and the service provider to acquire the capability set
 document.
 
 </t>
-      <section anchor="json-capability-set-document" numbered="true" toc="default">
-        <name>JSON Capability Set Document</name>
-        <sourcecode name="asap-example.json" type="json" markers="true">
+  <section anchor="json-capability-set-document" 
+    numbered="true" toc="default">
+    <name>JSON Capability Set Document</name>
+    <sourcecode name="asap-example.json" type="json" markers="true">
         <![CDATA[
     {
     	"peering-info": {
