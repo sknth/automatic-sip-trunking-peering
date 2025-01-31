@@ -116,8 +116,15 @@ module ietf-sip-auto-peering {
     DNS domain name followed by a port number.";
   }
 
-  container peering-info {
+  list peering-info {
+    key index;
+    max-elements 1;
     description "The root of all capabilities in the documents.";
+
+    leaf index {
+      type int32;
+      description "Index for the peering-info set.";
+    }
 
     leaf variant {
       type string;

@@ -1,5 +1,6 @@
 module: ietf-sip-auto-peering
-  +--rw peering-info
+  +--rw peering-info* [index]
+     +--rw index             int32
      +--rw variant           string
      +--rw revision
      |  +--rw notBefore    string

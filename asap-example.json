@@ -1,5 +1,5 @@
     {
-    	"ietf-sip-auto-peering:peering-info": {
+    	"ietf-sip-auto-peering:peering-info": [{
             "variant": "1.0",
             "revision": {
                 "notBefore": "2021-10-16T00:00:00.00000Z",
@@ -81,6 +81,6 @@
                 }
             },
             "extensions": "timer;rel100;gin;path"
-        }
+        }]
     }
 
