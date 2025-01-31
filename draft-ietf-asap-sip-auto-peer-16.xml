@@ -440,7 +440,7 @@ module ietf-sip-auto-peering {
   revision 2025-01-30 {
     description "Capability set document v2.";
     reference
-      "draft-ietf-asap-sip-auto-peer-16:
+      "draft-ietf-asap-sip-auto-peer-14:
       Automatic Peering for SIP Trunks";
   }
 
@@ -503,8 +503,15 @@ module ietf-sip-auto-peering {
     DNS domain name followed by a port number.";
   }
 
-  container peering-info {
+  list peering-info {
+    key index;
+    max-elements 1;
     description "The root of all capabilities in the documents.";
+
+    leaf index {
+      type int32;
+      description "Index for the peering-info set.";
+    }
 
     leaf variant {
       type string;
