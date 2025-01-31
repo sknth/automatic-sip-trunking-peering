@@ -21,10 +21,11 @@ module: ietf-sip-auto-peering
      |  +--rw callerId
      |  |  +--rw e164Format?        boolean
      |  |  +--rw preferredMethod?   string
-     |  +--rw numRange
-     |     +--rw numRangeType?   string
-     |     +--rw count?          int32
-     |     +--rw value*          string
+     |  +--rw numRanges* [index]
+     |     +--rw index    int32
+     |     +--rw type?    string
+     |     +--rw count?   int32
+     |     +--rw value*   string
      +--rw media
      |  +--rw mediaTypeAudio
      |  |  +--rw mediaFormat*   string
@@ -35,7 +36,7 @@ module: ietf-sip-auto-peering
      |  |  +--rw symmetricRTP?   boolean
      |  +--rw rtcp
      |     +--rw symmetricRTCP?   boolean
-     |     +--rw RTCPfeedback?    boolean
+     |     +--rw RTCPFeedback?    boolean
      +--rw dtmf
      |  +--rw payloadNumber?   int8
      |  +--rw iteration?       boolean
