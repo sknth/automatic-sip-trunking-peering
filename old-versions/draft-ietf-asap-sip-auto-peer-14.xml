@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-15">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-14">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -142,7 +142,7 @@ HTTPS <xref target="RFC9110" /> server.
           <li>Enterprise Network: A communications network infrastructure deployed by an enterprise which interconnects with the service provider network over SIP. The enterprise network could include devices such as application servers, endpoints, call agents and edge devices, among others.</li>
           <li>Edge Device: A device that is the last hop in the enterprise network and that is the transit point for traffic entering and leaving the enterprise. An edge device is typically a back-to-back user agent (B2BUA) <xref target = "RFC7092" /> such as a Session Border Controller (SBC).</li>
           <li>Service Provider Network: A communications network infrastructure deployed by service providers. In the context of this draft, the service provider network is accessible over SIP for the establishment, modification and termination of calls and accessible over HTTPS for the transfer of the capability set document. The service provider network is also referred to as a SIP Service Provider (SSP) or Internet Telephony Service Provider (ITSP) network.</li>
-          <li>Call Control: Call Control within a telephony networks refers to software that is responsible for delivering its core functionality. Call control not only provides the basic functionality of setting up, sustaining and terminating calls, but also provides the necessary control and logic required for additional services within the telephony network, such as, registration of endpoints, integration with application servers (voicemail, instant messaging, presence), among others.</li>
+          <li>Call Control: Call Control within a telephony networks refers to software that is responsible for delivering its core functionality. Call control not only provides the basic functionality of setting up, sustaining and terminating calls, but also provides the necessary control and logic required for additional services within the telephony network, such as, registration of endpoints, intergration with application servers (voicemail, instant messaging, presence), among others.</li>
           <li>Capability Server: A server hosted in the service provider network, such that this server is the target for capability set document requests from the enterprise network.</li>
           <li>Capability Set: The term capability set (or capability set document) refers collectively to a set of characteristics within the service provider network, which when communicated to the enterprise network, provides the enterprise network the information required to interconnect with the service provider network. The various parameters that constitute the capability set relate to characteristics that are specific to signalling, media, transport and security. Certain aspects of interconnecting with service providers are out of scope of the capability set; for example, the access technology used to interconnect with service provider networks.</li>
         </ul>
@@ -198,7 +198,7 @@ document are to be interpreted as described in <xref target="BCP-14" />
         <t>HTTP usually adopts asymmetric methods of authentication. For example, clients typically use certificate based authentication to verify the server they are talking to, whereas, servers typically use methods such as HTTP digest authentication or OAuth2.0 to authenticate clients. Though OAuth2.0 is not an authentication protocol, it nonetheless allows for client authentication to be carried out with the use of OAuth tokens.  </t>
         <t>Figure 2 elucidates the use of this grant type.</t>
         <t>In the context of the SIP Auto Peer framework, OAuth2.0 MUST be used to carry out client authentication. Enterprise edge elements that obtain the capability set document from SIP service providers could have differing capabilities in terms of adhering to a specific OAuth2.0 authorisation grant flow. For example, an SBC that is configured and managed through a CLI and that does not have the ability to launch a web-browser wouldn't be able to obtain an authorisation code and subsequently an access token. Alternatively, an SBC that is configured and managed via a GUI could redirect an administrator to an appropriate OAuth2.0 authorisation server to obtain an authorisation grant and subsequently an access token. In order to ensure that OAuth2.0-based client authentication can be carried out irrespective of enterprise edge element capabilities, this draft requires that the Resource Owner Password Credentials grant type be supported. </t>
-        <t>Using the resource owner password credentials grant type requires the existence of a trust relationship between the resource owner (in this context, the administrator/enterprise network) and the client (in this context, an edge element such as an SBC). In SIP trunking deployments between enterprise and service provider networks, such a trust relationship between the administrator/resource owner/enterprise network and the client (edge element) already exists, as SIP trunk registration (and refreshing registrations) require credentials - typically a username and password, that are configured on the edge element by the administrator.</t>
+        <t>Using the resource owner password credentials grant type requires the existence of a trust relationship between the resource owner (in this context, the administrator/enterprise network) and the client(in this context, an edge element such as an SBC). In SIP trunking deployments between enterprise and service provider networks, such a trust relationship between the administrator/resource owner/enterprise network and the client(edge element) already exists, as SIP trunk registration (and refreshing registrations) require credentials - typically a username and password, that are configured on the edge element by the administrator.</t>
         <t>The use of the resource owner credential grant type in the context of the SIP Auto Peer framework, provides two advantages:</t>
         <ol spacing="normal" type="1">
           <li>It enables OAuth2.0-based client authentication even in deployments in wherein the edge element is not capable of launching a web-browser to set in motion the authorisation code grant flow of OAuth2.0</li>
@@ -310,7 +310,7 @@ The complete HTTPS URLs to be used when authenticating the enterprise edge eleme
       <t>This section defines a YANG module for encoding the service provider capability set. Section 7.1 provides the tree diagram, which is followed by a description of the various nodes within the module defined in this draft.</t>
       <section anchor="tree-diagram" numbered="true" toc="default">
         <name>Tree Diagram</name>
-        <t>This section provides a tree diagram <xref target = "RFC8340" /> for the "ietf-sip-auto-peering" module. The interpretation of the symbols appearing in the tree diagram is as follows:</t>
+        <t>This section provides a tree diagram <xref target = "RFC8340" /> for the "ietf-capability-set" module. The interpretation of the symbols appearing in the tree diagram is as follows:</t>
         <ul spacing="normal">
           <li>Brackets "[" and "]" enclose list keys.</li>
           <li>Abbreviations before data node names: "rw" means configuration (read-write), and "ro" means state data (read-only).</li>
@@ -380,8 +380,7 @@ module: ietf-sip-auto-peering
         <t>
 This section defines the YANG module for the peering capability set
 document.</t>
-    <sourcecode name="ietf-sip-auto-peering@2022-12-26.yang" markers="true">
-    <![CDATA[
+        <artwork name="" type="" align="left" alt=""><![CDATA[
     module ietf-sip-auto-peering {
       namespace "urn:ietf:params:xml:ns:ietf-sip-auto-peering";
       prefix "peering";
@@ -743,7 +742,7 @@ document.</t>
         }
       }
     }
-    ]]></sourcecode>
+    ]]></artwork>
       </section>
       <section anchor="node-definitions" numbered="true" toc="default">
         <name>Node Definitions</name>
@@ -907,8 +906,7 @@ document.
 </t>
       <section anchor="json-capability-set-document" numbered="true" toc="default">
         <name>JSON Capability Set Document</name>
-        <sourcecode name="asap-example.json" type="json" markers="true">
-        <![CDATA[
+        <artwork name="" type="" align="left" alt=""><![CDATA[
     {
     	"peering-info": {
             "variant": "1.0",
@@ -993,8 +991,8 @@ PRACK;SUBSCRIBE;NOTIFY;REGISTER",
             "extensions": "timer;rel100;gin;path"
         }
     }
-    ]]>
-      </sourcecode>
+
+]]></artwork>
       </section>
       <section anchor="example-exchange" numbered="true" toc="default">
         <name>Example Exchange</name>
@@ -1032,10 +1030,6 @@ is encoded in JSON.
 ]]></artwork>
       </section>
     </section>
-    <section anchor="iana-considerations" numbered="true" toc="default">
-      <name>IANA Considerations</name>
-      <t>This document has no IANA actions.</t>
-    </section>
     <section anchor="security-considerations" numbered="true" toc="default">
       <name>Security Considerations</name>
       <t>
@@ -1050,8 +1044,8 @@ the different points at which the workflow is vulnerable to attackers.</t>
 <t>In scenarios wherein client authentication is carried out using OAuth resource owner credentials, it is required to ensure that these credentials cannot be acquired by any unauthorised third-party. If acquired by an unauthorised third-party, these credentials may be used to obtain the capability set document from the SIP service provider and subsequently use the information in such a document to make unauthorised calls while posing as an enterprise telephony network that has legitimately paid for calling services from a SIP service provider.</t>
 </section>
 <section anchor="security-considerations-transmission" numbered="true" toc="default">
-  <name>Client-Server Communication</name>
-  <t>All communication used by the edge element to obtain the capability set document from the capability server MUST be secured using HTTPS. Failure to do so, results in the capability set document being transmitted over clear text, thus exposing sensitive information such as targets for trunks registration, targets for outbound calling requests and credentials used in building the Authorisation header field provided in response to authentication challenges. </t>
+<name>Client-Server Communication</name>
+<t>All communication used by the edge element to obtain the capability set document from the capability server MUST be secured using HTTPS. Failure to do so, results in the capability set document being transmitted over clear text, thus exposing sensitive information such as targets for trunks registration, targets for outbound calling requests and credentials used in building the Authorisation header field provided in response to authentication challenges. </t>
 </section>
 <!-- <section anchor="security-considerations-capability-set" numbered="true" toc="default">
   <name>Capability Set</name>
@@ -1086,24 +1080,70 @@ the different points at which the workflow is vulnerable to attackers.</t>
   return this document to the enterprise over a secure channel.</t>
 </section> -->
 
-  </section>
-  <!-- <section anchor="references" numbered="true" toc="default">
-    <name>References</name>
-    <section anchor="normative-references" numbered="true" toc="default">
+    </section>
+    <!--
+<section anchor="references" title="References">
+
+<section anchor="normative-references" title="Normative References">
+<t>[1] Bradner, S., &quot;Key Words for Use in RFCs to Indicate Requirement Levels&quot;, BCP 14, <eref target="https://tools.ietf.org/html/rfc2119">RFC 2119</eref>, March 1997.</t>
+<t>[4] Bjorklund, M., "YANG - A Data Modeling Language for              the Network Configuration Protocol (NETCONF)", <eref target="https://tools.ietf.org/html/rfc6020">RFC 6020</eref>, October 2010.</t>
+<t>[8] Schoenwaelder, J., "Common YANG Data Types", <eref target="https://tools.ietf.org/html/rfc6991">RFC 6991</eref>, July 2013.</t>
+</section>
+<section anchor="informative-references" title="Informative References">
+<t>[2] Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston, A., Peterson, J., Sparks, R., Handley, M., and E. Schooler, &quot;SIP: Session Initiation Protocol&quot;, <eref target="https://tools.ietf.org/html/rfc3261">RFC 3261</eref>, June 2002.</t>
+<t>[3] Roach, A. B., "SIP-Specific Event Notification", <eref target="https://tools.ietf.org/html/rfc6665">RFC 6665</eref>, July 2012.</t>
+<t>[5] Fielding, R., Reschke, J., "Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content", <eref target="https://tools.ietf.org/html/rfc7231">RFC 7231</eref>, June 2014.</t>
+<t>[6] Enns, R., Bjorklund, M., Schoenwaelder, J., Bierman, A., "Network Configuration Protocol (NETCONF)", <eref target="https://tools.ietf.org/html/rfc6241">RFC 6241</eref>, June 2011.</t>
+<t>[7] Bjorklund, M., Berger, L., "YANG Tree Diagrams", <eref target="https://tools.ietf.org/html/rfc8040">RFC 8340</eref>, March 2018.</t>
+<t>[9] Wing, D., "Symmetric RTP / RTP Control Protocol (RTCP)", <eref target="https://tools.ietf.org/html/rfc4961">RFC 4961</eref>, July 2007.</t>
+<t>[10] Ott, J., Wenger, S., Sato, N., Burmeister, C., Matsushita, "Extended RTP Profile for
+ Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)", <eref target="https://tools.ietf.org/html/rfc4585">RFC 4585</eref>, July 2006.</t>
+<t>[11] Schulzrinne, H., Petrack, S., "RTP Payload for DTMF Digits, Telephony Tones and Telephony Signals", <eref target="https://tools.ietf.org/html/rfc2833">RFC 2833</eref>, May 2000.</t>
+<t>[12] Schulzrinne, H., Taylor, T., "RTP Payload for DTMF Digits, Telephony Tones, and Telephony Signals", <eref target="https://tools.ietf.org/html/rfc4733">RFC 4733</eref>, December, 2006.</t>
+<t>[13] Casner, S., "Media Type Registration of RTP Payload Formats", <eref target="https://tools.ietf.org/html/rfc4855">RFC 4855</eref>, February 2007.</t>
+<t>[14] Dierks, T., Rescorla, E., "The Transport Layer Security (TLS) Protocol Version 1.2", <eref target="https://tools.ietf.org/html/rfc5246">RFC 5246</eref>, August 2008.</t>
+<t>[15] Rescorla, E., "The Transport Layer Security (TLS) Protocol Version 1.3", <eref target="https://tools.ietf.org/html/rfc8446">RFC 8446</eref>, August 2018.</t>
+<t>[17] Ivov, E., Kaplan, H., Wing, D., "Latching: Hosted NAT Traversal (HNT) for Media in Real-Time Communication", <eref target="https://tools.ietf.org/html/rfc7362">RFC 7362</eref>, September 2014.</t>
+<t>[18]  Jones, P., Salgueiro, G., Jones, M., Smarr, J., &quot;WebFinger&quot;, [<eref target="https://tools.ietf.org/html/rfc7033">RFC 7033</eref>], September 2013.</t>
+<t>[19]  Hardt, D., Ed., &quot;The OAuth 2.0 Authorization Framework&quot;, [<eref target="https://tools.ietf.org/html/rfc6749">RFC 6749</eref>], October 2012.</t>
+<t>[20] &quot;SIP-PBX / Service Provider Interoperability SIPconnect 2.0 - Technical Recommendation&quot;, SIP Forum, <eref target="https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0-2/">SIP CONNECT 2.0</eref>, December 7, 2016</t>
+
+</section>
+</section> -->
+<section anchor="acknowledgments" numbered="true" toc="default">
+      <name>Acknowledgments</name>
+      <t>We would like to thank those who provided detailed and thoughtful comments on this draft, especially
+   Marc Petit-Huguenin, Paul Jones, Ram Mohan R, Nicola Serafini, Jonathan Rosenberg, Jon Peterson, Chris Wendt and Henning Schulzrinne.</t>
+    </section>
+  </middle>
+  <back>
+    <references>
       <name>Normative References</name>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8555.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7092.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7235.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6991.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3261.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6665.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9110.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8340.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4961.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4585.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2833.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4733.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4855.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5246.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7362.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7033.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4568.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9409.xml"/>
       <reference anchor="SIP-Connect-TR"
       target="https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0/?wpdmdl=2818">
   	 	<front>
@@ -1111,64 +1151,15 @@ the different points at which the workflow is vulnerable to attackers.</t>
     		<author/>
     		<date/>
   		</front>
-    </section>
-    <section anchor="informative-references" numbered="true" toc="default">
-      <name>Informative References</name>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2833.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4585.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3261.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4733.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4961.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9409.xml"/>
-    </section>
-  </section> -->
-  <section anchor="acknowledgments" numbered="true" toc="default">
-        <name>Acknowledgments</name>
-        <t>We would like to thank those who provided detailed and thoughtful comments on this draft, especially
-    Marc Petit-Huguenin, Paul Jones, Ram Mohan R, Nicola Serafini, Jonathan Rosenberg, Jon Peterson, Chris Wendt and Henning Schulzrinne.</t>
-  </section>
-  </middle>
-  <back>
-    <references>
-      <name>Informative References</name>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2833.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4585.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3261.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4733.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4961.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9409.xml"/>
-    </references>
-    <references>
-      <name>Normative References</name>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8555.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7092.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6665.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9110.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8340.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4855.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7362.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7033.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4568.xml"/>
-      <reference anchor="SIP-Connect-TR"
-        target="https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0/?wpdmdl=2818">
-        <front>
-          <title>SIP Connect Technical Recommendation</title>
-          <author/>
-          <date/>
-        </front>
-	    </reference>
+	 </reference>
       <reference anchor="BCP-14"
-        target="https://www.rfc-editor.org/info/bcp14">
-        <front>
-          <title>Key words for use in RFCs to Indicate Requirement Levels</title>
-          <author/>
-          <date/>
-        </front>
-	    </reference>
+      target="https://www.rfc-editor.org/info/bcp14">
+  	 	<front>
+    		<title>Key words for use in RFCs to Indicate Requirement Levels</title>
+    		<author/>
+    		<date/>
+  		</front>
+	 </reference>
     </references>
 	</back>
 </rfc>
