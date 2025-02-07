@@ -1262,6 +1262,7 @@ the different points at which the workflow is vulnerable to attackers.</t>
   <back>
     <references>
       <name>Informative References</name>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2833.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3261.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4585.xml"/>
@@ -1271,6 +1272,7 @@ the different points at which the workflow is vulnerable to attackers.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7033.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7092.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7362.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8555.xml"/>
     </references>
     <references>
@@ -1288,14 +1290,6 @@ the different points at which the workflow is vulnerable to attackers.</t>
         target="https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0/?wpdmdl=2818">
         <front>
           <title>SIP Connect Technical Recommendation</title>
-          <author/>
-          <date/>
-        </front>
-	    </reference>
-      <reference anchor="BCP-14"
-        target="https://www.rfc-editor.org/info/bcp14">
-        <front>
-          <title>Key words for use in RFCs to Indicate Requirement Levels</title>
           <author/>
           <date/>
         </front>
