@@ -1032,7 +1032,7 @@ This section provides examples of how capability set documents that
 leverage the YANG module defined in this document can be encoded over
 JSON as well as the exchange of messages between the enterprise
 edge element and the service provider to acquire the capability set
-document. The service provider will create unique documents for each enterprise
+document. The service provider will create a unique document for each enterprise
 network that will peer with it.
 </t>
   <section anchor="json-capability-set-document" 
