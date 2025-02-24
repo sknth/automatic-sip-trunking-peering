@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-18">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-19">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -185,14 +185,14 @@ HTTPS <xref target="RFC9110" /> server.
     </section>
     <section anchor="http-transport" numbered="true" toc="default">
       <name>HTTP Transport</name>
-      <t>This section describes the use of HTTPS as a transport protocol for the peering workflow. This workflow is based on HTTP version 1.1, and as such is compatible with any future version of HTTP that is backward compatible with HTTP 1.1.</t>
+      <t>This section describes the use of HTTPS as a transport protocol for the peering workflow. This workflow is based on HTTP/1.1, and as such is compatible with any future version of HTTP that is backward compatible with HTTP/1.1 including HTTP/3 <xref target="RFC9114" />.</t>
       <section anchor="http-methods" numbered="true" toc="default">
         <name>HTTP Methods</name>
         <t>The workflow defined in this document leverages the HTTP GET method and its corresponding response(s) to request for and subsequently obtain the service provider capability set document.</t>
       </section>
       <section anchor="integrity-and-confidentiality" numbered="true" toc="default">
         <name>Integrity and Confidentiality</name>
-        <t>Peering requests and responses are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security <xref target = "RFC9110" />; therefore the enterprise edge element and the capability server MUST support Transport Layer Security. Additionally, the enterprise edge element and capability server MUST support the use of the HTTP URI scheme as defined in <xref target="RFC9110" />.</t>
+        <t>Peering requests and responses are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security <xref target = "RFC9110" />; therefore the enterprise edge element and the capability server MUST support Transport Layer Security (TLS). When HTTP/3 is used, TLS is incorporated within QUIC. Additionally, the enterprise edge element and capability server MUST support the use of the HTTP URI scheme as defined in <xref target="RFC9110" />.</t>
       </section>
       <section anchor="authenticated-client-identity" numbered="true" toc="default">
         <name>Authenticated Client Identity</name>
@@ -258,7 +258,7 @@ HTTPS <xref target="RFC9110" /> server.
         </ol>
         <t>
 The complete HTTPS URLs to be used when authenticating the enterprise edge element (optional) and obtaining the SIP service provider capability set can be obtained from the SIP service provider beforehand and entered into the edge element manually via some interface - for example, a CLI or GUI.</t>
-        <t>However, if the resource URL is unknown to the administrator (and, by extension, to the edge element), the WebFinger protocol <xref target="RFC7033" /> and the 'sipTrunkingCapability' <xref target="RFC9409" /> link relation type may be leveraged.</t>
+        <t>However, if the resource URL is unknown to the administrator (and, by extension, to the edge element), the WebFinger protocol <xref target="RFC7033" /> and the 'sipTrunkingCapability' <xref target="RFC9409" /> link relation type may be leveraged assuming that the service SIP service provider has implemented WebFinger within their network and hosts the capability set at the respective location.</t>
         <t>If an enterprise edge element attempts to discover the URL of the endpoints hosted in the ssp1.example.com domain, it issues the following request (line wraps are for display purposes only).</t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
         GET /.well-known/webfinger?
@@ -384,7 +384,8 @@ module: ietf-sip-auto-peering
         <name>YANG Model</name>
         <t>
 This section defines the YANG module for the peering capability set
-document.</t>
+document. This module does not depend on existing YANG modules. It
+defines syntax for domain names, IP addresses and port numbers.</t>
     <sourcecode name="ietf-sip-auto-peering@2025-01-30.yang"
       markers="true">
     <![CDATA[
@@ -443,7 +444,7 @@ module ietf-sip-auto-peering {
   revision 2025-01-30 {
     description "Capability set document v2.";
     reference
-      "draft-ietf-asap-sip-auto-peer-16:
+      "draft-ietf-asap-sip-auto-peer-19:
       Automatic Peering for SIP Trunks";
   }
 
@@ -984,8 +985,8 @@ SBC. The "vendorA-config" YANG module is configured as follows:
       "Data model for configuring VendorA Enterprise SBC";
 
       revision 2020-05-06 {
-      description "Initial revision of VendorA Enterprise SBC
-      configuration data model";
+        description "Initial revision of VendorA Enterprise SBC
+        configuration data model";
       }
 
       import ietf-peering {
@@ -1262,7 +1263,6 @@ the different points at which the workflow is vulnerable to attackers.</t>
   <back>
     <references>
       <name>Informative References</name>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2833.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3261.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4585.xml"/>
@@ -1272,11 +1272,12 @@ the different points at which the workflow is vulnerable to attackers.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7033.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7092.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7362.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8555.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9114.xml"/>
     </references>
     <references>
       <name>Normative References</name>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6665.xml"/>
@@ -1286,6 +1287,7 @@ the different points at which the workflow is vulnerable to attackers.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4855.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4568.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
       <reference anchor="SIP-Connect-TR"
         target="https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0/?wpdmdl=2818">
         <front>
