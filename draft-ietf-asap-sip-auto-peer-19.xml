@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-19">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-20">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -242,7 +242,7 @@ HTTPS <xref target="RFC9110" /> server.
           <li>The enterprise SBC contacts the service provider authorization server to obtain an access token using the credentials acquired in Step 1.</li>
           <li>The service provider authorization server ratifies the credentials and grants the access token to the enterprise SBC. The server could also provide a refresh token to the SBC to regenerate the access token in the future.</li>
           <li>The enterprise SBC then contacts the capability server located in the service provider network with an HTTP GET request along with the access token to retrieve the capability set document.</li>
-          <li>The capability server checks for a valid access token and returns the capability set document to the enterprise SBC.</li>
+          <li>The capability server checks for a valid access token and returns the capability set document to the enterprise SBC. The service provider will host a unique document for each enterprise network that will peer with it.</li>
           </ol>
       </section>
       <section anchor="encoding-the-request" numbered="true" toc="default">
@@ -444,7 +444,7 @@ module ietf-sip-auto-peering {
   revision 2025-01-30 {
     description "Capability set document v2.";
     reference
-      "draft-ietf-asap-sip-auto-peer-19:
+      "draft-ietf-asap-sip-auto-peer-20:
       Automatic Peering for SIP Trunks";
   }
 
@@ -1032,8 +1032,8 @@ This section provides examples of how capability set documents that
 leverage the YANG module defined in this document can be encoded over
 JSON as well as the exchange of messages between the enterprise
 edge element and the service provider to acquire the capability set
-document.
-
+document. The service provider will create unique documents for each enterprise
+network that will peer with it.
 </t>
   <section anchor="json-capability-set-document" 
     numbered="true" toc="default">
