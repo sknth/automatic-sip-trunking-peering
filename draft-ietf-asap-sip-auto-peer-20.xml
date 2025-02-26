@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-20">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-21">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -192,7 +192,7 @@ HTTPS <xref target="RFC9110" /> server.
       </section>
       <section anchor="integrity-and-confidentiality" numbered="true" toc="default">
         <name>Integrity and Confidentiality</name>
-        <t>Peering requests and responses are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security <xref target = "RFC9110" />; therefore the enterprise edge element and the capability server MUST support Transport Layer Security (TLS). When HTTP/3 is used, TLS is incorporated within QUIC. Additionally, the enterprise edge element and capability server MUST support the use of the HTTP URI scheme as defined in <xref target="RFC9110" />.</t>
+        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 is used, TLS is incorporated within QUIC. Additionally, the enterprise edge element and capability server MUST support the use of the HTTP URI scheme as defined in <xref target="RFC9110" />.</t>
       </section>
       <section anchor="authenticated-client-identity" numbered="true" toc="default">
         <name>Authenticated Client Identity</name>
@@ -444,7 +444,7 @@ module ietf-sip-auto-peering {
   revision 2025-01-30 {
     description "Capability set document v2.";
     reference
-      "draft-ietf-asap-sip-auto-peer-20:
+      "draft-ietf-asap-sip-auto-peer-21:
       Automatic Peering for SIP Trunks";
   }
 
@@ -1108,7 +1108,7 @@ network that will peer with it.
             "security": {
                 "signaling": {
                     "secure": true,
-                    "version": "1.0;1.2"
+                    "version": "1.0;1.2;1.3"
                 },
                 "mediaSecurity": {
                     "keyManagement": "SDES;DTLS-SRTP,version=1.2"
@@ -1257,7 +1257,8 @@ the different points at which the workflow is vulnerable to attackers.</t>
   <section anchor="acknowledgments" numbered="true" toc="default">
         <name>Acknowledgments</name>
         <t>We would like to thank those who provided detailed and thoughtful comments on this draft, especially
-    Marc Petit-Huguenin, Paul Jones, Ram Mohan R, Nicola Serafini, Jonathan Rosenberg, Jon Peterson, Chris Wendt and Henning Schulzrinne.</t>
+    Marc Petit-Huguenin, Paul Jones, Ram Mohan R, Nicola Serafini, Jonathan Rosenberg, Jon Peterson, Chris Wendt and Henning Schulzrinne.
+    Additional thanks to Joel Halpern, Dan Harkins, Éric Vyncke and Joerg Ott for their reviews and feedback.</t>
   </section>
   </middle>
   <back>
@@ -1288,6 +1289,7 @@ the different points at which the workflow is vulnerable to attackers.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4568.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/.
       <reference anchor="SIP-Connect-TR"
         target="https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0/?wpdmdl=2818">
         <front>
