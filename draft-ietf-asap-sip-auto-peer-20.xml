@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-20">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-21">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -169,7 +169,7 @@ HTTPS <xref target="RFC9110" /> server.
         <ol spacing="normal" type="1"><li>Edge elements are devices that normalise any mismatches between the enterprise and service provider networks in the media and signaling planes. As a result, when the capability set is received from the SIP service provider network, the edge element can generate appropriate configuration blocks (possibly across multiple devices) to enable interconnection.</li>
           <li>Given that edge elements are configured to "talk" to networks external to the enterprise, the complexity in terms of NAT traversal and firewall configuration would be minimal.</li>
         </ol>
-        <t>The HTTP GET request is targeted at a capability server that is managed by the SIP service provider such that this server processes, and on successfully processing the request, includes the capability set document in the response. The capability set document is constructed according the guidelines of the YANG model described in this draft. The capability set document included in a successful response is formatted in JSON. The formatting depends on the value of the "Accept" header field of the HTTP GET request. More details about the formatting of the HTTP request and response are provided in Section 4.</t>
+        <t>The HTTP GET request is targeted at a capability server that is managed by the SIP service provider such that this server processes, and on successfully processing the request, includes the capability set document in the response. The capability set document is constructed according the guidelines of the YANG model described in this draft. The capability set document included in a successful response is formatted in JSON. More details about the formatting of the HTTP request and response are provided in Section 4.</t>
         <t>There could be situations wherein an enterprise telephony network interconnects with its SIP service provider such that traffic between the two networks traverses an intermediary SIP service provider network. This could be a result of interconnect agreements between the terminating and transit SIP service provider networks. In such situations, the capability set provided to the enterprise network by its SIP service provider must account for the characteristics of the transit SIP service provider network from a signalling and media perspective. For example, if the terminating SIP service provider network supports the G.729 codec and the transit SIP service provider network does not, G.729 must not be advertised in the capability set. As another example, if the transit SIP service provider network doesn't support a SIP extension, for instance, the SIP extension for Reliable Provisional Responses as defined in RFC 3262, the terminating SIP service provider network must not advertise support for this extension in the capability set provided to the enterprise network. How a terminating SIP service provider obtains the characteristics of the intermediary SIP service provider network is out of the scope of this document; however, one method could be for the terminating SIP service provider to obtain the characteristics of the intermediary SIP service provider by leveraging the YANG model introduced in this document.</t>
       </section>
     </section>
@@ -192,12 +192,11 @@ HTTPS <xref target="RFC9110" /> server.
       </section>
       <section anchor="integrity-and-confidentiality" numbered="true" toc="default">
         <name>Integrity and Confidentiality</name>
-        <t>Peering requests and responses are defined over HTTP. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security <xref target = "RFC9110" />; therefore the enterprise edge element and the capability server MUST support Transport Layer Security (TLS). When HTTP/3 is used, TLS is incorporated within QUIC. Additionally, the enterprise edge element and capability server MUST support the use of the HTTP URI scheme as defined in <xref target="RFC9110" />.</t>
+        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 is used, TLS is incorporated within QUIC. Additionally, the enterprise edge element and capability server MUST support the use of the HTTP URI scheme as defined in <xref target="RFC9110" />.</t>
       </section>
       <section anchor="authenticated-client-identity" numbered="true" toc="default">
         <name>Authenticated Client Identity</name>
-        <t>HTTP usually adopts asymmetric methods of authentication. For example, clients typically use certificate based authentication to verify the server they are talking to, whereas, servers typically use methods such as HTTP digest authentication or OAuth2.0 to authenticate clients. Though OAuth2.0 is not an authentication protocol, it nonetheless allows for client authentication to be carried out with the use of OAuth tokens.  </t>
-        <t>Figure 2 elucidates the use of this grant type.</t>
+        <t>HTTP usually adopts asymmetric methods of authentication. For example, clients typically use certificate based authentication to verify the server they are talking to, whereas, servers typically use methods such as HTTP digest authentication or OAuth2.0 <xref target="RFC6749" /> to authenticate clients. Though OAuth2.0 is not an authentication protocol, it nonetheless allows for client authentication to be carried out with the use of OAuth tokens.  </t>
         <t>In the context of the SIP Auto Peer framework, OAuth2.0 MUST be used to carry out client authentication. Enterprise edge elements that obtain the capability set document from SIP service providers could have differing capabilities in terms of adhering to a specific OAuth2.0 authorisation grant flow. For example, an SBC that is configured and managed through a CLI and that does not have the ability to launch a web-browser wouldn't be able to obtain an authorisation code and subsequently an access token. Alternatively, an SBC that is configured and managed via a GUI could redirect an administrator to an appropriate OAuth2.0 authorisation server to obtain an authorisation grant and subsequently an access token. In order to ensure that OAuth2.0-based client authentication can be carried out irrespective of enterprise edge element capabilities, this draft requires that the Resource Owner Password Credentials grant type be supported. </t>
         <t>Using the resource owner password credentials grant type requires the existence of a trust relationship between the resource owner (in this context, the administrator/enterprise network) and the client (in this context, an edge element such as an SBC). In SIP trunking deployments between enterprise and service provider networks, such a trust relationship between the administrator/resource owner/enterprise network and the client (edge element) already exists, as SIP trunk registration (and refreshing registrations) require credentials - typically a username and password, that are configured on the edge element by the administrator.</t>
         <t>The use of the resource owner credential grant type in the context of the SIP Auto Peer framework, provides two advantages:</t>
@@ -444,7 +443,7 @@ module ietf-sip-auto-peering {
   revision 2025-01-30 {
     description "Capability set document v2.";
     reference
-      "draft-ietf-asap-sip-auto-peer-20:
+      "draft-ietf-asap-sip-auto-peer-21:
       Automatic Peering for SIP Trunks";
   }
 
@@ -890,7 +889,7 @@ module ietf-sip-auto-peering {
         <t><strong>username</strong>: A leaf node that encodes the username for the given realm. The username is one of many inputs used by the enterprise network in generating the response parameter of the Authorization header field.</t>
         <t><strong>password</strong>:A leaf node that encodes the password for the given realm. The password is one of many inputs used by the enterprise network in generating the response parameter of the Authorization header field.</t>
         <t><strong>callControl</strong>: A leaf-list that specifies the transport address of the call server(s) in the service provider network. The enterprise network must use an applicable transport protocol in conjunction with the call control server(s) transport address when transmitting call setup requests. The transport address of a call server(s) within the service provider network can be specified using a combination of a valid IP address and port number, or a subdomain of the SIP service provider network, or a fully qualified domain name of the SIP service provider network. If the transport address of a call control server(s) is specified using either a subdomain or a fully qualified domain name, the DNS element must be populated with one or more valid DNS server IP addresses. The transport address specified in this element can also serve as the target for non-call requests such as SIP OPTIONS.</t>
-        <t><strong>dns</strong>: A leaf list that encodes the IP address of one or more DNS servers hosted by the SIP service provider. If the enterprise network is unaware of the IP address, port number, and transport protocol of servers within the service provider network (for example, the registrar and call control server), it must use DNS NAPTR and SRV. Alternatively, if the enterprise network has the fully qualified domain name of the SIP service provider network, it must use DNS to resolve the said FQDN to an IP address. The dns element encodes the IP address of one or more DNS servers hosted in the service provider network. If however, either the registrar or callControl elements or both are populated with a valid IP address and port pair, the dns element must be set to the quadruple octet of 0.0.0.0</t>
+        <t><strong>dns</strong>: A leaf list that encodes the IP address of one or more DNS servers hosted by the SIP service provider. If the enterprise network is unaware of the IP address, port number, and transport protocol of servers within the service provider network (for example, the registrar and call control server), it must use DNS NAPTR and SRV. Alternatively, if the enterprise network has the fully qualified domain name of the SIP service provider network, it must use DNS to resolve the said FQDN to an IP address. The dns element encodes the IP address of one or more DNS servers hosted in the service provider network. If however, either the registrar or callControl elements or both are populated with a valid IP address and port pair, the dns element must be set to ::/0</t>
         <t><strong>outboundProxy</strong>: A leaf list that specifies the transport address of one or more outbound proxies. The transport address can be specified by using a combination of an IP address and a port number, a subdomain of the SIP service provider network, or a fully qualified domain name and port number of the SIP service provider network. If the outbound-proxy sub-element is populated with a valid transport address, it represents the default destination for all outbound SIP requests and therefore, the registrar and callControl elements must be populated with the quadruple octet of 0.0.0.0</t>
         <t><strong>call-specs</strong>: A container that encapsulates information about call specifications, restrictions and additional handling criteria for SIP calls between the enterprise and service provider network.</t>
         <t><strong>earlyMedia</strong>: A leaf that specifies whether the service provider network is expected to deliver in-band announcements/tones before call connect. The P-Early-Media header field can be used to indicate pre-connect delivery of tones and announcements on a per-call basis. However, given that signalling and media could traverse a large number of intermediaries with varying capabilities (in terms of handling of the P-Early-Media header field) within the enterprise, such devices can be appropriately configured for media cut through if it is known before-hand that early media is expected for some or all of the outbound calls. This element is a Boolean type, where a value of 1/true signifies that the service provider is capable of early media. A value of 0/false signifies that the service provider is not expected to generate early media.</t>
@@ -1058,8 +1057,8 @@ network that will peer with it.
                     "password": "TYnsdfji@312=="
                 }],
                 "callControl": ["callServer1.voip.example.com:5060",
-                 "192.168.12.25:5065"],
-                "dns": ["8.8.8.8", "208.67.222.222"],
+                 "192.168.2.25:5065"],
+                "dns": ["192.0.2.50", "192.0.2.51"],
                 "outboundProxy": "0.0.0.0:5060"
             },
             "call-specs": {
@@ -1108,7 +1107,7 @@ network that will peer with it.
             "security": {
                 "signaling": {
                     "secure": true,
-                    "version": "1.0;1.2"
+                    "version": "1.0;1.2;1.3"
                 },
                 "mediaSecurity": {
                     "keyManagement": "SDES;DTLS-SRTP,version=1.2"
@@ -1257,7 +1256,8 @@ the different points at which the workflow is vulnerable to attackers.</t>
   <section anchor="acknowledgments" numbered="true" toc="default">
         <name>Acknowledgments</name>
         <t>We would like to thank those who provided detailed and thoughtful comments on this draft, especially
-    Marc Petit-Huguenin, Paul Jones, Ram Mohan R, Nicola Serafini, Jonathan Rosenberg, Jon Peterson, Chris Wendt and Henning Schulzrinne.</t>
+    Marc Petit-Huguenin, Paul Jones, Ram Mohan R, Nicola Serafini, Jonathan Rosenberg, Jon Peterson, Chris Wendt and Henning Schulzrinne.
+    Additional thanks to Joel Halpern, Dan Harkins, Éric Vyncke and Joerg Ott for their reviews and feedback.</t>
   </section>
   </middle>
   <back>
@@ -1281,6 +1281,7 @@ the different points at which the workflow is vulnerable to attackers.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6665.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9110.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8340.xml"/>
@@ -1288,6 +1289,7 @@ the different points at which the workflow is vulnerable to attackers.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4568.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/>
       <reference anchor="SIP-Connect-TR"
         target="https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0/?wpdmdl=2818">
         <front>
