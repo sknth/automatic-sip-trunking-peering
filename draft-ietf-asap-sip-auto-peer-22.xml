@@ -246,8 +246,7 @@ HTTPS <xref target="RFC9110" /> server.
       </section>
       <section anchor="encoding-the-request" numbered="true" toc="default">
         <name>Encoding the Request</name>
-        <t>The edge element in the enterprise network generates a HTTP GET request such that the request-target is obtained using the procedure outlined in section 4.5. The MIME type for the capability set document defined in this draft is "application/json". Accordingly, the Accept header field value MUST be restricted only to this MIME type.</t>
-        <t>The generated HTTP GET request MUST NOT use the "Expect" and "Range" header fields. The requests MUST also not use any conditional request.</t>
+        <t>The edge element in the enterprise network generates a HTTP GET request such that the request-target is obtained using the procedure outlined in section 4.5. This document does not specify any content negotiation. The server MUST set the response content type header to the application/json media type.</t>
       </section>
       <section anchor="identifying-the-request-target" numbered="true" toc="default">
         <name>Identifying the Request Target</name>
@@ -287,7 +286,7 @@ The complete HTTPS URLs to be used when authenticating the enterprise edge eleme
       </section>
       <section anchor="generating-the-response" numbered="true" toc="default">
         <name>Generating the response</name>
-        <t>Capability servers include the capability set documents in the body of a successful response. Capability set documents MUST be formatted in JSON. For requests that are incorrectly formatted, the capability server must generate a "400 Bad Request" response. If the client (enterprise edge element) includes any other MIME types in Accept header field other than "application/json", the capability set must reject the request with a "406 Not Acceptable" response.</t>
+        <t>Capability servers include the capability set documents in the body of a successful response. Capability set documents MUST be formatted in JSON. For requests that are incorrectly formatted, an example being an incorrect query parameter in the URI, the capability server must generate a "400 Bad Request" response for the incorrect request. If requests contain an invalid token, the capability server must generate a "403 Forbidden" response clearly indicating that this token does not have the permission to view the capability set document.</t>
         <t>The capability server can respond to client requests with redirect responses, specifically, the server can respond with the following redirect responses:</t>
         <ol spacing="normal" type="1"><li>301 Moved Temporarily</li>
           <li>302 Found</li>
@@ -1375,7 +1374,7 @@ the enterprise.
         <artwork name="" type="" align="left" alt=""><![CDATA[
     GET /capdoc?trunkid=trunkent1456 HTTP/1.1
     Host: capserver.ssp1.com
-    Accept:application/peering-info+json
+    Authorization: Bearer <clientToken>
 ]]></artwork>
         <t>
 
@@ -1385,7 +1384,7 @@ is encoded in JSON.
 </t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
     HTTP/1.1 200 OK
-    Content-Type: application/peering-info+json
+    Content-Type: application/json
     Content-Length: nnn
 
     {
