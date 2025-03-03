@@ -1384,7 +1384,7 @@ is encoded in JSON.
 </t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
     HTTP/1.1 200 OK
-    Content-Type: application/peering-info+json
+    Content-Type: application/json
     Content-Length: nnn
 
     {
