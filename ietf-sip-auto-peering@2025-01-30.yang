@@ -110,14 +110,19 @@ module ietf-sip-auto-peering {
         mandatory true;
         description "A node that identifies the data and time at which the
           parameters in this capability set documents are activated or
-          considered valid.";
+          considered valid. This node has been set to mandatory as the it
+          is the service provider's responsibility to inform when new peering
+          settings take effect. Without being aware of a start time, the
+          enterprise network will experience failures.";
       }
 
       leaf location {
         type string;
         mandatory true;
         description "A node that identifies the URL of a new revision of the
-          service provider capability set document.";
+          service provider capability set document. Without this URL, an
+          enterprise network wouldn't be aware of changes that have occured
+          in the service provider network.";
       }
     }
 
@@ -630,9 +635,6 @@ module ietf-sip-auto-peering {
 
         leaf-list version {
           type enumeration {
-            enum 1.0 {
-              description "TLS version 1.0.";
-            }
             enum 1.2 {
               description "TLS version 1.2.";
             }
