@@ -1,86 +1,141 @@
-    {
-    	"ietf-sip-auto-peering:peering-info": [{
+{
+    "ietf-sip-auto-peering:peering-info": [
+        {
             "variant": "1.0",
             "revision": {
                 "notBefore": "2021-10-16T00:00:00.00000Z",
-                "location":
-                "https://capserver.example.org/capserver/capdoc.json"
+                "location": 
+                    "https://capserver.example.org/capserver/capdoc.json"
             },
             "transport-info": {
-                "transport": "TCP;TLS;UDP",
-                "registrar": ["registrar1.voip.example.com:5060",
-                 "registrar2.voip.example.com:5060"],
-                "realms": [{
-                    "name": "voip.example.com",
-                    "username": "voip",
-                    "password": "TYnsdfji@312=="
-                }],
-                "callControl": ["callServer1.voip.example.com:5060",
-                 "192.168.12.25:5065"],
-                "dns": ["8.8.8.8", "208.67.222.222"],
-                "outboundProxy": "0.0.0.0:5060"
+                "transport": [
+                    "tcp",
+                    "tls",
+                    "udp"
+                ],
+                "registrar": [
+                    {
+                        "host": "registrar1.voip.example.com",
+                        "port": 5060
+                    },
+                    {
+                        "host": "registrar2.voip.example.com",
+                        "port": 5060
+                    }
+                ],
+                "realms": [
+                    {
+                        "name": "voip.example.com",
+                        "username": "voip",
+                        "password": "TYnsdfji@312=="
+                    }
+                ],
+                "call-control": [
+                    {
+                        "host": "callServer1.voip.example.com",
+                        "port": 5060
+                    },
+                    {
+                        "host": "192.0.2.40",
+                        "port": 5065
+                    }
+                ],
+                "dns": [
+                    "192.0.2.50",
+                    "192.0.2.51"
+                ],
+                "outbound-proxy": {
+                    "host": "192.0.2.35",
+                    "port": 5060
+                }
             },
             "call-specs": {
-                "earlyMedia": true,
-                "signalingForking": false,
-                "supportedMethods": "INVITE;OPTIONS;BYE;CANCEL;ACK;PRACK;SUBSCRIBE;NOTIFY;REGISTER",
-                "callerId": {
-                    "e164Format": true,
-                    "preferredMethod": "P-Asserted-Identity"
+                "early-media": true,
+                "signaling-forking": false,
+                "supported-methods": [
+                    "INVITE",
+                    "OPTIONS",
+                    "BYE",
+                    "CANCEL",
+                    "ACK",
+                    "PRACK",
+                    "SUBSCRIBE",
+                    "NOTIFY",
+                    "REGISTER"
+                ],
+                "caller-id": {
+                    "e164-format": true,
+                    "preferred-method": "P-Asserted-Identity"
                 },
-                "numRanges": [{
-                    "index": 0,
-                    "type": "range",
-                    "count": 20,
-                    "value": ["19725455000"]
-                },
-                {
-                    "index": 1,
-                    "type": "collection",
-                    "count": 2,
-                    "value": ["19725455000", "19725455001"]
-                }]
+                "num-ranges": [
+                    {
+                        "index": 0,
+                        "type": "range",
+                        "count": 20,
+                        "value": [
+                            "19725455000"
+                        ]
+                    },
+                    {
+                        "index": 1,
+                        "type": "collection",
+                        "count": 2,
+                        "value": [
+                            "19725455000",
+                            "19725455001"
+                        ]
+                    }
+                ]
             },
             "media": {
-                "mediaTypeAudio": {
-                    "mediaFormat": ["PCMU;rate=8000;ptime=20",
-                     "G729;rate=8000;annexb=yes",
-                     "G722;rate=8000;bitrate=56k,64k"]
+                "media-type-audio": {
+                    "media-format": [
+                        "PCMU;rate=8000;ptime=20",
+                        "G729;rate=8000;annexb=yes",
+                        "G722;rate=8000;bitrate=56k,64k"
+                    ]
                 },
                 "fax": {
-                    "protocol": ["t38", "pass-through"]
+                    "protocol": [
+                        "t38",
+                        "pass-through"
+                    ]
                 },
                 "rtp": {
-                    "RTPTrigger": true,
-                    "symmetricRTP": true
+                    "rtp-trigger": true,
+                    "symmetric-rtp": true
                 },
                 "rtcp": {
-                    "symmetricRTCP": true,
-                    "RTCPFeedback": true
+                    "symmetric-rtcp": true,
+                    "rtcp-feedback": true
                 }
             },
             "dtmf": {
-                "payloadNumber": 101,
+                "payload-number": 101,
                 "iteration": false
             },
             "security": {
                 "signaling": {
                     "secure": true,
-                    "version": "1.0;1.2;1.3"
+                    "version": ["1.0", "1.2", "1.3"]
                 },
-                "mediaSecurity": {
-                    "keyManagement": "SDES;DTLS-SRTP,version=1.2"
+                "media-security": {
+                    "key-management": "SDES;DTLS-SRTP,version=1.2"
                 },
-                "certLocation":
-                  "https://sipserviceprovider.com/certificateList.pem",
-                "secureTelephonyIdentity": {
-                    "STIRCompliance": true,
-                    "certDelegation": true,
-                    "ACMEDirectory":
-                        "https://sipserviceprovider.com/acme.html"
+                "cert-location": 
+                    "https://sipserviceprovider.com/certificateList.pem",
+                "secure-telephony-identity": {
+                    "stir-compliance": true,
+                    "cert-delegation": true,
+                    "acme-directory": "https://sipserviceprovider.com/acme.html"
                 }
             },
-            "extensions": "timer;rel100;gin;path"
-        }]
-    }
-
+            "extensions": [
+                "timer",
+                "rel100",
+                "gin",
+                "path"
+            ]
+        }
+    ]
+}

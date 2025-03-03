@@ -1,55 +1,55 @@
 module: ietf-sip-auto-peering
   +--rw peering-info* [index]
-     +--rw index             int32
-     +--rw variant           string
+     +--rw index             uint16
+     +--rw variant           enumeration
      +--rw revision
-     |  +--rw notBefore    string
-     |  +--rw location     string
+     |  +--rw not-before    string
+     |  +--rw location      string
      +--rw transport-info
-     |  +--rw transport        enumeration
-     |  +--rw registrar*       host-port
+     |  +--rw transport*        enumeration
+     |  +--rw registrar*
      |  +--rw realms* [name]
      |  |  +--rw name        string
      |  |  +--rw username?   string
-     |  |  +--rw password?   string
-     |  +--rw callControl*     host-port
-     |  +--rw dns*             inet:ip-address
-     |  +--rw outboundProxy?   host-port
+     |  |  +--rw password?   ianach:crypt-hash
+     |  +--rw call-control*
+     |  +--rw dns*              inet:ip-address
+     |  +--rw outbound-proxy?
      +--rw call-specs
-     |  +--rw earlyMedia?         boolean
-     |  +--rw signalingForking?   boolean
-     |  +--rw supportedMethods?   string
-     |  +--rw callerId
-     |  |  +--rw e164Format?        boolean
-     |  |  +--rw preferredMethod?   string
-     |  +--rw numRanges* [index]
-     |     +--rw index    int32
-     |     +--rw type?    string
-     |     +--rw count?   int32
+     |  +--rw early-media?         boolean
+     |  +--rw signaling-forking?   boolean
+     |  +--rw supported-methods*   enumeration
+     |  +--rw caller-id
+     |  |  +--rw e164-format?        boolean
+     |  |  +--rw preferred-method?   enumeration
+     |  +--rw num-ranges* [index]
+     |     +--rw index    uint16
+     |     +--rw type?    enumeration
+     |     +--rw count?   uint16
      |     +--rw value*   string
      +--rw media
-     |  +--rw mediaTypeAudio
-     |  |  +--rw mediaFormat*   string
+     |  +--rw media-type-audio
+     |  |  +--rw media-format*   string
      |  +--rw fax
      |  |  +--rw protocol*   enumeration
      |  +--rw rtp
-     |  |  +--rw RTPTrigger?     boolean
-     |  |  +--rw symmetricRTP?   boolean
+     |  |  +--rw rtp-trigger?     boolean
+     |  |  +--rw symmetric-rtp?   boolean
      |  +--rw rtcp
-     |     +--rw symmetricRTCP?   boolean
-     |     +--rw RTCPFeedback?    boolean
+     |     +--rw symmetric-rtcp?   boolean
+     |     +--rw rtcp-feedback?    boolean
      +--rw dtmf
-     |  +--rw payloadNumber?   int8
-     |  +--rw iteration?       boolean
+     |  +--rw payload-number?   uint8
+     |  +--rw iteration?        boolean
      +--rw security
      |  +--rw signaling
      |  |  +--rw secure?    boolean
-     |  |  +--rw version?   string
-     |  +--rw mediaSecurity
-     |  |  +--rw keyManagement?   string
-     |  +--rw certLocation?              string
-     |  +--rw secureTelephonyIdentity
-     |     +--rw STIRCompliance?   boolean
-     |     +--rw certDelegation?   boolean
-     |     +--rw ACMEDirectory?    string
-     +--rw extensions?       string
+     |  |  +--rw version*   enumeration
+     |  +--rw media-security
+     |  |  +--rw key-management?   string
+     |  +--rw cert-location?               string
+     |  +--rw secure-telephony-identity
+     |     +--rw stir-compliance?   boolean
+     |     +--rw cert-delegation?   boolean
+     |     +--rw acme-directory?    string
+     +--rw extensions*       string
