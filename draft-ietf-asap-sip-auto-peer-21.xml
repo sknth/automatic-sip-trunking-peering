@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-21">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-22">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -51,7 +51,7 @@ The deployment of a Session Initiation Protocol <xref target="RFC3261" /> (SIP)-
 infrastructure in enterprise and service provider communication networks
 is increasing at a rapid pace. Consequently, direct IP peering between
 enterprise and service provider networks is quickly replacing
-traditional methods of interconnection between enterprise and service
+conventional methods of interconnection between enterprise and service
 provider networks.
 
 Currently published standards provide a strong foundation over which
@@ -61,7 +61,7 @@ extensions to baseline protocols and operating principles ought to be
 implemented by service provider and enterprise networks to ensure
 successful peering.</t>
       <t>The SIP Connect technical recommendations  <xref target="SIP-Connect-TR" /> aim to solve this problem by
-providing a master reference that promotes seamless peering between
+providing a central reference that promotes seamless peering between
 enterprise and service provider SIP networks. However, despite the
 extensive set of implementation rules and operating guidelines,
 interoperability issues between service provider and enterprise networks
@@ -309,7 +309,7 @@ The complete HTTPS URLs to be used when authenticating the enterprise edge eleme
     </section>
     <section anchor="data-model-for-capability-set" numbered="true" toc="default">
       <name>Data Model for Capability Set</name>
-      <t>This section defines a YANG module for encoding the service provider capability set. Section 7.1 provides the tree diagram, which is followed by a description of the various nodes within the module defined in this draft.</t>
+      <t>This section defines a YANG module <xref target="RFC6991" /> for encoding the service provider capability set. Section 7.1 provides the tree diagram, which is followed by a description of the various nodes within the module defined in this draft.</t>
       <section anchor="tree-diagram" numbered="true" toc="default">
         <name>Tree Diagram</name>
         <t>This section provides a tree diagram <xref target = "RFC8340" /> for the "ietf-sip-auto-peering" module. The interpretation of the symbols appearing in the tree diagram is as follows:</t>
@@ -324,59 +324,59 @@ The complete HTTPS URLs to be used when authenticating the enterprise edge eleme
         <artwork name="" type="" align="left" alt=""><![CDATA[
 module: ietf-sip-auto-peering
   +--rw peering-info* [index]
-     +--rw index             int32
-     +--rw variant           string
+     +--rw index             uint16
+     +--rw variant           enumeration
      +--rw revision
-     |  +--rw notBefore    string
-     |  +--rw location     string
+     |  +--rw not-before    string
+     |  +--rw location      string
      +--rw transport-info
-     |  +--rw transport        enumeration
-     |  +--rw registrar*       host-port
+     |  +--rw transport*        enumeration
+     |  +--rw registrar*
      |  +--rw realms* [name]
      |  |  +--rw name        string
      |  |  +--rw username?   string
-     |  |  +--rw password?   string
-     |  +--rw callControl*     host-port
-     |  +--rw dns*             inet:ip-address
-     |  +--rw outboundProxy?   host-port
+     |  |  +--rw password?   ianach:crypt-hash
+     |  +--rw call-control*
+     |  +--rw dns*              inet:ip-address
+     |  +--rw outbound-proxy?
      +--rw call-specs
-     |  +--rw earlyMedia?         boolean
-     |  +--rw signalingForking?   boolean
-     |  +--rw supportedMethods?   string
-     |  +--rw callerId
-     |  |  +--rw e164Format?        boolean
-     |  |  +--rw preferredMethod?   string
-     |  +--rw numRanges* [index]
-     |     +--rw index    int32
-     |     +--rw type?    string
-     |     +--rw count?   int32
+     |  +--rw early-media?         boolean
+     |  +--rw signaling-forking?   boolean
+     |  +--rw supported-methods*   enumeration
+     |  +--rw caller-id
+     |  |  +--rw e164-format?        boolean
+     |  |  +--rw preferred-method?   enumeration
+     |  +--rw num-ranges* [index]
+     |     +--rw index    uint16
+     |     +--rw type?    enumeration
+     |     +--rw count?   uint16
      |     +--rw value*   string
      +--rw media
-     |  +--rw mediaTypeAudio
-     |  |  +--rw mediaFormat*   string
+     |  +--rw media-type-audio
+     |  |  +--rw media-format*   string
      |  +--rw fax
      |  |  +--rw protocol*   enumeration
      |  +--rw rtp
-     |  |  +--rw RTPTrigger?     boolean
-     |  |  +--rw symmetricRTP?   boolean
+     |  |  +--rw rtp-trigger?     boolean
+     |  |  +--rw symmetric-rtp?   boolean
      |  +--rw rtcp
-     |     +--rw symmetricRTCP?   boolean
-     |     +--rw RTCPFeedback?    boolean
+     |     +--rw symmetric-rtcp?   boolean
+     |     +--rw rtcp-feedback?    boolean
      +--rw dtmf
-     |  +--rw payloadNumber?   int8
-     |  +--rw iteration?       boolean
+     |  +--rw payload-number?   uint8
+     |  +--rw iteration?        boolean
      +--rw security
      |  +--rw signaling
      |  |  +--rw secure?    boolean
-     |  |  +--rw version?   string
-     |  +--rw mediaSecurity
-     |  |  +--rw keyManagement?   string
-     |  +--rw certLocation?              string
-     |  +--rw secureTelephonyIdentity
-     |     +--rw STIRCompliance?   boolean
-     |     +--rw certDelegation?   boolean
-     |     +--rw ACMEDirectory?    string
-     +--rw extensions?       string
+     |  |  +--rw version*   enumeration
+     |  +--rw media-security
+     |  |  +--rw key-management?   string
+     |  +--rw cert-location?               string
+     |  +--rw secure-telephony-identity
+     |     +--rw stir-compliance?   boolean
+     |     +--rw cert-delegation?   boolean
+     |     +--rw acme-directory?    string
+     +--rw extensions*       string
 ]]></artwork>
       </section>
       <section anchor="yang-model" numbered="true" toc="default">
@@ -396,18 +396,16 @@ module ietf-sip-auto-peering {
     prefix "inet";
   }
 
+  import iana-crypt-hash {
+    prefix "ianach";
+  }
+
   organization
     "IETF ASAP (Automatic SIP trunking And Peering) Working Group";
 
   contact
     "WG Web: <https://datatracker.ietf.org/wg/asap/>
     WG List: <mailto:asap@ietf.org>
-
-    WG Chair: Jean Mahoney
-    <mailto:mahoney@nostrum.com>
-
-    WG Chair: Gonzalo Salgueiro
-    <mailto:gsalguei@cisco.com>
 
     Editor: Kaustubh Inamdar
     <mailto:kaustubh.ietf@gmail.com>
@@ -421,7 +419,7 @@ module ietf-sip-auto-peering {
   description
     "Data model for encoding SIP Service Provider Capability Set
 
-    Copyright (c) 2016 IETF Trust and the persons identified as
+    Copyright (c) 2025 IETF Trust and the persons identified as
     authors of the code.  All rights reserved.
 
     Redistribution and use in source and binary forms, with or
@@ -431,7 +429,8 @@ module ietf-sip-auto-peering {
     Relating to IETF Documents
     (http://trustee.ietf.org/license-info).
 
-    This version of this YANG module is part of RFC 7895; see
+    This version of this YANG module is part of RFC XXXX
+    (https://www.rfc-editor.org/info/rfcXXXX); see
     the RFC itself for full legal notices.
 
     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
@@ -441,282 +440,437 @@ module ietf-sip-auto-peering {
     they appear in all capitals, as shown here.";
 
   revision 2025-01-30 {
-    description "Capability set document v2.";
+    description "Initial version";
     reference
-      "draft-ietf-asap-sip-auto-peer-21:
-      Automatic Peering for SIP Trunks";
+      "RFC XXXX: Automatic Peering for SIP Trunks";
   }
 
-  typedef ipv4-address-port {
-    type string {
-      pattern "(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
-      + "\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]):"
-      + "([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]"
-      + "{2}|655[0-2][0-9]|6553[0-5])";
-    }
-    description "The ipv4-address-port type represents an IPv4
-    address in dotted-quad notation followed by a port number.";
-  }
+  grouping entity {
+    description "Grouping that provides a reusable list named 'entity', 
+      with each entry containing a host and a port.";
 
-  typedef ipv6-address-port {
-    type string {
-      pattern "\\[((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}"
-      + "((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2"
-      + "[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|"
-      + "[01]?[0-9]?[0-9])))\\]:([1-9][0-9]{0,3}|[1-5][0-9]{4}|6"
-      + "[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])";
-      pattern "\\[(([^:]+:){6}(([^:]+:[^:]+)|(.*\\..*)))|((([^:]+:)"
-      + "*[^:]+)?::(([^:]+:)*[^:]+)?)\\]:([1-9][0-9]{0,3}|[1-5]"
-      + "[0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553"
-      + "[0-5])";
-    }
-    description "The ipv6-address type represents an IPv6 address
-    in full, mixed, shortened, and shortened-mixed notation
-    followed by a port number.";
-  }
+      leaf host {
+        type union {
+          type inet:ip-address;
+          type inet:domain-name; 
+        }
+        description "IP Address or host name of the entity";
+      }
 
-  typedef ip-address-port {
-    type union {
-      type ipv4-address-port;
-      type ipv6-address-port;
-    }
-    description "The ip-address-port type represents an IP
-    address:port number and is IP version neutral.";
-  }
-
-  typedef domain-name-port {
-    type string {
-      length "1..258";
-      pattern "(((([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]"
-      + "\\.)*([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]"
-      + "\\.?)|\\.):([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|"
-      + "65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])";
-    }
-    description "The domain-name-port type represents a DNS domain
-    name followed by a port number. The name SHOULD be fully
-    qualified whenever possible.";
-  }
-
-  typedef host-port {
-    type union {
-      type ip-address-port;
-      type domain-name-port;
-    }
-    description "The host type represents either an IP address or a
-    DNS domain name followed by a port number.";
+      leaf port {
+        type inet:port-number;
+        description "Entity's port number (e.g. 5060).";
+      }
   }
 
   list peering-info {
     key index;
     max-elements 1;
-    description "The root of all capabilities in the documents.";
+    description "A container for all the other nodes in the YANG module;
+      the peering-info node is akin to the root element of a JSON document.";
 
     leaf index {
-      type int32;
+      type uint16;
       description "Index for the peering-info set.";
     }
 
     leaf variant {
-      type string;
+      type enumeration{
+        enum 1.0 {
+          description "Variant 1.0 of the capability set document is defined
+            in this draft";
+        }
+      }
       mandatory true;
-      description "Variant of peering-response document.";
+      description "A node that identifies the version number of the
+        capability set document. This draft defines the parameters for 
+        variant 1.0; future specifications might define a richer parameter
+        set, in which case the variant must be changed to 2.0, 3.0 and so on.
+        Future extensions to the capability set document MUST also ensure
+        that the corresponding YANG module is defined.";
     }
 
     container revision {
-      description "The version number of the capability set
-      document.";
+      description "A container that encapsulates information regarding the
+        availability of a new version of the capability set document for the
+        enterprise.";
 
-      leaf notBefore {
+      leaf not-before {
         type string;
         mandatory true;
-        description "Time and date specifying when the parameters
-        specified in this capability set document are considered
-        active or valid.";
+        description "A node that identifies the data and time at which the
+          parameters in this capability set documents are activated or
+          considered valid.";
       }
 
       leaf location {
         type string;
         mandatory true;
-        description "Location of the new version of capability set
-        document.";
+        description "A node that identifies the URL of a new revision of the
+          service provider capability set document.";
       }
     }
 
     container transport-info {
-      description "The transport characteristics of SIP sessions
-      between enterprise and service provider networks.";
+      description "A container that encapsulates transport characteristics of
+        SIP sessions between enterprise and service provider networks.";
 
-      leaf transport {
+      leaf-list transport {
         type enumeration {
-          enum "TCP" {
-            description "The TCP transport.";
+          enum tcp {
+            description "Transmission Control Protocol";
           }
-
-          enum "TLS" {
-            description "The TLS transport.";
+          enum tls {
+            description "Transport Layer Security (over TCP)";
           }
-
-          enum "UDP" {
-            description "The UDP transport.";
-          }
-
-          enum "TCP;TLS" {
-            description "The TCP or TLS transport.";
-          }
-
-          enum "TCP;TLS;UDP" {
-            description "The TCP, TLS, or UDP transport.";
-          }
-
-          enum "TCP;UDP" {
-            description "The TCP or UDP transport.";
+          enum udp {
+            description "User Datagram Protocol";
           }
         }
         mandatory true;
-        description "Transport Protocol(s) used in SIP
-        communication.";
+        description "A list that enumerates the different Transport
+          Layer protocols supported by the SIP service provider. Valid
+          transport layer protocols include: UDP, TCP and TLS";
       }
 
       leaf-list registrar {
-        type host-port;
+        uses entity;
         max-elements 3;
-        description "List of service provider registrar servers.";
+        description "A list that specifies the transport address of one
+          or more registrar servers in the service provider network. The
+          transport address of the registrar can be provided using a
+          combination of a valid IP address and port number, or a subdomain
+          of the SIP service provider network, or the fully qualified domain
+          name (FQDN) of the SIP service provider network. If the transport
+          address of a registrar is specified using either a subdomain or a
+          fully qualified domain name, the DNS element must be populated with
+          one or more valid DNS server IP addresses.";
       }
 
       list realms {
         key "name";
-        description "The set of realms or protection domains the SIP
-        service provider is responsible for.";
+        description "A container that encapsulates the set of realms or
+          protection domains the SIP service provider is responsible for.";
 
         leaf name {
           type string;
           mandatory true;
-          description "Name of the realm or protection domain in the
-          service provider network.";
+          description "A node specifying the SIP service provider realm
+            or protection domain. This node is encoded as a string the value
+            of this node must be identical to the value of the “realm”
+            parameter in a WWW-Authenticate header field that the SIP service
+            provider might send in response to requests that do not contain a
+            valid Authorisation header field. ";
         }
 
         leaf username {
           type string;
-          description "Username for digest authentication within
-          the realm specified in the preceding leaf.";
+          description "A node that encodes the username for the given realm.
+            The username is one of many inputs used by the enterprise network
+            in generating the response parameter of the Authorization header
+            field.";
         }
 
         leaf password {
-          type string;
-          description "Password for digest authentication within
-          the realm specified in the preceding leaf.";
+          type ianach:crypt-hash;
+          description "A node that encodes the password for the given realm.
+            The password is one of many inputs used by the enterprise
+            network in generating the response parameter of the 
+            Authorization header field. The password is stored as a
+            cryptographic hash."
+          ;
         }
       }
 
-      leaf-list callControl {
-        type host-port;
+      leaf-list call-control {
+        uses entity;
         max-elements 3;
-        description "List of service provider call control servers.";
+        description "A list that specifies the transport address of the
+          call server(s) in the service provider network. The enterprise
+          network must use an applicable transport protocol in conjunction
+          with the call control server(s) transport address when transmitting
+          call setup requests. The transport address of a call server(s)
+          within the service provider network can be specified using a
+          combination of a valid IP address and port number, or a subdomain
+          of the SIP service provider network, or a fully qualified domain
+          name of the SIP service provider network. If the transport address
+          of a call control server(s) is specified using either a subdomain
+          or a fully qualified domain name, the DNS element must be populated
+          with one or more valid DNS server IP addresses. The transport
+          address specified in this element can also serve as the target for
+          non-call requests such as SIP OPTIONS.";
       }
 
       leaf-list dns {
         type inet:ip-address;
         max-elements 2;
-        description "IP address of the DNS Server(s) hosted by the
-        service provider.";
+        description "A list that encodes the IP address of one or more
+          DNS servers hosted by the SIP service provider. If the enterprise
+          network is unaware of the IP address, port number, and transport
+          protocol of servers within the service provider network (for
+          example, the registrar and call control server), it must use DNS
+          NAPTR and SRV. Alternatively, if the enterprise network has the 
+          fully qualified domain name of the SIP service provider network, it
+          must use DNS to resolve the said FQDN to an IP address. The dns
+          element encodes the IP address of one or more DNS servers hosted in
+          the service provider network. If however, either the registrar or
+          call-control elements or both are populated with a valid IP address
+          and port pair, the dns element must be set to ::/0.";
       }
 
-      leaf outboundProxy {
-        type host-port;
-        description "SIP Outbound Proxy.";
+      leaf outbound-proxy {
+        uses entity;
+        description "A list that specifies the transport address of one
+          or more outbound proxies. The transport address can be specified by
+          using a combination of an IP address and a port number, a subdomain
+          of the SIP service provider network, or a fully qualified domain
+          name and port number of the SIP service provider network. If the
+          outbound-proxy sub-element is populated with a valid transport
+          address, it represents the default destination for all outbound
+          SIP requests and therefore, the registrar and call-control elements
+          must be populated with the quadruple octet of 0.0.0.0";
       }
     }
 
     container call-specs {
-      description "Information about call specifications,
-      restrictions and additional handling criteria for SIP calls
-      between the enterprise and service provider network.";
+      description "A container that encapsulates information about call
+        specifications, restrictions and additional handling criteria for
+        SIP calls between the enterprise and service provider network.";
 
-      leaf earlyMedia {
+      leaf early-media {
         type boolean;
-        description "Flag indicating whether the service provider is
-        expected to deliver early media.";
+        description "A node that specifies whether the service provider
+          network is expected to deliver in-band announcements/tones before
+          call connect. The 'P-Early-Media' header field can be used to
+          indicate pre-connect delivery of tones and announcements on a
+          per-call basis. However, given that signalling and media could
+          traverse a large number of intermediaries with varying capabilities
+          (in terms of handling of the 'P-Early-Media' header field) within
+          the enterprise, such devices can be appropriately configured for
+          media cut through if it is known before-hand that early media is
+          expected for some or all of the outbound calls. This element is a
+          boolean type, where a value of true signifies that the service
+          provider is capable of early media. A value of false signifies that
+          the service provider is not expected to generate early media.";
       }
 
-      leaf signalingForking {
+      leaf signaling-forking {
         type boolean;
-        description "Flag indicating if the service provider may
-        fork calls made from the enterprise network.";
+        description "A node that specifies whether outbound call requests from
+          the enterprise might be forked on the service provider network that
+          MAY lead to multiple early dialogs. This information would be useful
+          to the enterprise network in appropriately handling multiple early
+          dialogs reliably and in enforcing local policy. This element is a
+          boolean type, where a value of true signifies that the service
+          provider network can potentially fork outbound call requests from
+          the enterprise. A value of false indicates that the service provider
+          will not fork outbound call requests.";
       }
 
-      leaf supportedMethods {
-        type string;
-        description "Leaf/Leaf List indicating the different SIP
-        methods supported by the service provider.";
+      leaf-list supported-methods {
+        type enumeration {
+          enum INVITE {
+            description "Initiate a dialog or session.";
+          }
+          enum ACK {
+            description "Acknowledge final response to INVITE.";
+          }
+          enum BYE {
+            description "Terminate a dialog or session.";
+          }
+          enum CANCEL {
+            description "Cancel a pending request.";
+          }
+          enum REGISTER {
+            description "Register contact information.";
+          }
+          enum OPTIONS {
+            description "Query capabilities of a server.";
+          }
+          enum PRACK {
+            description "Provisional acknowledgement.";
+          }
+          enum SUBSCRIBE {
+            description "Subscribe to an event.";
+          }
+          enum NOTIFY {
+            description "Notify subscriber of an event.";
+          }
+          enum PUBLISH {
+            description "Publish an event state.";
+          }
+          enum INFO {
+            description "Send mid-session information.";
+          }
+          enum REFER {
+            description "Refer recipient to a third party.";
+          }
+          enum MESSAGE {
+            description "Instant message transport.";
+          }
+          enum UPDATE {
+            description "Update session parameters within a dialog.";
+          }
+        }
+        description "A list that specifies the various SIP methods supported
+          by the SIP service provider. The list of supported methods help to
+          appropriately configure various devices within the enterprise 
+          network. For example, if the service provider enumerates support
+          for the OPTIONS method, the enterprise network could periodically
+          send OPTIONS requests as a keep-alive mechanism.";
       }
 
-      container callerId {
-        description "Preferences of SIP Service Providers in terms
-        of calling number presentation by the enterprise network.";
+      container caller-id {
+        description "A container that encodes the preferences of SIP Service
+          Providers in terms of calling number presentation by the enterprise
+          network. Certain ITSPs require that the calling number be formatted
+          in E.164, whereas others place no such restrictions. Additionally,
+          some ITSPs require that the calling number be included in a specific
+          SIP header field, for example, the P-Asserted-ID header field or the
+          From header field, whereas others place no restrictions on the
+          specific SIP header field used to convey the calling number.";
 
-        leaf e164Format {
+        leaf e164-format {
           type boolean;
-          description "Flag indicating whether the enterprise must
-          format calling numbers in E.164 format.";
+          description "A node that indicates whether the service provider
+            requires the enterprise network to normalize the calling number
+            into E.164 format. This node is of type boolean. A value of true
+            mandates the enterprise network to format calling numbers to E.164
+            format, while a false leaves the formatting of the calling number
+            up to the enterprise network.";
         }
 
-        leaf preferredMethod {
-          type string;
-          description "Field specifying which SIP header must be
-          used by the enterprise network to communicate caller
-          information.";
+        leaf preferred-method {
+          type enumeration {
+            enum P-Asserted-Identity {
+              description "Use the 'P-Asserted-Identity' header to determine
+              remote party identity.";
+            }
+            enum From {
+              description "Use the 'From' header to determine remote party
+              identity.";
+            }
+          }
+          description "A node that specifies which SIP header MUST be used by
+            the enterprise network to communicate caller information. The
+            value of this node is a string that contains the name of the SIP
+            header required to carry caller information.";
         }
       }
 
-      list numRanges {
+      list num-ranges {
         key index;
-        description "Direct Inward Dial (DID) number range allocated
-        to the enterprise network by the SIP service provider.";
+        description "A list that specifies the Direct Inward Dial (DID)
+          number range allocated to the enterprise network by the SIP service
+          provider. The DID number ranges allocated by the service provider to
+          the enterprise network might be a contiguous or a non-contiguous
+          block. The number ranges allocated to an enterprise can be
+          communicated as a value or as a reference. For large enterprise
+          networks, the size of the DID range might run into several hundred
+          numbers. For situations in which the enterprise is allocated a large
+          DID number range or a non-contiguous number range it is RECOMMENDED
+          that the SIP service provider communicate this information by
+          reference, that is, through a URL. The enterprise network is
+          required to de-reference this URL in order to obtain the DID number
+          ranges allocated by the SIP service provider. Refer to the example
+          provided in Section 9.1.";
 
         leaf index {
-          type int32;
-          description "Index for the ranges.";
+          type uint16;
+          description "Index for the number ranges.";
         }
 
         leaf type {
-          type string;
-          description "String indicating whether the number range
-          allocated to the enterprise network is passed by value or
-          by reference.";
+          type enumeration {
+            enum range {
+              description "Numbers specified as a range.";
+            }
+            enum collection {
+              description "Numbers specified in the form of a collection.";
+            }
+            enum reference {
+              description "Number range available at a URL.";
+            }
+          }
+          description "A node that indicates whether the DID range is
+            communicated by value or by reference. It can have a value of
+            'range', 'collection' or 'reference'.";
         }
 
         leaf count {
           when "../type = 'range' or ../type = 'collection'";
-          type int32;
-          description "The count of the individual numbers present
-          in the number range.";
+          type uint16;
+          description "A node that indicates the size of the DID number
+            range. The number range may be contiguous or non-contiguous. This
+            leaf node MUST NOT be included when using the 'reference'
+            num-ranges type value.";
         }
 
         leaf-list value {
           type string;
-          description "Value of the individual number in the number
-          range or URL being passed as reference.";
+          description "A list that encapsulates the DID number range allocated
+            to the enterprise. If the num-ranges 'type' is set to 'range' or
+            'collection', the 'count' node MUST have a valid, non-zero,
+            positive integer. If the num-ranges 'type' value is set to
+            'range', then, the number in this field represents the first
+            phone number of a DID range allocated to the enterprise. The value
+            of subsequent numbers of the given DID range are obtained by
+            adding one to the value of this field. The number of times we need
+            to add one is indicated by the 'count' field.";
         }
       }
     }
 
     container media {
-      description "The characteristics of UDP-based audio streams.";
+      description "A container that is used to collectively encapsulate the
+        characteristics of UDP-based audio streams. A future extension to this
+        draft may extend the media container to describe other media types.
+        The media container is also used to encapsulate basic information
+        about Real-Time Transport Protocol (RTP) and Real-Time Transport
+        Control Protocol (RTCP) from the perspective of the service provider
+        network. At the time of writing this specification, video media
+        streams aren't exchanged between enterprise and service provider SIP
+        networks.";
 
-      container mediaTypeAudio {
-        description "The various audio media formats supported by
-        the SIP service provider.";
+      container media-type-audio {
+        description "A container for the mediaFormat list. This container
+          collectively encapsulates the various audio media formats
+          supported by the SIP service provider.";
 
-        leaf-list mediaFormat {
+        leaf-list media-format {
           type string;
-          description "Leaf List indicating the audio media formats
-          supported by the service provider.";
+          description "A list encoding the various audio media formats
+          supported by the SIP service provider. The relative ordering
+          of different media format leaf nodes from left to right indicates
+          preference from the perspective of the service provider. Each
+          mediaFormat node begins with the encoding name of the media format,
+          which is the same encoding name as used in the 'RTP/AVP' and
+          'RTP/SAVP' profiles. The encoding name is followed by required and
+          optional parameters for the given media format as specified when
+          the media format is registered [@RFC4855]. Given that the
+          parameters of media formats can vary from one communication session
+          to another, for example, across two separate communication
+          sessions, the packetization time (ptime) used for the PCMU media
+          format might vary from 10 to 30 ms, the parameters included in the
+          format element must be the ones that are expected to be invariant
+          from the perspective of the service provider. Providing information
+          about supported media formats and their respective parameters,
+          allows enterprise networks to configure the media plane
+          characteristics of various devices such as endpoints and
+          middleboxes. The encoding name, one or more required parameters,
+          one or more optional parameters are all separated by a semicolon.
+          The formatting of a given media format parameter, must follow the
+          formatting rules as specified for that media format.";
         }
       }
 
       container fax {
-        description "The fax protocol(s) supported by the SIP
-        service provider.";
+        description "A container that encapsulates the fax protocol(s)
+          supported by the SIP service provider. The fax container encloses
+          a list (protocol) that enumerates whether the service provider
+          supports t38 relay, protocol-based fax passthrough or both. The
+          relative ordering of nodes within the lists indicates
+          preference.";
 
         leaf-list protocol {
           type enumeration {
@@ -729,234 +883,254 @@ module ietf-sip-auto-peering {
             }
           }
           max-elements 2;
-          description "Leaf List indicating the different fax
+          description "List indicating the different fax
           protocols supported by the service provider.";
         }
       }
 
       container rtp {
-        description "Generic characteristics of RTP sessions between
-        the enterprise and service provider network.";
+        description "A container that encapsulates generic characteristics
+          of RTP sessions between the enterprise and service provider network.
+          This node is a container for the 'rtp-trigger' and 'symmetric-rtp'
+          nodes.";
 
-        leaf RTPTrigger {
+        leaf rtp-trigger {
           type boolean;
-          description "Flag indicating whether the service provider
-          expects to receive the first media packet from the
-          enterprise network in a connected SIP session.";
+          description "A node indicating whether the SIP service provider
+            network always expects the enterprise network to send the first
+            RTP packet for an established communication session. This
+            information is useful in scenarios such as 'hairpinned' calls,
+            in which the caller and callee are on the service provider network
+            and because of sub-optimal media routing, an enterprise device
+            such as an SBC is retained in the media path. Based on the
+            encoding of this node, it is possible to configure enterprise
+            devices such as SBCs to start streaming media (possibly filled
+            with silence payloads) toward the address:port tuples provided
+            by caller and callee. This node is a boolean type. A value of
+            true indicates that the service provider expects the enterprise
+            network to send the first RTP packet, whereas a value of false
+            indicates that the service provider network does not require the
+            enterprise network to send the first media packet. While the
+            practise of preserving the enterprise network in a hairpinned call
+            flow is fairly common, it is recommended that SIP service
+            providers avoid this practise. In the context of a hairpinned
+            call, the enterprise device retained in the call flow can easily
+            eavesdrop on the conversation between the offnet parties.";
         }
 
-        leaf symmetricRTP {
+        leaf symmetric-rtp {
           type boolean;
-          description "Flag indicating whether the service provider
-          expects symmetric RTP defined in [@RFC4961].";
+          description "A node indicating whether the SIP service provider
+            expects the enterprise network to use symmetric RTP as defined
+            in [@]RFC4961]. Enforcement of this requirement by service
+            providers on enterprise networks is typically useful in scenarios
+            such as media latching [@RFC7362]. This node is a boolean type,
+            a value of true indicates that the service provider expects the
+            enterprise network to use symmetric RTP, whereas a value of false
+            indicates that the enterprise network can use asymmetric RTP.";
         }
       }
 
       container rtcp {
-        description "Generic characteristics of RTCP sessions
-        between the enterprise and service provider network.";
+        description "A container that encapsulates generic characteristics of
+          RTCP sessions between the enterprise and service provider network.
+          This node is a container for the 'rtcp-feedback' and
+          'symmetric-rtcp' nodes.";
 
-        leaf symmetricRTCP {
+        leaf symmetric-rtcp {
           type boolean;
-          description "Flag indicating whether the service provider
-          expects symmetric RTP defined in [@RFC4961].";
+          description "A node indicating whether the SIP service provider
+            expects the enterprise network to use symmetric RTCP as defined
+            in [@RFC4961]. This node is a boolean type, a value of true
+            indicates that the service provider expects symmetric RTCP
+            reports, whereas a value of false indicates that the enterprise
+            can use asymmetric RTCP.";
         }
 
-        leaf RTCPFeedback {
+        leaf rtcp-feedback {
           type boolean;
-          description "Flag Indicating support for RTP profile
-          extension for RTCP-based feedback, as defined in
-          [@RFC4585].";
+          description "A node that indicates whether the SIP service provider
+            supports the RTP profile extension for RTCP-based feedback
+            [@RFC4585]. Media sessions spanning enterprise and service
+            provider networks, are rarely made to flow directly between the
+            caller and callee, rather, it is often the case that media
+            traffic flows through network intermediaries such as SBCs. As a
+            result, RTCP traffic from the service provider network is
+            intercepted by these intermediaries, which in turn can either pass
+            across RTCP traffic unmodified or modify RTCP traffic before it
+            is forwarded to the endpoint in the enterprise network.
+            Modification of RTCP traffic would be required, for example, if
+            the intermediary has performed media payload transformation
+            operations such as transcoding or transrating. In a similar vein,
+            for the RTCP-based feedback mechanism as defined in [@RFC4585]
+            to be truly effective, intermediaries must ensure that feedback
+            messages are passed reliably and with the correct formatting to
+            enterprise endpoints. This might require additional configuration
+            and considerations that need to be dealt with at the time of
+            provisioning the intermediary device. This node is of boolean
+            type, a value of true indicates that the service provider supports
+            the RTP profile extension for RTP-based feedback and a value of
+            false indicates that the service provider does not support the RTP
+            profile extension for RTP-based feedback.";
         }
       }
     }
 
     container dtmf {
-      description "The various aspects of DTMF relay via RTP Named
-      Telephony Events.";
+      description "A container that describes the various aspects of DTMF
+        relay via RTP Named Telephony Events. The dtmf container allows SIP
+        service providers to specify two facets of DTMF relay via Named
+        Telephony Events.";
 
-      leaf payloadNumber {
-        type int8 {
+      leaf payload-number {
+        type uint8 {
           range "96..127";
         }
-        description "Leaf indicating the payload number(s) supported
-        by the service provider for DTMF related via RTP NTE.";
+        description "A node that indicates tht payload type number.";
       }
 
       leaf iteration {
         type boolean;
-        description "Flag identifying whether the service provider
-        supports RTP-NTE DTMF relay using the procedures of
-        [@RFC2833] or [@RFC4733].";
+        description "A node that indicates support for [@RFC2833] or
+          [@RFC4733]. SIP service providers can indicate support for
+          [@RFC4733] by setting the iteration flag to true or indicating
+          support for [@RFC2833] by setting the iteration flag to false.";
       }
     }
 
     container security {
-      description "The characteristics about encrypting signalling
-      streams between the enterprise and SIP service provider
-      networks.";
+      description "A container that encapsulates characteristics about
+        encrypting signalling streams between the enterprise and SIP service
+        provider networks.";
 
       container signaling {
-        description "The type of security protocol for the SIP
-        communication between the enterprise SBC and the service
-        provider.";
+        description "A container that encapsulates the type of security
+          protocol for the SIP communication between the enterprise SBC and
+          the service provider.";
 
         leaf secure {
           type boolean;
-          description "Flag indicating whether the service provider
-          supports SIP over TLS.";
+          description "A node that specifies whether the service provider
+            allows the use of TLS to secure SIP signalling messages between
+            the enterprise and service provider network. This node is of
+            boolean type, a value of true indicates that the service provider
+            supports SIP sessions over TLS, wheras a value of false indicates
+            that the service provider does not support SIP over TLS.";
         }
 
-        leaf version {
-          type string {
-            pattern "([1-9]\\.[0-9])(;[1-9]\\.[0-9])?|(NULL)";
+        leaf-list version {
+          type enumeration {
+            enum 1.0 {
+              description "TLS version 1.0.";
+            }
+            enum 1.2 {
+              description "TLS version 1.2.";
+            }
+            enum 1.3 {
+              description "TLS version 1.3.";
+            }
           }
-          description "Leaf indicating the TLS version supported by
-          the SIP service provider.";
+          description "A list that specifies the version(s) of TLS supported.
+            If the service provider does not support TLS for protecting SIP
+            sessions, the signalling element is set to the string 'NULL'.";
         }
       }
 
-      container mediaSecurity {
-        description "The various characteristics of securing media
-        streams between enterprise and service provider networks.";
+      container media-security {
+        description "A container that describes the various characteristics
+          of securing media streams between enterprise and service provider
+          networks.";
 
-        leaf keyManagement {
+        leaf key-management {
           type string {
             pattern "(SDES(;DTLS-SRTP,version=[1-9]\\.[0-9](,[1-9]"
             + "\\.[0-9])?)?)|(DTLS-SRTP,version=[1-9]\\.[0-9](,"
             + "[1-9]\\.[0-9])?)|(NULL)";
           }
-          description "Leaf indicating the key management methods
-          supported by the service provider for SRTP.";
+          description "A node that specifies the key management method used
+            by the service provider. Possible values of this node include:
+            'SDES' and 'DTLS-SRTP'. A value of 'SDES' signifies that the SIP
+            service provider uses the methods defined in [@RFC4568] for the
+            purpose of key management. A value of 'DTLS-SRTP' signifies that
+            the SIP service provider uses the methods defined in [@RFC5764]
+            for the purpose of key management. If the value of this node is
+            set to 'DTLS-SRTP', the various versions of DTLS supported by the
+            SIP service provider MUST be encoded as per the formatting rules
+            of Section 7.2 If the service provider does not support media
+            security, the key-management node MUST be set to 'NULL'.";
         }
       }
 
-      leaf certLocation {
+      leaf cert-location {
         type string;
-        description "Location of the service provider certificate
-        chain for SIP over TLS.";
+        description "An optional node. If the enterprise network is required
+          to exchange SIP traffic over TLS with the SIP service provider, and
+          if the SIP service provider is capable of accepting TLS connections
+          from the enterprise network, it may be required for the SIP service
+          provider certificates to be pre-installed on the enterprise edge
+          element. In such situations, the cert-location node is populated
+          with a URL, which when dereferenced, provides a single PEM encoded
+          file that contains all certificates in the chain of trust.";
       }
 
-      container secureTelephonyIdentity {
-        description "The Secure Telephony Identity Revisited (STIR)
-        characteristics.";
+      container secure-telephony-identity {
+        description "A container that is used to collectively encapsulate
+          Secure Telephony Identity Revisited (STIR) characteristics.";
 
-        leaf STIRCompliance {
+        leaf stir-compliance {
           type boolean;
-          description "Indicates whether the SIP service provider is
-          STIR compliant.";
+          description "A node that indicates whether the SIP service provider
+            is STIR compliant. This node is of boolean type, a value of true
+            indicates that the SIP service provider is STIR compliant. A
+            value of false indicates that the SIP service provider is not
+            STIR compliant. A SIP service provider being STIR compliant has
+            implications for inbound and outbound calls, from the perspective
+            of the enterprise network.";
         }
 
-        leaf certDelegation {
+        leaf cert-delegation {
           type boolean;
-          description "Indicates whether a SIP service provider is
-          willing to delegate authority to the enterprise network
-          over its allocated number range(s).";
+          description "A node that indicates whether a SIP service provider
+            that allocates one or more number ranges to an enterprise network,
+            is willing to delegate authority to the enterprise network over
+            that number range(s). This node is of boolean type, a value of
+            true indicates that the SIP service provider is willing to
+            delegate authority to the enterprise network over one or more
+            number ranges. A value of false indicates that the SIP service
+            provider is not willing to delegate authority to the enterprise
+            network over one or more number ranges. This node MUST only be
+            included in the capability set if the value of the stir-compliance
+            leaf node is set to true. In order to obtain delegate
+            certificates, the enterprise network must be made aware of the
+            scope of delegation - the number or number range(s) over which the
+            SIP service provider is willing to delegate authority. This
+            information is included in the num-ranges container.";
         }
 
-        leaf ACMEDirectory {
-          when "../certDelegation = 'true'";
+        leaf acme-directory {
+          when "../cert-delegation = 'true'";
           type string;
-          description "Directory object URL, when de-referenced,
-          provides a collection of field name-value pairs to
-          kickstart ACME.";
+          description "A node that provides the URL of the directory object
+            for delegate certificates using Automatic Certificate Management
+            Environment (ACME) [@RFC8555]. The directory object URL, when 
+            de-referenced, provides a collection of field name-value pairs.
+            Certain field name-value pairs provided in the response are used
+            to bootstrap the process the obtaining delegate certificates. This
+            node MUST only be included in the capability set if the value of
+            the cert-delegation leaf node is set to true.";
         }
       }
     }
 
-    leaf extensions {
+    leaf-list extensions {
       type string;
-      description "Lists the various SIP extensions supported by the
-      service provider.";
+      description "A list of all possible SIP option tags supported by the
+        service provider network. These extensions must be referenced using
+        name registered under IANA.";
     }
   }
 }
     ]]></sourcecode>
-      </section>
-      <section anchor="node-definitions" numbered="true" toc="default">
-        <name>Node Definitions</name>
-        <t>This sub-sections provides the definition and encoding rules of the various nodes of the YANG module defined in section 7.2</t>
-        <t><strong>peering-info</strong>: A container for all the other nodes in the YANG module; the peering-info node is akin to the root element of a JSON document.</t>
-        <t><strong>variant</strong>: A leaf node that identifies the version number of the capability set document. This draft defines the parameters for variant 1.0; future specifications might define a richer parameter set, in which case the variant must be changed to 2.0, 3.0 and so on. Future extensions to the capability set document MUST also ensure that the corresponding YANG module is defined.</t>
-        <t><strong>revision</strong>: A container that encapsulates information regarding the availability of a new version of the capability set document for the enterprise.</t>
-        <t><strong>notBefore</strong>: A node that identifies the data and time at which the parameters in this capability set documents are activated or considered valid.</t>
-        <t><strong>location</strong>: A node that identifies the URL of a new revision of the service provider capability set document.</t>
-        <t><strong>transport-info</strong>: A container that encapsulates transport characteristics of SIP sessions between enterprise and service provider networks.</t>
-        <t><strong>transport</strong>: A leaf node that enumerates the different Transport Layer protocols supported by the SIP service provider. Valid transport layer protocols include: UDP, TCP, TLS or a combination of them (with the exception of TLS and UDP).</t>
-        <t><strong>registrar</strong>: A leaf-list that specifies the transport address of one or more registrar servers in the service provider network. The transport address of the registrar can be provided using a combination of a valid IP address and port number, or a subdomain of the SIP service provider network, or the fully qualified domain name (FQDN) of the SIP service provider network. If the transport address of a registrar is specified using either a subdomain or a fully qualified domain name, the DNS element must be populated with one or more valid DNS server IP addresses.</t>
-        <t><strong>realms</strong>: A container that encapsulates the set of realms or protection domains the SIP service provider is responsible for.</t>
-        <t><strong>name</strong>: A leaf node specifying the SIP service provider realm or protection domain. This node is encoded as a string the value of this node must be identical to the value of the “realm” parameter in a WWW-Authenticate header field that the SIP service provider might send in response to requests that do not contain a valid Authorisation header field. </t>
-        <t><strong>username</strong>: A leaf node that encodes the username for the given realm. The username is one of many inputs used by the enterprise network in generating the response parameter of the Authorization header field.</t>
-        <t><strong>password</strong>:A leaf node that encodes the password for the given realm. The password is one of many inputs used by the enterprise network in generating the response parameter of the Authorization header field.</t>
-        <t><strong>callControl</strong>: A leaf-list that specifies the transport address of the call server(s) in the service provider network. The enterprise network must use an applicable transport protocol in conjunction with the call control server(s) transport address when transmitting call setup requests. The transport address of a call server(s) within the service provider network can be specified using a combination of a valid IP address and port number, or a subdomain of the SIP service provider network, or a fully qualified domain name of the SIP service provider network. If the transport address of a call control server(s) is specified using either a subdomain or a fully qualified domain name, the DNS element must be populated with one or more valid DNS server IP addresses. The transport address specified in this element can also serve as the target for non-call requests such as SIP OPTIONS.</t>
-        <t><strong>dns</strong>: A leaf list that encodes the IP address of one or more DNS servers hosted by the SIP service provider. If the enterprise network is unaware of the IP address, port number, and transport protocol of servers within the service provider network (for example, the registrar and call control server), it must use DNS NAPTR and SRV. Alternatively, if the enterprise network has the fully qualified domain name of the SIP service provider network, it must use DNS to resolve the said FQDN to an IP address. The dns element encodes the IP address of one or more DNS servers hosted in the service provider network. If however, either the registrar or callControl elements or both are populated with a valid IP address and port pair, the dns element must be set to ::/0</t>
-        <t><strong>outboundProxy</strong>: A leaf list that specifies the transport address of one or more outbound proxies. The transport address can be specified by using a combination of an IP address and a port number, a subdomain of the SIP service provider network, or a fully qualified domain name and port number of the SIP service provider network. If the outbound-proxy sub-element is populated with a valid transport address, it represents the default destination for all outbound SIP requests and therefore, the registrar and callControl elements must be populated with the quadruple octet of 0.0.0.0</t>
-        <t><strong>call-specs</strong>: A container that encapsulates information about call specifications, restrictions and additional handling criteria for SIP calls between the enterprise and service provider network.</t>
-        <t><strong>earlyMedia</strong>: A leaf that specifies whether the service provider network is expected to deliver in-band announcements/tones before call connect. The P-Early-Media header field can be used to indicate pre-connect delivery of tones and announcements on a per-call basis. However, given that signalling and media could traverse a large number of intermediaries with varying capabilities (in terms of handling of the P-Early-Media header field) within the enterprise, such devices can be appropriately configured for media cut through if it is known before-hand that early media is expected for some or all of the outbound calls. This element is a Boolean type, where a value of 1/true signifies that the service provider is capable of early media. A value of 0/false signifies that the service provider is not expected to generate early media.</t>
-        <t><strong>signalingForking</strong>: A leaf that specifies whether outbound call requests from the enterprise might be forked on the service provider network that MAY lead to multiple early dialogs. This information would be useful to the enterprise network in appropriately handling multiple early dialogs reliably and in enforcing local policy. This element is a Boolean type, where a value of 1/true signifies that the service provider network can potentially fork outbound call requests from the enterprise. A value of 0/false indicates that the service provider will not fork outbound call requests.</t>
-        <t><strong>supportedMethods</strong>: A leaf node that specifies the various SIP methods supported by the SIP service provider. The list of supported methods help to appropriately configure various devices within the enterprise network. For example, if the service provider enumerates support for the OPTIONS method, the enterprise network could periodically send OPTIONS requests as a keep-alive mechanism.</t>
-        <t><strong>callerId</strong>: A container that encodes the preferences of SIP Service Providers in terms of calling number presentation by the enterprise network. Certain ITSPs require that the calling number be formatted in E.164, whereas others place no such restrictions. Additionally, some ITSPs require that the calling number be included in a specific SIP header field, for example, the P-Asserted-ID header field or the From header field, whereas others place no restrictions on the specific SIP header field used to convey the calling number. </t>
-        <t><strong>e164Format</strong>: A leaf node that indicates whether the service provider requires the enterprise network to normalize the calling number into E.164 format. This node is of type Boolean. A value of 'true' or '1' mandates the enterprise network to format calling numbers to E.164 format, while a 'false' or '0' leaves the formatting of the calling number up to the enterprise network.</t>
-        <t><strong>preferredMethod</strong>: A leaf node that specifies which SIP header MUST be used by the enterprise network to communicate caller information. The value of this node is a string that contains the name of the SIP header required to carry caller information.</t>
-        <t><strong>numRanges</strong>: A container that specifies the Direct Inward Dial (DID) number range allocated to the enterprise network by the SIP service provider. The DID number ranges allocated by the service provider to the enterprise network might be a contiguous or a non-contiguous block. The number ranges allocated to an enterprise can be communicated as a value or as a reference. For large enterprise networks, the size of the DID range might run into several hundred numbers. For situations in which the enterprise is allocated a large DID number range or a non-contiguous number range it is RECOMMENDED that the SIP service provider communicate this information by reference, that is, through a URL. The enterprise network is required to de-reference this URL in order to obtain the DID number ranges allocated by the SIP service provider. The numRanges container can be an array. Refer to the example provided in Section 9.1.</t>
-        <t><strong>type</strong>: A leaf node that indicates whether the DID range is communicated by value or by reference. It can have a value of 'range', 'collection' or 'reference'.</t>
-        <t><strong>count</strong>: A leaf node that indicates the size of the DID number range. The number range may be contiguous or non-contiguous. This leaf node MUST NOT be included when using the 'reference' numRangeType value.</t>
-        <t><strong>value</strong>: A leaf-list that encapsulates the DID number range allocated to the enterprise. If the numRangeType value is set to 'range' or 'collection', the "count" leaf-node
-        MUST have a valid, non-zero, positive integer. If the numRanges "type" value is set to
-        'range', then, the number in this field represents the first phone number of a
-        DID range allocated to the enterprise. The value of subsequent numbers of the
-        given DID range are obtained by adding one to the value of this field. The number of times we need to add one
-        is indicated by the 'count' field. For example, for the following snippet of a capability set document: </t>
-
-        <artwork name="" type="" align="left" alt=""><![CDATA[
-
-        "numRange": [{
-            "index": 0,
-            "type": "range",
-            "count": 5,
-            "value": ["19725455000"]
-        }]
-      ]]></artwork>
-
-      <t> There are a total of five numbers in the allocated block, the first number of
-      the block is 19725455000, subsequent numbers of the allocated block are obtained
-      by adding 4 (count - 1) to first phone number of the block, 19725455000. As a result,
-      the subsequent number of the block are 19725455001, 19725455002, 19725455003 and
-      19725455004. If the numRanges "type" value is set to 'collection', then this field contains
-      a comma-separated list of numbers within the DID range; the block numRanges "type" is
-      typically used if the numbers in the DID range are non-contiguous and the range
-      includes a small connection of numbers. </t>
-        <t><strong>media</strong>: A container that is used to collectively encapsulate the characteristics of UDP-based audio streams. A future extension to this draft may extend the media container to describe other media types. The media container is also used to encapsulate basic information about Real-Time Transport Protocol (RTP) and Real-Time Transport Control Protocol (RTCP) from the perspective of the service provider network. At the time of writing this specification, video media streams aren't exchanged between enterprise and service provider SIP networks.</t>
-        <t><strong>mediaTypeAudio</strong>: A container for the mediaFormat leaf-list. This container collectively encapsulates the various audio media formats supported by the SIP service provider.</t>
-        <t><strong>mediaFormat</strong>: A leaf-list encoding the various audio media formats supported by the SIP service provider. The relative ordering of different media format leaf nodes from left to right indicates preference from the perspective of the service provider. Each mediaFormat node begins with the encoding name of the media format, which is the same encoding name as used in the "RTP/AVP" and "RTP/SAVP" profiles. The encoding name is followed by required and optional parameters for the given media format as specified when the media format is registered <xref target = "RFC4855" />. Given that the parameters of media formats can vary from one communication session to another, for example, across two separate communication sessions, the packetization time (ptime) used for the PCMU media format might vary from 10 to 30 ms, the parameters included in the format element must be the ones that are expected to be invariant from the perspective of the service provider. Providing information about supported media formats and their respective parameters, allows enterprise networks to configure the media plane characteristics of various devices such as endpoints and middleboxes. The encoding name, one or more required parameters, one or more optional parameters are all separated by a semicolon. The formatting of a given media format parameter, must follow the formatting rules as specified for that media format.</t>
-        <t><strong>fax</strong>: A container that encapsulates the fax protocol(s) supported by the SIP service provider. The fax container encloses a leaf-list (named protocol) that enumerates whether the service provider supports t38 relay, protocol-based fax passthrough or both. The relative ordering of leaf nodes within the leaf lists indicates preference.</t>
-        <t><strong>rtp</strong>: A container that encapsulates generic characteristics of RTP sessions between the enterprise and service provider network. This node is a container for the "RTPTrigger" and "SymmetricRTP" leaf nodes.</t>
-        <t><strong>RTPTrigger</strong>: A leaf node indicating whether the SIP service provider network always expects the enterprise network to send the first RTP packet for an established communication session. This information is useful in scenarios such as "hairpinned" calls, in which the caller and callee are on the service provider network and because of sub-optimal media routing, an enterprise device such as an SBC is retained in the media path. Based on the encoding of this node, it is possible to configure enterprise devices such as SBCs to start streaming media (possibly filled with silence payloads) toward the address:port tuples provided by caller and callee. This node is a Boolean type. A value of 1/true indicates that the service provider expects the enterprise network to send the first RTP packet, whereas a value of 0/false indicates that the service provider network does not require the enterprise network to send the first media packet. While the practise of preserving the enterprise network in a hairpinned call flow is fairly common, it is recommended that SIP service providers avoid this practise. In the context of a hairpinned call, the enterprise device retained in the call flow can easily eavesdrop on the conversation between the offnet parties.</t>
-        <t><strong>symmetricRTP</strong>: A leaf node indicating whether the SIP service provider expects the enterprise network to use symmetric RTP as defined in <xref target="RFC4961" />. Enforcement of this requirement by service providers on enterprise networks is typically useful in scenarios such as media latching <xref target = "RFC7362" />. This node is a Boolean type, a value of 1/true indicates that the service provider expects the enterprise network to use symmetric RTP, whereas a value of 0/false indicates that the enterprise network can use asymmetric RTP.</t>
-        <t><strong>rtcp</strong>: A container that encapsulates generic characteristics of RTCP sessions between the enterprise and service provider network. This node is a container for the "RTCPFeedback" and "SymmetricRTCP" leaf nodes.</t>
-        <t><strong>symmetricRTCP</strong>: A leaf node indicating whether the SIP service provider expects the enterprise network to use symmetric RTCP as defined in <xref target="RFC4961" />. This node is a Boolean type, a value of 1 indicates that the service provider expects symmetric RTCP reports, whereas a value of 0 indicates that the enterprise can use asymmetric RTCP.</t>
-        <t><strong>RTCPFeedback</strong>: A leaf node that indicates whether the SIP service provider supports the RTP profile extension for RTCP-based feedback <xref target="RFC4585" />. Media sessions spanning enterprise and service provider networks, are rarely made to flow directly between the caller and callee, rather, it is often the case that media traffic flows through network intermediaries such as SBCs. As a result, RTCP traffic from the service provider network is intercepted by these intermediaries, which in turn can either pass across RTCP traffic unmodified or modify RTCP traffic before it is forwarded to the endpoint in the enterprise network. Modification of RTCP traffic would be required, for example, if the intermediary has performed media payload transformation operations such as transcoding or transrating. In a similar vein, for the RTCP-based feedback mechanism as defined in <xref target="RFC4585" /> to be truly effective, intermediaries must ensure that feedback messages are passed reliably and with the correct formatting to enterprise endpoints. This might require additional configuration and considerations that need to be dealt with at the time of provisioning the intermediary device. This node is a Boolean type, a value of 1/true indicates that the service provider supports the RTP profile extension for RTP-based feedback and a value of 0/false indicates that the service provider does not support the RTP profile extension for RTP-based feedback.</t>
-        <t><strong>dtmf</strong>: A container that describes the various aspects of DTMF relay via RTP Named Telephony Events. The dtmf container allows SIP service providers to specify two facets of DTMF relay via Named Telephony Events:</t>
-        <t><strong>payloadNumber</strong>: A leaf node that indicates tht payload type number.</t>
-        <t><strong>iteration</strong>: A leaf node that indicates support for <xref target="RFC2833" /> or <xref target="RFC4733" />. SIP service providers can indicate support for <xref target="RFC4733" /> by setting the iteration flag to 1 or indicating support for <xref target="RFC2833" /> by setting the iteration flag to 0.</t>
-        <ul spacing="normal">
-          <li>In the context of named telephony events, senders and receivers may negotiate asymmetric payload type numbers. For example, the sender might advertise payload type number 97 and the receiver might advertise payload type number 101. In such instances, it is either required for middleboxes to interwork payload type numbers or allow the endpoints to send and receive asymmetric payload numbers. The behaviour of middleboxes in this context is largely dependent on endpoint capabilities or on service provider constraints. Therefore, the payloadNumber leaf node can be used to determine middlebox configuration before-hand.
-          <xref target="RFC4733" /> iterates over <xref target="RFC2833" /> by introducing certain changes in the way NTE events are transmitted.</li>
-        </ul>
-        <t><strong>security</strong>: A container that encapsulates characteristics about encrypting signalling streams between the enterprise and SIP service provider networks.</t>
-        <t><strong>signaling</strong>: A container that encapsulates the type of security protocol for the SIP communication between the enterprise SBC and the service provider.</t>
-        <t><strong>secure</strong>: A leaf node that specifies whether the service provider allows the use of Transport Layer Security (TLS) to secure SIP signalling messages between the enterprise and service provider network. This node is a Boolean type, a value of 1 or true indicates that the service provider supports SIP sessions over TLS, wheras a value of 0 or false indicates that the service provider does not support SIP over TLS.</t>
-        <t><strong>version</strong>: A leaf node that specifies the version(s) of TLS supported in decimal format. If multiple versions of TLS are supported, they should be separated by semi-colons. If the service provider does not support TLS for protecting SIP sessions, the signalling element is set to the string "NULL".</t>
-        <t><strong>mediaSecurity</strong>: A container that describes the various characteristics of securing media streams between enterprise and service provider networks.</t>
-        <t><strong>keyManagement</strong>: A leaf node that specifies the key management method used by the service provider. Possible values of this node include: "SDES" and "DTLS-SRTP". A value of "SDES" signifies that the SIP service provider uses the methods defined in <xref target="RFC4568" /> for the purpose of key management. A value of "DTLS-SRTP" signifies that the SIP service provider uses the methods defined in <xref target="RFC5764" />for the purpose of key management. If the value of this leaf node is set to "DTLS-SRTP", the various versions of DTLS supported by the SIP service provider MUST be encoded as per the formatting rules of Section 7.2 If the service provider does not support media security, the keyManagement node MUST be set to "NULL".</t>
-        <t><strong>certLocation:</strong>: An optional leaf node. If the enterprise network is required to exchange SIP traffic over TLS with the SIP service provider, and if the SIP service provider is capable of accepting TLS connections from the enterprise network, it may be required for the SIP service provider certificates to be pre-installed on the enterprise edge element. In such situations, the certLocation leaf node is populated with a URL, which when dereferenced, provides a single PEM encoded file that contains all certificates in the chain of trust.</t>
-        <t><strong>secureTelephonyIdentity</strong>: A container that is used to collectively encapsulate Secure Telephony Identity Revisited (STIR) characteristics.</t>
-        <t><strong>STIRCompliance</strong>: A leaf node that indicates whether the SIP service provider is STIR compliant. This node is a Boolean type, a value 1/true indicates that the SIP service provider is STIR compliant. A value of 0/false indicates that the SIP service provider is not STIR compliant. A SIP service provider being STIR compliant has implications for inbound and outbound calls, from the perspective of the enterprise network.</t>
-        <t>For inbound calls received from a STIR compliant SIP service provider, the enterprise edge element can be configured to appropriately handle calls based on their "attestation value". For example, calls with an attestation value of "A" (Full Attestation) are allowed to go through, while calls with an attestation value of "C" (Gateway Attestation) may be flagged for administrative analysis.</t>
-        <t>For outgoing calls placed to a STIR compliant SIP service provider, the enterprise edge element must ensure that the calling number populated in SIP From header field (or in trusted environments, the P-Asserted-Identity header field), is as per what the service provider expects. This is so that the Authentication Service running in the SIP service provider network can determine if it is authoritative for the calling number presented by the enterprise network.</t>
-        <t><strong>certDelegation</strong>: A leaf node value that indicates whether a SIP service provider that allocates one or more number ranges to an enterprise network, is willing to delegate authority to the enterprise network over that number range(s). This node is a Boolean type, a value of 1/true indicates that the SIP service provider is willing to delegate authority to the enterprise network over one or more number ranges. A value of 0/false indicates that the SIP service provider is not willing to delegate authority to the enterprise network over one or more number ranges. This leaf node MUST only be included in the capability set if the value of the STIRCompliance leaf node is set to 1/true. In order to obtain delegate certificates, the enterprise network must be made aware of the scope of delegation - the number or number range(s) over which the SIP service provider is willing to delegate authority. This information is included in the numRange container.</t>
-        <t><strong>ACMEDirectory</strong>: A leaf node that provides the URL of the directory object for delegate certificates using Automatic Certificate Management Environment (ACME) <xref target="RFC8555" />. The directory object URL, when de-referenced, provides a collection of field name-value pairs. Certain field name-value pairs provided in the response are used to bootstrap the process the obtaining delegate certificates. This leaf node MUST only be included in the capability set if the value of the certDelegation leaf node is set to 1/true.</t>
-        <t><strong>extensions</strong>: A leaf node that is a semicolon separated list of all possible SIP option tags supported by the service provider network. These extensions must be referenced using name registered under IANA. If the service provider network does not support any extensions to baseline SIP, the extensions node must be set to "NULL".</t>
       </section>
       <section anchor="extending-the-capability-set" numbered="true" toc="default">
         <name>Extending the Capability Set</name>
@@ -1040,90 +1214,146 @@ network that will peer with it.
     <sourcecode name="asap-example.json" type="json" markers="true">
         <![CDATA[
         {
-    	"ietf-sip-auto-peering:peering-info": [{
+    "ietf-sip-auto-peering:peering-info": [
+        {
             "variant": "1.0",
             "revision": {
                 "notBefore": "2021-10-16T00:00:00.00000Z",
-                "location":
-                "https://capserver.example.org/capserver/capdoc.json"
+                "location": 
+                    "https://capserver.example.org/capserver/capdoc.json"
             },
             "transport-info": {
-                "transport": "TCP;TLS;UDP",
-                "registrar": ["registrar1.voip.example.com:5060",
-                 "registrar2.voip.example.com:5060"],
-                "realms": [{
-                    "name": "voip.example.com",
-                    "username": "voip",
-                    "password": "TYnsdfji@312=="
-                }],
-                "callControl": ["callServer1.voip.example.com:5060",
-                 "192.168.2.25:5065"],
-                "dns": ["192.0.2.50", "192.0.2.51"],
-                "outboundProxy": "0.0.0.0:5060"
+                "transport": [
+                    "tcp",
+                    "tls",
+                    "udp"
+                ],
+                "registrar": [
+                    {
+                        "host": "registrar1.voip.example.com",
+                        "port": 5060
+                    },
+                    {
+                        "host": "registrar2.voip.example.com",
+                        "port": 5060
+                    }
+                ],
+                "realms": [
+                    {
+                        "name": "voip.example.com",
+                        "username": "voip",
+                        "password": "TYnsdfji@312=="
+                    }
+                ],
+                "call-control": [
+                    {
+                        "host": "callServer1.voip.example.com",
+                        "port": 5060
+                    },
+                    {
+                        "host": "192.0.2.40",
+                        "port": 5065
+                    }
+                ],
+                "dns": [
+                    "192.0.2.50",
+                    "192.0.2.51"
+                ],
+                "outbound-proxy": {
+                    "host": "192.0.2.35",
+                    "port": 5060
+                }
             },
             "call-specs": {
-                "earlyMedia": true,
-                "signalingForking": false,
-                "supportedMethods": "INVITE;OPTIONS;BYE;CANCEL;ACK;PRACK;SUBSCRIBE;NOTIFY;REGISTER",
-                "callerId": {
-                    "e164Format": true,
-                    "preferredMethod": "P-Asserted-Identity"
+                "early-media": true,
+                "signaling-forking": false,
+                "supported-methods": [
+                    "INVITE",
+                    "OPTIONS",
+                    "BYE",
+                    "CANCEL",
+                    "ACK",
+                    "PRACK",
+                    "SUBSCRIBE",
+                    "NOTIFY",
+                    "REGISTER"
+                ],
+                "caller-id": {
+                    "e164-format": true,
+                    "preferred-method": "P-Asserted-Identity"
                 },
-                "numRanges": [{
-                    "index": 0,
-                    "type": "range",
-                    "count": 20,
-                    "value": ["19725455000"]
-                },
-                {
-                    "index": 1,
-                    "type": "collection",
-                    "count": 2,
-                    "value": ["19725455000", "19725455001"]
-                }]
+                "num-ranges": [
+                    {
+                        "index": 0,
+                        "type": "range",
+                        "count": 20,
+                        "value": [
+                            "19725455000"
+                        ]
+                    },
+                    {
+                        "index": 1,
+                        "type": "collection",
+                        "count": 2,
+                        "value": [
+                            "19725455000",
+                            "19725455001"
+                        ]
+                    }
+                ]
             },
             "media": {
-                "mediaTypeAudio": {
-                    "mediaFormat": ["PCMU;rate=8000;ptime=20",
-                     "G729;rate=8000;annexb=yes",
-                     "G722;rate=8000;bitrate=56k,64k"]
+                "media-type-audio": {
+                    "media-format": [
+                        "PCMU;rate=8000;ptime=20",
+                        "G729;rate=8000;annexb=yes",
+                        "G722;rate=8000;bitrate=56k,64k"
+                    ]
                 },
                 "fax": {
-                    "protocol": ["t38", "pass-through"]
+                    "protocol": [
+                        "t38",
+                        "pass-through"
+                    ]
                 },
                 "rtp": {
-                    "RTPTrigger": true,
-                    "symmetricRTP": true
+                    "rtp-trigger": true,
+                    "symmetric-rtp": true
                 },
                 "rtcp": {
-                    "symmetricRTCP": true,
-                    "RTCPFeedback": true
+                    "symmetric-rtcp": true,
+                    "rtcp-feedback": true
                 }
             },
             "dtmf": {
-                "payloadNumber": 101,
+                "payload-number": 101,
                 "iteration": false
             },
             "security": {
                 "signaling": {
                     "secure": true,
-                    "version": "1.0;1.2;1.3"
+                    "version": ["1.0", "1.2", "1.3"]
                 },
-                "mediaSecurity": {
-                    "keyManagement": "SDES;DTLS-SRTP,version=1.2"
+                "media-security": {
+                    "key-management": "SDES;DTLS-SRTP,version=1.2"
                 },
-                "certLocation":
-                  "https://sipserviceprovider.com/certificateList.pem",
-                "secureTelephonyIdentity": {
-                    "STIRCompliance": true,
-                    "certDelegation": true,
-                    "ACMEDirectory":
-                        "https://sipserviceprovider.com/acme.html"
+                "cert-location": 
+                    "https://sipserviceprovider.com/certificateList.pem",
+                "secure-telephony-identity": {
+                    "stir-compliance": true,
+                    "cert-delegation": true,
+                    "acme-directory": "https://sipserviceprovider.com/acme.html"
                 }
             },
-            "extensions": "timer;rel100;gin;path"
-        }]
-    }
+            "extensions": [
+                "timer",
+                "rel100",
+                "gin",
+                "path"
+            ]
+        }
+    ]
+}
     ]]>
       </sourcecode>
       </section>
@@ -1280,10 +1510,11 @@ the different points at which the workflow is vulnerable to attackers.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6665.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6991.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9110.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8340.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4855.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml"/>
