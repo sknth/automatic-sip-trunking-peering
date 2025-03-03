@@ -1,7 +1,7 @@
 module: ietf-sip-auto-peering
   +--rw peering-info* [index]
      +--rw index             uint16
-     +--rw variant           string
+     +--rw variant           enumeration
      +--rw revision
      |  +--rw not-before    string
      |  +--rw location      string
@@ -24,7 +24,7 @@ module: ietf-sip-auto-peering
      |  |  +--rw preferred-method?   enumeration
      |  +--rw num-ranges* [index]
      |     +--rw index    uint16
-     |     +--rw type?    string
+     |     +--rw type?    enumeration
      |     +--rw count?   uint16
      |     +--rw value*   string
      +--rw media
@@ -44,7 +44,7 @@ module: ietf-sip-auto-peering
      +--rw security
      |  +--rw signaling
      |  |  +--rw secure?    boolean
-     |  |  +--rw version?   string
+     |  |  +--rw version*   enumeration
      |  +--rw media-security
      |  |  +--rw key-management?   string
      |  +--rw cert-location?               string
