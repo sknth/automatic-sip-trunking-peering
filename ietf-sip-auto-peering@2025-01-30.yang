@@ -6,18 +6,16 @@ module ietf-sip-auto-peering {
     prefix "inet";
   }
 
+  import iana-crypt-hash {
+    prefix "ianach";
+  }
+
   organization
     "IETF ASAP (Automatic SIP trunking And Peering) Working Group";
 
   contact
     "WG Web: <https://datatracker.ietf.org/wg/asap/>
     WG List: <mailto:asap@ietf.org>
-
-    WG Chair: Jean Mahoney
-    <mailto:mahoney@nostrum.com>
-
-    WG Chair: Gonzalo Salgueiro
-    <mailto:gsalguei@cisco.com>
 
     Editor: Kaustubh Inamdar
     <mailto:kaustubh.ietf@gmail.com>
@@ -31,7 +29,7 @@ module ietf-sip-auto-peering {
   description
     "Data model for encoding SIP Service Provider Capability Set
 
-    Copyright (c) 2016 IETF Trust and the persons identified as
+    Copyright (c) 2025 IETF Trust and the persons identified as
     authors of the code.  All rights reserved.
 
     Redistribution and use in source and binary forms, with or
@@ -41,7 +39,8 @@ module ietf-sip-auto-peering {
     Relating to IETF Documents
     (http://trustee.ietf.org/license-info).
 
-    This version of this YANG module is part of RFC 7895; see
+    This version of this YANG module is part of RFC XXXX
+    (https://www.rfc-editor.org/info/rfcXXXX); see
     the RFC itself for full legal notices.
 
     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
@@ -51,69 +50,31 @@ module ietf-sip-auto-peering {
     they appear in all capitals, as shown here.";
 
   revision 2025-01-30 {
-    description "Capability set document v2.";
+    description "Initial version";
     reference
-      "draft-ietf-asap-sip-auto-peer-16:
-      Automatic Peering for SIP Trunks";
+      "RFC XXXX: Automatic Peering for SIP Trunks";
   }
 
-  typedef ipv4-address-port {
-    type string {
-      pattern "(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
-      + "\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]):"
-      + "([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]"
-      + "{2}|655[0-2][0-9]|6553[0-5])";
-    }
-    description "The ipv4-address-port type represents an IPv4
-    address in dotted-quad notation followed by a port number.";
-  }
+  grouping entity {
+    description
+      "Grouping that provides a reusable list named 'entity', "
+      + "with each entry containing a host and a port.";
 
-  typedef ipv6-address-port {
-    type string {
-      pattern "\\[((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}"
-      + "((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2"
-      + "[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|"
-      + "[01]?[0-9]?[0-9])))\\]:([1-9][0-9]{0,3}|[1-5][0-9]{4}|6"
-      + "[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])";
-      pattern "\\[(([^:]+:){6}(([^:]+:[^:]+)|(.*\\..*)))|((([^:]+:)"
-      + "*[^:]+)?::(([^:]+:)*[^:]+)?)\\]:([1-9][0-9]{0,3}|[1-5]"
-      + "[0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553"
-      + "[0-5])";
-    }
-    description "The ipv6-address type represents an IPv6 address
-    in full, mixed, shortened, and shortened-mixed notation
-    followed by a port number.";
-  }
+      leaf host {
+        type union {
+          type inet:ip-address;
+          type inet:domain-name; 
+        }
+        description
+          "IP Address or host name of the entity";
+      }
 
-  typedef ip-address-port {
-    type union {
-      type ipv4-address-port;
-      type ipv6-address-port;
-    }
-    description "The ip-address-port type represents an IP
-    address:port number and is IP version neutral.";
-  }
-
-  typedef domain-name-port {
-    type string {
-      length "1..258";
-      pattern "(((([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]"
-      + "\\.)*([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]"
-      + "\\.?)|\\.):([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|"
-      + "65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])";
-    }
-    description "The domain-name-port type represents a DNS domain
-    name followed by a port number. The name SHOULD be fully
-    qualified whenever possible.";
-  }
-
-  typedef host-port {
-    type union {
-      type ip-address-port;
-      type domain-name-port;
-    }
-    description "The host type represents either an IP address or a
-    DNS domain name followed by a port number.";
+      leaf port {
+        type inet:port-number;
+        default "5060";
+        description
+          "Entity's port number (e.g. 5060).";
+      }
   }
 
   list peering-info {
@@ -122,7 +83,7 @@ module ietf-sip-auto-peering {
     description "The root of all capabilities in the documents.";
 
     leaf index {
-      type int32;
+      type uint16;
       description "Index for the peering-info set.";
     }
 
@@ -136,7 +97,7 @@ module ietf-sip-auto-peering {
       description "The version number of the capability set
       document.";
 
-      leaf notBefore {
+      leaf not-before {
         type string;
         mandatory true;
         description "Time and date specifying when the parameters
@@ -156,39 +117,24 @@ module ietf-sip-auto-peering {
       description "The transport characteristics of SIP sessions
       between enterprise and service provider networks.";
 
-      leaf transport {
+      leaf-list transport {
         type enumeration {
-          enum "TCP" {
-            description "The TCP transport.";
+          enum tcp {
+            description "Transmission Control Protocol";
           }
-
-          enum "TLS" {
-            description "The TLS transport.";
+          enum tls {
+            description "Transport Layer Security (over TCP)";
           }
-
-          enum "UDP" {
-            description "The UDP transport.";
-          }
-
-          enum "TCP;TLS" {
-            description "The TCP or TLS transport.";
-          }
-
-          enum "TCP;TLS;UDP" {
-            description "The TCP, TLS, or UDP transport.";
-          }
-
-          enum "TCP;UDP" {
-            description "The TCP or UDP transport.";
+          enum udp {
+            description "User Datagram Protocol";
           }
         }
         mandatory true;
-        description "Transport Protocol(s) used in SIP
-        communication.";
+        description "List of transport protocols.";
       }
 
       leaf-list registrar {
-        type host-port;
+        uses entity;
         max-elements 3;
         description "List of service provider registrar servers.";
       }
@@ -212,14 +158,15 @@ module ietf-sip-auto-peering {
         }
 
         leaf password {
-          type string;
+          type ianach:crypt-hash;
           description "Password for digest authentication within
-          the realm specified in the preceding leaf.";
+          the realm specified in the preceding leaf stored as a
+          cryptographic hash.";
         }
       }
 
-      leaf-list callControl {
-        type host-port;
+      leaf-list call-control {
+        uses entity;
         max-elements 3;
         description "List of service provider call control servers.";
       }
@@ -231,8 +178,8 @@ module ietf-sip-auto-peering {
         service provider.";
       }
 
-      leaf outboundProxy {
-        type host-port;
+      leaf outbound-proxy {
+        uses entity;
         description "SIP Outbound Proxy.";
       }
     }
@@ -242,49 +189,106 @@ module ietf-sip-auto-peering {
       restrictions and additional handling criteria for SIP calls
       between the enterprise and service provider network.";
 
-      leaf earlyMedia {
+      leaf early-media {
         type boolean;
         description "Flag indicating whether the service provider is
         expected to deliver early media.";
       }
 
-      leaf signalingForking {
+      leaf signaling-forking {
         type boolean;
         description "Flag indicating if the service provider may
         fork calls made from the enterprise network.";
       }
 
-      leaf supportedMethods {
-        type string;
-        description "Leaf/Leaf List indicating the different SIP
-        methods supported by the service provider.";
+      leaf-list supported-methods {
+        type enumeration {
+          enum INVITE {
+            description "Initiate a dialog or session.";
+          }
+          enum ACK {
+            description "Acknowledge final response to INVITE.";
+          }
+          enum BYE {
+            description "Terminate a dialog or session.";
+          }
+          enum CANCEL {
+            description "Cancel a pending request.";
+          }
+          enum REGISTER {
+            description "Register contact information.";
+          }
+          enum OPTIONS {
+            description "Query capabilities of a server.";
+          }
+          enum PRACK {
+            description "Provisional acknowledgement.";
+          }
+          enum SUBSCRIBE {
+            description "Subscribe to an event.";
+          }
+          enum NOTIFY {
+            description "Notify subscriber of an event.";
+          }
+          enum PUBLISH {
+            description "Publish an event state.";
+          }
+          enum INFO {
+            description "Send mid-session information.";
+          }
+          enum REFER {
+            description "Refer recipient to a third party.";
+          }
+          enum MESSAGE {
+            description "Instant message transport.";
+          }
+          enum UPDATE {
+            description "Update session parameters within a dialog.";
+          }
+        }
+        description
+          "A list of SIP methods supported by this endpoint. "
+          + "Examples: 'INVITE', 'SUBSCRIBE', 'NOTIFY', etc.";
       }
 
-      container callerId {
+      container caller-id {
         description "Preferences of SIP Service Providers in terms
         of calling number presentation by the enterprise network.";
 
-        leaf e164Format {
+        leaf e164-format {
           type boolean;
           description "Flag indicating whether the enterprise must
           format calling numbers in E.164 format.";
         }
 
-        leaf preferredMethod {
-          type string;
+        leaf preferred-method {
+          type enumeration {
+            enum P-Asserted-Identity {
+              description "Use the 'P-Asserted-Identity' header to determine
+              remote party identity.";
+            }
+            enum From {
+              description "Use the 'From' header to determine remote party
+              identity.";
+            }
+            enum Remote-Party-ID {
+              description "Use the 'Remote-Party-ID' header to determine
+              remote party identity.";
+            }
+          }
           description "Field specifying which SIP header must be
           used by the enterprise network to communicate caller
           information.";
         }
       }
 
-      list numRanges {
+      list num-ranges {
         key index;
         description "Direct Inward Dial (DID) number range allocated
         to the enterprise network by the SIP service provider.";
 
         leaf index {
-          type int32;
+          type uint16;
           description "Index for the ranges.";
         }
 
@@ -297,7 +301,7 @@ module ietf-sip-auto-peering {
 
         leaf count {
           when "../type = 'range' or ../type = 'collection'";
-          type int32;
+          type uint16;
           description "The count of the individual numbers present
           in the number range.";
         }
@@ -313,11 +317,11 @@ module ietf-sip-auto-peering {
     container media {
       description "The characteristics of UDP-based audio streams.";
 
-      container mediaTypeAudio {
+      container media-type-audio {
         description "The various audio media formats supported by
         the SIP service provider.";
 
-        leaf-list mediaFormat {
+        leaf-list media-format {
           type string;
           description "Leaf List indicating the audio media formats
           supported by the service provider.";
@@ -348,14 +352,14 @@ module ietf-sip-auto-peering {
         description "Generic characteristics of RTP sessions between
         the enterprise and service provider network.";
 
-        leaf RTPTrigger {
+        leaf rtp-trigger {
           type boolean;
           description "Flag indicating whether the service provider
           expects to receive the first media packet from the
           enterprise network in a connected SIP session.";
         }
 
-        leaf symmetricRTP {
+        leaf symmetric-rtp {
           type boolean;
           description "Flag indicating whether the service provider
           expects symmetric RTP defined in [@RFC4961].";
@@ -366,13 +370,13 @@ module ietf-sip-auto-peering {
         description "Generic characteristics of RTCP sessions
         between the enterprise and service provider network.";
 
-        leaf symmetricRTCP {
+        leaf symmetric-rtcp {
           type boolean;
           description "Flag indicating whether the service provider
           expects symmetric RTP defined in [@RFC4961].";
         }
 
-        leaf RTCPFeedback {
+        leaf rtcp-feedback {
           type boolean;
           description "Flag Indicating support for RTP profile
           extension for RTCP-based feedback, as defined in
@@ -385,8 +389,8 @@ module ietf-sip-auto-peering {
       description "The various aspects of DTMF relay via RTP Named
       Telephony Events.";
 
-      leaf payloadNumber {
-        type int8 {
+      leaf payload-number {
+        type uint8 {
           range "96..127";
         }
         description "Leaf indicating the payload number(s) supported
@@ -426,11 +430,11 @@ module ietf-sip-auto-peering {
         }
       }
 
-      container mediaSecurity {
+      container media-security {
         description "The various characteristics of securing media
         streams between enterprise and service provider networks.";
 
-        leaf keyManagement {
+        leaf key-management {
           type string {
             pattern "(SDES(;DTLS-SRTP,version=[1-9]\\.[0-9](,[1-9]"
             + "\\.[0-9])?)?)|(DTLS-SRTP,version=[1-9]\\.[0-9](,"
@@ -441,31 +445,31 @@ module ietf-sip-auto-peering {
         }
       }
 
-      leaf certLocation {
+      leaf cert-location {
         type string;
         description "Location of the service provider certificate
         chain for SIP over TLS.";
       }
 
-      container secureTelephonyIdentity {
+      container secure-telephony-identity {
         description "The Secure Telephony Identity Revisited (STIR)
         characteristics.";
 
-        leaf STIRCompliance {
+        leaf stir-compliance {
           type boolean;
           description "Indicates whether the SIP service provider is
           STIR compliant.";
         }
 
-        leaf certDelegation {
+        leaf cert-delegation {
           type boolean;
           description "Indicates whether a SIP service provider is
           willing to delegate authority to the enterprise network
           over its allocated number range(s).";
         }
 
-        leaf ACMEDirectory {
-          when "../certDelegation = 'true'";
+        leaf acme-directory {
+          when "../cert-delegation = 'true'";
           type string;
           description "Directory object URL, when de-referenced,
           provides a collection of field name-value pairs to
@@ -474,7 +478,7 @@ module ietf-sip-auto-peering {
       }
     }
 
-    leaf extensions {
+    leaf-list extensions {
       type string;
       description "Lists the various SIP extensions supported by the
       service provider.";
