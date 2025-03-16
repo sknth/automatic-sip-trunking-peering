@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-23">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-24">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -116,20 +116,21 @@ HTTPS <xref target="RFC9110" /> server.
     | |               |         |                       | |
     | | +----------+  |         |   +-------+           | |
     | | |   Cap    |  | HTTPS   |   |       |           | |
-    | | |  Server  |<-|---------|-->|       |           | |
-    | | |          |  |         |   |       |   +-----+ | |
-    | | +----------+  |         |   |       |   | SIP | | |
-    | |               |         |   |       |<->| PBX | | |
+    | | |  Server  |--|---------|-->|       |           | |
+    | | |          |<-|---------|---|       |   +-----+ | |
+    | | +----------+  |         |   |       |-->| SIP | | |
+    | |               |         |   |       |<--| PBX | | |
     | |               |         |   |       |   +-----+ | |
     | | +----------+  |         |   |  SBC  |           | |
     | | |          |  |   SIP   |   |       |           | |
-    | | | SP - SSE |<-|---------|-->|       |   +-----+ | |
-    | | |          |  |         |   |       |<->| M.E.| | |
-    | | +----------+  |         |   |       |   |     | | |
+    | | | SP - SSE |--|---------|-->|       |   +-----+ | |
+    | | |          |<-|---------|---|       |-->| M.E.| | |
+    | | +----------+  |         |   |       |<--|     | | |
     | |               |         |   |       |   +-----+ | |
     | | +----------+  | (S)RTP  |   |       |           | |
-    | | |  Media   |<-|---------|-->+-------+           | |
-    | | +----------+  |         |                       | |
+    | | |  Media   |--|---------|-->|       |           | |
+    | | |          |<-|---------|---|       |           | |
+    | | +----------+  |         |   +-------+           | |
     | +---------------+         +-----------------------+ |
     |                                                     |
     +-----------------------------------------------------+
@@ -192,54 +193,58 @@ HTTPS <xref target="RFC9110" /> server.
       </section>
       <section anchor="integrity-and-confidentiality" numbered="true" toc="default">
         <name>Integrity and Confidentiality</name>
-        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 is used, TLS is incorporated within QUIC. Additionally, the enterprise edge element and capability server MUST support the use of the HTTP URI scheme as defined in <xref target="RFC9110" />.</t>
+        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 is used, TLS is incorporated within QUIC. Additionally, the enterprise edge element and capability server MUST support the use of the HTTPS URI scheme as defined in <xref target="RFC9110" />.</t>
       </section>
       <section anchor="authenticated-client-identity" numbered="true" toc="default">
         <name>Authenticated Client Identity</name>
-        <t>HTTP usually adopts asymmetric methods of authentication. For example, clients typically use certificate based authentication to verify the server they are talking to, whereas, servers typically use methods such as HTTP digest authentication or OAuth2.0 <xref target="RFC6749" /> to authenticate clients. Though OAuth2.0 is not an authentication protocol, it nonetheless allows for client authentication to be carried out with the use of OAuth tokens.  </t>
-        <t>In the context of the SIP Auto Peer framework, OAuth2.0 MUST be used to carry out client authentication. Enterprise edge elements that obtain the capability set document from SIP service providers could have differing capabilities in terms of adhering to a specific OAuth2.0 authorisation grant flow. For example, an SBC that is configured and managed through a CLI and that does not have the ability to launch a web-browser wouldn't be able to obtain an authorisation code and subsequently an access token. Alternatively, an SBC that is configured and managed via a GUI could redirect an administrator to an appropriate OAuth2.0 authorisation server to obtain an authorisation grant and subsequently an access token. In order to ensure that OAuth2.0-based client authentication can be carried out irrespective of enterprise edge element capabilities, this draft requires that the Resource Owner Password Credentials grant type be supported. </t>
-        <t>Using the resource owner password credentials grant type requires the existence of a trust relationship between the resource owner (in this context, the administrator/enterprise network) and the client (in this context, an edge element such as an SBC). In SIP trunking deployments between enterprise and service provider networks, such a trust relationship between the administrator/resource owner/enterprise network and the client (edge element) already exists, as SIP trunk registration (and refreshing registrations) require credentials - typically a username and password, that are configured on the edge element by the administrator.</t>
-        <t>The use of the resource owner credential grant type in the context of the SIP Auto Peer framework, provides two advantages:</t>
-        <ol spacing="normal" type="1">
-          <li>It enables OAuth2.0-based client authentication even in deployments in wherein the edge element is not capable of launching a web-browser to set in motion the authorisation code grant flow of OAuth2.0</li>
-          <li><t>For situations in which a refresh token is not provided by the authorisation endpoint, human/administrator involvement is not required to obtain fresh tokens once an existing token expires. Figure 2 provides a high-level diagrammatic illustration of how OAuth2.0-based client authentication is achieved using resource owner credentials in the context of SIP Auto Peer. </t></li>
-          </ol>
+        <t>HTTP usually adopts asymmetric methods of authentication. For example, clients typically use certificate based authentication to verify the server they are talking to, whereas, servers typically use methods such as HTTP digest authentication or OAuth 2.0 <xref target="RFC6749" /> to authenticate clients. Though OAuth 2.0 is not an authentication protocol, it nonetheless allows for client authentication to be carried out with the use of OAuth tokens.  </t>
+        <t>In the context of the SIP Auto Peer framework, OAuth 2.0 MUST be used to carry out client authentication. Enterprise edge elements could use the various grant types outlined in the OAuth 2.0 specification and supported by the service provider in order to obtain the capability set document. This draft does not mandate a specific grant type. The implementation of OAuth 2.0 to obtain the capability set are beyond the scope of this document. However, it provides an example of how an enterprise SBC could leverage the "Authorization Code Grant" (<xref target="RFC6749" sectionFormat="of" section="4.1" />) flow to acquire the capability set document from the service provider in Figure 2.</t> 
+        <t>Using the "Resource Owner Password Credentials" grant type (<xref target="RFC6749" sectionFormat="of" section="1.3.3" />) requires the existence of a trust relationship between the resource owner (in this context, the administrator/enterprise network) and the client (in this context, an edge element such as an SBC). In SIP trunking deployments between enterprise and service provider networks, such a trust relationship between the administrator/resource owner/enterprise network and the client (edge element) already exists, as SIP trunk registration (and refreshing registrations) require credentials - typically a username and password, that are configured on the edge element by the administrator. However, it is important for the enterprise network administrator and service provider to factor in security issues associated with this grant type.</t>
 
         <artwork name="" type="" align="left" alt=""><![CDATA[
 
-    +--------------+
-    |   Resource   |
-    |    Owner     |
-    | (Enterprise) |
-    +--------------+
-           v
-           |    Resource Owner
-          (1) Password Credentials
-           |
-           v
-      +---------+                                  +---------------+
-      |         |>--(2)---- Resource Owner ------->|    Service    |
-      | Client  |         Password Credentials     |    Provider   |
-      |         |                                  | Authorization |
-      |  (SBC)  |<--(3)---- Access Token ---------<|     Server    |
-      |         |    (w/ Optional Refresh Token)   |               |
-      +---------+                                  +---------------+
+     +---------------+
+     |   Resource    |
+     |     Owner     |
+     |  (Enterprise) |
+     +---------------+
+          ^
+          |
+         (B)
+     +----|-----+          Client Identifier      +---------------+
+     |         -+----(A)-- & Redirection URI ---->|    Service    |
+     |  User-   |                                 |    Provider   |
+     |  Agent  -+----(B)-- User authenticates --->| Authorization |
+     |          |                                 |     Server    |
+     |         -+----(C)-- Authorization Code ---<|               |
+     +-|----|---+                                 +---------------+
+       |    |                                         ^      v
+      (A)  (C)                                        |      |
+       |    |                                         |      |
+       ^    v                                         |      |
+     +---------+                                      |      |
+     |         |>---(D)-- Authorization Code ---------'      |
+     |  Client |          & Redirection URI                  |
+     |  (SBC)  |                                             |
+     |         |<---(E)----- Access Token -------------------'
+     +---------+       (w/ Optional Refresh Token)
          ^   v
          |   |
          |   |                                     +--------------+
-         |   -------(4)---- Access Token --------->|  Capability  |
-         -----------(5)---- Capability set -------<|    Server    |
+         |   -------(F)---- Access Token --------->|  Capability  |
+         -----------(G)---- Capability set -------<|    Server    |
                                                    +--------------+
-
 
     Figure 2: Client Authentication Mechanism
 
 ]]></artwork>
       <t>The flow illustrated in Figure 2 includes the following steps:</t>
-          <ol spacing="normal" type="1">
-          <li>The enterprise SBC stores the enterprise credentials required to authenticate with the authorization server located in the service provider network. These credentials may be passed to the enterprise from the service provider in an out-of-band fashion such as an email or a self-management service provided by the service provider to the enterprise.</li>
-          <li>The enterprise SBC contacts the service provider authorization server to obtain an access token using the credentials acquired in Step 1.</li>
-          <li>The service provider authorization server ratifies the credentials and grants the access token to the enterprise SBC. The server could also provide a refresh token to the SBC to regenerate the access token in the future.</li>
+          <ol spacing="normal" type="A">
+          <li>The enterprise SBC (client) initiates the flow by directing the resource owner's (enterprise network administrator) user-agent to the authorization endpoint. The SBC includes its client identifier, requested scope, local state, and a redirection URI to which the authorization server will send the user-agent back once access is granted (or denied). As a precursor to the flow, the enterprise network administrator has already obtained a unique client identifier for their network and provided a redirection URI populated with a target within their network to obtain the authorization code.</li>
+          <li>The authorization server within the service provider network authenticates the network administrator (via the user-agent) and establishes whether the network administrator grants or denies the client's access request.</li>
+          <li>Assuming the network administrator grants access, the authorization server redirects the user-agent back to the enterprise SBC using the redirection URI provided earlier (in the request or during client registration).  The redirection URI includes an authorization code and any local state provided by the client earlier.</li>
+          <li>The enterprise SBC requests an access token from the authorization server's token endpoint by including the authorization code received in the previous step. When making the request, the enterprise SBC authenticates with the authorization server and includes the redirection URI used to obtain the authorization code for verification. </li>
+          <li>The authorization server authenticates the enterprise SBC, validates the authorization code, and ensures that the redirection URI received matches the URI used to redirect the SBC in step (C).  If valid, the authorization server responds back with an access token and, optionally, a refresh token.</li>
           <li>The enterprise SBC then contacts the capability server located in the service provider network with an HTTP GET request along with the access token to retrieve the capability set document.</li>
           <li>The capability server checks for a valid access token and returns the capability set document to the enterprise SBC. The service provider will host a unique document for each enterprise network that will peer with it.</li>
           </ol>
@@ -1408,7 +1413,7 @@ to the capability set document can cause problems in multiple ways.</t>
 the different points at which the workflow is vulnerable to attackers.</t>
 <section anchor="security-considerations-authentication" numbered="true" toc="default">
 <name>OAuth Credentials</name>
-<t>In scenarios wherein client authentication is carried out using OAuth resource owner credentials, it is required to ensure that these credentials cannot be acquired by any unauthorised third-party. If acquired by an unauthorised third-party, these credentials may be used to obtain the capability set document from the SIP service provider and subsequently use the information in such a document to make unauthorised calls while posing as an enterprise telephony network that has legitimately paid for calling services from a SIP service provider.</t>
+<t>In scenarios wherein client authentication is carried out using OAuth resource owner credentials, it is required to ensure that these credentials cannot be acquired by any unauthorized third-party. If acquired by an unauthorized third-party, these credentials may be used to obtain the capability set document from the SIP service provider and subsequently use the information in such a document to make unauthorized calls while posing as an enterprise telephony network that has legitimately paid for calling services from a SIP service provider.</t>
 </section>
 <section anchor="security-considerations-transmission" numbered="true" toc="default">
   <name>Client-Server Communication</name>
