@@ -3,7 +3,7 @@
         {
             "variant": "1.0",
             "revision": {
-                "notBefore": "2021-10-16T00:00:00.00000Z",
+                "notBefore": 1742330340,
                 "location": 
                     "https://capserver.example.org/capserver/capdoc.json"
             },
@@ -65,7 +65,7 @@
                 ],
                 "caller-id": {
                     "e164-format": true,
-                    "preferred-method": "P-Asserted-Identity"
+                    "preferred-method": "FROM"
                 },
                 "num-ranges": [
                     {
@@ -88,13 +88,19 @@
                 ]
             },
             "media": {
-                "media-type-audio": {
-                    "media-format": [
-                        "PCMU;rate=8000;ptime=20",
-                        "G729;rate=8000;annexb=yes",
-                        "G722;rate=8000;bitrate=56k,64k"
-                    ]
-                },
+                "media-type-audio": [
+                    {
+                        "media-format": "PCMU",
+                        "rate": 8000,
+                        "ptime": 20
+                    },
+                    {
+                        "media-format": "G722",
+                        "rate": 8000,
+                        "ptime": 20,
+                        "param": "annexb"
+                    }
+                ],
                 "fax": {
                     "protocol": [
                         "t38",
@@ -120,7 +126,7 @@
                     "version": ["1.0", "1.2", "1.3"]
                 },
                 "media-security": {
-                    "key-management": "SDES;DTLS-SRTP,version=1.2"
+                    "key-management": ["SDES", "DTLS-SRTP"]
                 },
                 "cert-location": 
                     "https://sipserviceprovider.com/certificateList.pem",
