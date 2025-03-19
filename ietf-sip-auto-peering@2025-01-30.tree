@@ -3,18 +3,24 @@ module: ietf-sip-auto-peering
      +--rw index             uint16
      +--rw variant           enumeration
      +--rw revision
-     |  +--rw not-before    string
-     |  +--rw location      string
+     |  +--rw not-before    uint32
+     |  +--rw location      uri
      +--rw transport-info
      |  +--rw transport*        enumeration
-     |  +--rw registrar*
+     |  +--rw registrar* [host port]
+     |  |  +--rw host    union
+     |  |  +--rw port    inet:port-number
      |  +--rw realms* [name]
      |  |  +--rw name        string
      |  |  +--rw username?   string
      |  |  +--rw password?   ianach:crypt-hash
-     |  +--rw call-control*
+     |  +--rw call-control* [host port]
+     |  |  +--rw host    union
+     |  |  +--rw port    inet:port-number
      |  +--rw dns*              inet:ip-address
-     |  +--rw outbound-proxy?
+     |  +--rw outbound-proxy* [host port]
+     |     +--rw host    union
+     |     +--rw port    inet:port-number
      +--rw call-specs
      |  +--rw early-media?         boolean
      |  +--rw signaling-forking?   boolean
@@ -28,8 +34,11 @@ module: ietf-sip-auto-peering
      |     +--rw count?   uint16
      |     +--rw value*   string
      +--rw media
-     |  +--rw media-type-audio
-     |  |  +--rw media-format*   string
+     |  +--rw media-type-audio* [media-format]
+     |  |  +--rw media-format    enumeration
+     |  |  +--rw rate?           uint8
+     |  |  +--rw ptime?          uint8
+     |  |  +--rw param?          string
      |  +--rw fax
      |  |  +--rw protocol*   enumeration
      |  +--rw rtp
@@ -46,10 +55,10 @@ module: ietf-sip-auto-peering
      |  |  +--rw secure?    boolean
      |  |  +--rw version*   enumeration
      |  +--rw media-security
-     |  |  +--rw key-management?   string
+     |  |  +--rw key-management?   enumeration
      |  +--rw cert-location?               string
      |  +--rw secure-telephony-identity
      |     +--rw stir-compliance?   boolean
      |     +--rw cert-delegation?   boolean
-     |     +--rw acme-directory?    string
+     |     +--rw acme-directory?    uri
      +--rw extensions*       string
