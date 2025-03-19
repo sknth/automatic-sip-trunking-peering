@@ -89,10 +89,17 @@ module ietf-sip-auto-peering {
     }
   }
 
-  container peering-info {
-    description "A container for all the other nodes in the YANG
-      module; the peering-info node is akin to the root element of
-      a JSON document.";
+  list peering-info {
+    key index;
+    max-elements 1;
+    description "A list containing a single container; the
+      peering-info node is akin to the root element of a JSON
+      document.";
+
+    leaf index {
+      type uint16;
+      description "Index for the peering-info document.";
+    }
 
     leaf variant {
       type enumeration {
