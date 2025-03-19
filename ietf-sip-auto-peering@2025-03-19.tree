@@ -4,7 +4,7 @@ module: ietf-sip-auto-peering
      +--rw variant           enumeration
      +--rw revision
      |  +--rw not-before    uint32
-     |  +--rw location      uri
+     |  +--rw location      inet:uri
      +--rw transport-info
      |  +--rw transport*        enumeration
      |  +--rw registrar* [host port]
@@ -55,10 +55,10 @@ module: ietf-sip-auto-peering
      |  |  +--rw secure?    boolean
      |  |  +--rw version*   enumeration
      |  +--rw media-security
-     |  |  +--rw dtls-key-management?   boolean
-     |  +--rw cert-location?               string
+     |  |  +--rw key-management*   enumeration
+     |  +--rw cert-location?               inet:uri
      |  +--rw secure-telephony-identity
      |     +--rw stir-compliance?   boolean
      |     +--rw cert-delegation?   boolean
-     |     +--rw acme-directory?    uri
+     |     +--rw acme-directory?    inet:uri
      +--rw extensions*       string

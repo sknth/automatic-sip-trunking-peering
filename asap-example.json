@@ -1,7 +1,7 @@
 {
     "ietf-sip-auto-peering:peering-info": [
         {
-            "variant": "1.0",
+            "variant": "v1_0",
             "revision": {
                 "notBefore": 1742330340,
                 "location": 
@@ -27,7 +27,7 @@
                     {
                         "name": "voip.example.com",
                         "username": "voip",
-                        "password": "TYnsdfji@312=="
+                        "password": "$6$OoEJwExxp6U/FRFq$4RkL2lSSGLoKdfGjX4lQLFXo89gc0wtJsKiBxg/BBz6aNwu7C.D3kRUwD7lvJm6rhaCdhSzVh/XfkkAUY2dTu0"
                     }
                 ],
                 "call-control": [
@@ -126,7 +126,7 @@
                     "version": ["1.0", "1.2", "1.3"]
                 },
                 "media-security": {
-                    "dtls-key-management": true
+                    "key-management": ["SDES", "DTLS-SRTP"]
                 },
                 "cert-location": 
                     "https://sipserviceprovider.com/certificateList.pem",
