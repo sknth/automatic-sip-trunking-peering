@@ -194,7 +194,7 @@ module ietf-sip-auto-peering {
 
         leaf name {
           type string;
-          // mandatory true;
+          mandatory true;
           description "A node specifying the SIP service provider
             realm or protection domain. This node is encoded as a
             string; the value of this node must be identical to the
@@ -353,9 +353,10 @@ module ietf-sip-auto-peering {
 
         leaf e164-format {
           type boolean;
-          description "A node that indicates whether the service
-            provider requires the enterprise network to normalize
-            the calling number into E.164 format.";
+          description "A value of true indicates that the enterprise
+            should format the calling number in E.164 format, while
+            false indicates that there are no restrictions on 
+            formatting of the calling number.";
         }
 
         leaf preferred-method {
@@ -484,15 +485,20 @@ module ietf-sip-auto-peering {
 
         leaf rtp-trigger {
           type boolean;
-          description "Indicates whether the service provider
-            expects the enterprise network to send the first RTP
-            packet.";
+          description "A value of true indicates that the service
+            provider expects the enterprise network to send the
+            first RTP packet after media establishment. A value
+            of false indicates no such requirement from the service
+            provider.";
         }
 
         leaf symmetric-rtp {
           type boolean;
-          description "Indicates whether the service provider
-            expects the use of symmetric RTP.";
+          description "A value of true indicates that the service
+            provider expects the enterprise network to use the same
+            port for sending and receiving RTP. A value of false
+            indicates no such requirement from the service
+            provider (RFC 4961).";
         }
       }
 
@@ -502,14 +508,20 @@ module ietf-sip-auto-peering {
 
         leaf symmetric-rtcp {
           type boolean;
-          description "Indicates whether symmetric RTCP reports are
-            expected.";
+          description "A value of true indicates that the service
+            provider expects the enterprise network to use the same
+            port for sending and receiving RTCP. A value of false
+            indicates no such requirement from the service
+            provider (RFC 4961).";
         }
 
         leaf rtcp-feedback {
           type boolean;
-          description "Indicates whether the service provider
-            supports RTCP-based feedback.";
+          description "A value of true indicates that the service
+            provider supports the transmission of RTCP feedback
+            packets that aid in congestion control and other
+            features. A value of false indicates that the service
+            provider does not support RTCP feedback (RFC 8888).";
         }
       }
     }
@@ -527,8 +539,9 @@ module ietf-sip-auto-peering {
 
       leaf iteration {
         type boolean;
-        description "Indicates support for RFC2833 (false) or
-          RFC4733 (true).";
+        description "A value of true indicates that the service
+          provider supports RFC4733 while a value of false indicates
+          that the service provider prefers RFC2833";
       }
     }
 
@@ -542,8 +555,9 @@ module ietf-sip-auto-peering {
 
         leaf secure {
           type boolean;
-          description "Specifies whether the service provider allows
-            the use of TLS for SIP signalling.";
+          description "A value of true indicates that the service
+            provider supports the use of TLS for SIP signalling
+            while a vlue of false indicates no support.";
         }
 
         leaf-list version {
@@ -565,23 +579,13 @@ module ietf-sip-auto-peering {
         description "Describes characteristics of securing media
           streams.";
 
-        leaf key-management {
-          type enumeration {
-            enum SDES {
-              description "Media security using SDES.";
-            }
-
-            enum DTLS-SRTP {
-              description "Media security using DTLS-SRTP.";
-            }
-
-            enum NULL {
-              description "No media security supported.";
-            }
-          }
-          description "Specifies the key management method used.
-            Possible values include 'SDES', 'DTLS-SRTP', or
-            'NULL'.";
+        leaf dtls-key-management {
+          type boolean;
+          description "Specifies whether DTLS is supported for SRTP
+            key management (RFC 5764). A value of true indicates
+            that the service provider supports key management over
+            DTLS and a value of false indicates that key management
+            for SRTP must be done externally.";
         }
       }
 
@@ -597,15 +601,17 @@ module ietf-sip-auto-peering {
 
         leaf stir-compliance {
           type boolean;
-          description "Indicates whether the service provider is
-            STIR compliant.";
+          description "A value of true indicates that the service
+            provider is STIR compliant while a value of false
+            indicates no support for STIR.";
         }
 
         leaf cert-delegation {
           type boolean;
-          description "Indicates whether the service provider is
-            willing to delegate authority over allocated number
-            ranges.";
+          description "A value of true indicates that the service
+            provider is willing to delegate authority over allocated
+            number ranges while a value of false indicates no such
+            support.";
         }
 
         leaf acme-directory {

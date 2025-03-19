@@ -55,7 +55,7 @@ module: ietf-sip-auto-peering
      |  |  +--rw secure?    boolean
      |  |  +--rw version*   enumeration
      |  +--rw media-security
-     |  |  +--rw key-management?   enumeration
+     |  |  +--rw dtls-key-management?   boolean
      |  +--rw cert-location?               string
      |  +--rw secure-telephony-identity
      |     +--rw stir-compliance?   boolean
