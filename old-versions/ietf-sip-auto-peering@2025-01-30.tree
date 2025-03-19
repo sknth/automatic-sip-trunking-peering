@@ -1,0 +1,64 @@
+module: ietf-sip-auto-peering
+  +--rw peering-info* [index]
+     +--rw index             uint16
+     +--rw variant           enumeration
+     +--rw revision
+     |  +--rw not-before    uint32
+     |  +--rw location      uri
+     +--rw transport-info
+     |  +--rw transport*        enumeration
+     |  +--rw registrar* [host port]
+     |  |  +--rw host    union
+     |  |  +--rw port    inet:port-number
+     |  +--rw realms* [name]
+     |  |  +--rw name        string
+     |  |  +--rw username?   string
+     |  |  +--rw password?   ianach:crypt-hash
+     |  +--rw call-control* [host port]
+     |  |  +--rw host    union
+     |  |  +--rw port    inet:port-number
+     |  +--rw dns*              inet:ip-address
+     |  +--rw outbound-proxy* [host port]
+     |     +--rw host    union
+     |     +--rw port    inet:port-number
+     +--rw call-specs
+     |  +--rw early-media?         boolean
+     |  +--rw signaling-forking?   boolean
+     |  +--rw supported-methods*   enumeration
+     |  +--rw caller-id
+     |  |  +--rw e164-format?        boolean
+     |  |  +--rw preferred-method?   enumeration
+     |  +--rw num-ranges* [index]
+     |     +--rw index    uint16
+     |     +--rw type?    enumeration
+     |     +--rw count?   uint16
+     |     +--rw value*   string
+     +--rw media
+     |  +--rw media-type-audio* [media-format]
+     |  |  +--rw media-format    enumeration
+     |  |  +--rw rate?           uint8
+     |  |  +--rw ptime?          uint8
+     |  |  +--rw param?          string
+     |  +--rw fax
+     |  |  +--rw protocol*   enumeration
+     |  +--rw rtp
+     |  |  +--rw rtp-trigger?     boolean
+     |  |  +--rw symmetric-rtp?   boolean
+     |  +--rw rtcp
+     |     +--rw symmetric-rtcp?   boolean
+     |     +--rw rtcp-feedback?    boolean
+     +--rw dtmf
+     |  +--rw payload-number?   uint8
+     |  +--rw iteration?        boolean
+     +--rw security
+     |  +--rw signaling
+     |  |  +--rw secure?    boolean
+     |  |  +--rw version*   enumeration
+     |  +--rw media-security
+     |  |  +--rw dtls-key-management?   boolean
+     |  +--rw cert-location?               string
+     |  +--rw secure-telephony-identity
+     |     +--rw stir-compliance?   boolean
+     |     +--rw cert-delegation?   boolean
+     |     +--rw acme-directory?    uri
+     +--rw extensions*       string

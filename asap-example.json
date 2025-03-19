@@ -95,7 +95,7 @@
                         "ptime": 20
                     },
                     {
-                        "media-format": "G722",
+                        "media-format": "G729",
                         "rate": 8000,
                         "ptime": 20,
                         "param": "annexb"
