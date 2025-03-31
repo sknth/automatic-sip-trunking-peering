@@ -84,13 +84,14 @@ module ietf-sip-auto-peering {
 
   list peering-info {
     key index;
+    config false;
     max-elements 1;
     description "A list containing a single container; the
       peering-info node is akin to the root element of a JSON
       document.";
 
     leaf index {
-      type uint16;
+      type uint8;
       description "Index for the peering-info document.";
     }
 
@@ -316,46 +317,46 @@ module ietf-sip-auto-peering {
 
       leaf-list supported-methods {
         type enumeration {
-          enum INVITE {
+          enum invite {
             description "Initiate a dialog or session.";
           }
-          enum ACK {
+          enum ack {
             description "Acknowledge final response to INVITE.";
           }
-          enum BYE {
+          enum bye {
             description "Terminate a dialog or session.";
           }
-          enum CANCEL {
+          enum cancel {
             description "Cancel a pending request.";
           }
-          enum REGISTER {
+          enum register {
             description "Register contact information.";
           }
-          enum OPTIONS {
+          enum options {
             description "Query capabilities of a server.";
           }
-          enum PRACK {
+          enum prack {
             description "Provisional acknowledgement.";
           }
-          enum SUBSCRIBE {
+          enum subscribe {
             description "Subscribe to an event.";
           }
-          enum NOTIFY {
+          enum notify {
             description "Notify subscriber of an event.";
           }
-          enum PUBLISH {
+          enum publish {
             description "Publish an event state.";
           }
-          enum INFO {
+          enum info {
             description "Send mid-session information.";
           }
-          enum REFER {
+          enum refer {
             description "Refer recipient to a third party.";
           }
-          enum MESSAGE {
+          enum message {
             description "Instant message transport.";
           }
-          enum UPDATE {
+          enum update {
             description "Update session parameters within a dialog.";
           }
         }
@@ -394,11 +395,11 @@ module ietf-sip-auto-peering {
 
         leaf preferred-method {
           type enumeration {
-            enum P_ASSERTED_IDENTITY {
+            enum p-asserted-identity {
               description "Use the 'P-Asserted-Identity' header to
                 determine remote party identity.";
             }
-            enum FROM {
+            enum from {
               description "Use the 'From' header to determine remote
                 party identity.";
             }
@@ -518,18 +519,21 @@ module ietf-sip-auto-peering {
 
         leaf media-format {
           type enumeration {
-            enum PCMU {
+            enum pcmu {
               description "PCMU format.";
             }
-            enum G722 {
+            enum g722 {
               description "G722 format.";
+            }
+            enum g729 {
+              description "G729 format.";
             }
           }
           description "The audio media format.";
         }
 
         leaf rate {
-          type uint8;
+          type uint16;
           description "Sampling rate in Hz.";
         }
 
@@ -555,7 +559,7 @@ module ietf-sip-auto-peering {
 
         leaf-list protocol {
           type enumeration {
-            enum pass_through {
+            enum pass-through {
               description "Protocol-based fax passthrough.";
             }
             enum t38 {
@@ -729,11 +733,11 @@ module ietf-sip-auto-peering {
 
         leaf-list key-management {
           type enumeration {
-            enum SDES {
+            enum sdes {
               description "Simplified Data Encryption Standard
                 key management.";
             }
-            enum DTLS-SRTP {
+            enum dtls-srtp {
               description "SRTP keys managed using DTLS.";
             }
           }
