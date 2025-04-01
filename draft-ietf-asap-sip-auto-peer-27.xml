@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-27">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-28">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -326,71 +326,71 @@ The complete HTTPS URLs to be used when authenticating the enterprise edge eleme
         </ul>
         <t>The data model for the peering capability document has the following structure:</t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
-module: ietf-sip-auto-peering
-  +--rw peering-info* [index]
-     +--rw index             uint16
-     +--rw variant           enumeration
-     +--rw revision
-     |  +--rw not-before    uint32
-     |  +--rw location      inet:uri
-     +--rw transport-info
-     |  +--rw transport*        enumeration
-     |  +--rw registrar* [host port]
-     |  |  +--rw host    union
-     |  |  +--rw port    inet:port-number
-     |  +--rw realms* [name]
-     |  |  +--rw name        string
-     |  |  +--rw username?   string
-     |  |  +--rw password?   ianach:crypt-hash
-     |  +--rw call-control* [host port]
-     |  |  +--rw host    union
-     |  |  +--rw port    inet:port-number
-     |  +--rw dns*              inet:ip-address
-     |  +--rw outbound-proxy* [host port]
-     |     +--rw host    union
-     |     +--rw port    inet:port-number
-     +--rw call-specs
-     |  +--rw early-media?         boolean
-     |  +--rw signaling-forking?   boolean
-     |  +--rw supported-methods*   enumeration
-     |  +--rw caller-id
-     |  |  +--rw e164-format?        boolean
-     |  |  +--rw preferred-method?   enumeration
-     |  +--rw num-ranges* [index]
-     |     +--rw index    uint16
-     |     +--rw type?    enumeration
-     |     +--rw count?   uint16
-     |     +--rw value*   string
-     +--rw media
-     |  +--rw media-type-audio* [media-format]
-     |  |  +--rw media-format    enumeration
-     |  |  +--rw rate?           uint8
-     |  |  +--rw ptime?          uint8
-     |  |  +--rw param?          string
-     |  +--rw fax
-     |  |  +--rw protocol*   enumeration
-     |  +--rw rtp
-     |  |  +--rw rtp-trigger?     boolean
-     |  |  +--rw symmetric-rtp?   boolean
-     |  +--rw rtcp
-     |     +--rw symmetric-rtcp?   boolean
-     |     +--rw rtcp-feedback?    boolean
-     +--rw dtmf
-     |  +--rw payload-number?   uint8
-     |  +--rw iteration?        boolean
-     +--rw security
-     |  +--rw signaling
-     |  |  +--rw secure?    boolean
-     |  |  +--rw version*   enumeration
-     |  +--rw media-security
-     |  |  +--rw key-management*   enumeration
-     |  +--rw cert-location?               inet:uri
-     |  +--rw secure-telephony-identity
-     |     +--rw stir-compliance?   boolean
-     |     +--rw cert-delegation?   boolean
-     |     +--rw acme-directory?    inet:uri
-     +--rw extensions*       string
-]]></artwork>
+ module: ietf-sip-auto-peering
+  +--ro peering-info* [index]
+     +--ro index             uint8
+     +--ro variant           enumeration
+     +--ro revision
+     |  +--ro not-before    uint32
+     |  +--ro location      inet:uri
+     +--ro transport-info
+     |  +--ro transport*        enumeration
+     |  +--ro registrar* [host port]
+     |  |  +--ro host    union
+     |  |  +--ro port    inet:port-number
+     |  +--ro realms* [name]
+     |  |  +--ro name        string
+     |  |  +--ro username?   string
+     |  |  +--ro password?   ianach:crypt-hash
+     |  +--ro call-control* [host port]
+     |  |  +--ro host    union
+     |  |  +--ro port    inet:port-number
+     |  +--ro dns*              inet:ip-address
+     |  +--ro outbound-proxy* [host port]
+     |     +--ro host    union
+     |     +--ro port    inet:port-number
+     +--ro call-specs
+     |  +--ro early-media?         boolean
+     |  +--ro signaling-forking?   boolean
+     |  +--ro supported-methods*   enumeration
+     |  +--ro caller-id
+     |  |  +--ro e164-format?        boolean
+     |  |  +--ro preferred-method?   enumeration
+     |  +--ro num-ranges* [index]
+     |     +--ro index    uint16
+     |     +--ro type?    enumeration
+     |     +--ro count?   uint16
+     |     +--ro value*   string
+     +--ro media
+     |  +--ro media-type-audio* [media-format]
+     |  |  +--ro media-format    enumeration
+     |  |  +--ro rate?           uint16
+     |  |  +--ro ptime?          uint8
+     |  |  +--ro param?          string
+     |  +--ro fax
+     |  |  +--ro protocol*   enumeration
+     |  +--ro rtp
+     |  |  +--ro rtp-trigger?     boolean
+     |  |  +--ro symmetric-rtp?   boolean
+     |  +--ro rtcp
+     |     +--ro symmetric-rtcp?   boolean
+     |     +--ro rtcp-feedback?    boolean
+     +--ro dtmf
+     |  +--ro payload-number?   uint8
+     |  +--ro iteration?        boolean
+     +--ro security
+     |  +--ro signaling
+     |  |  +--ro secure?    boolean
+     |  |  +--ro version*   enumeration
+     |  +--ro media-security
+     |  |  +--ro key-management*   enumeration
+     |  +--ro cert-location?               inet:uri
+     |  +--ro secure-telephony-identity
+     |     +--ro stir-compliance?   boolean
+     |     +--ro cert-delegation?   boolean
+     |     +--ro acme-directory?    inet:uri
+     +--ro extensions*       string
+        ]]></artwork>
       </section>
       <section anchor="yang-model" numbered="true" toc="default">
         <name>YANG Model</name>
@@ -486,13 +486,14 @@ module ietf-sip-auto-peering {
 
   list peering-info {
     key index;
+    config false;
     max-elements 1;
     description "A list containing a single container; the
       peering-info node is akin to the root element of a JSON
       document.";
 
     leaf index {
-      type uint16;
+      type uint8;
       description "Index for the peering-info document.";
     }
 
@@ -718,46 +719,46 @@ module ietf-sip-auto-peering {
 
       leaf-list supported-methods {
         type enumeration {
-          enum INVITE {
+          enum invite {
             description "Initiate a dialog or session.";
           }
-          enum ACK {
+          enum ack {
             description "Acknowledge final response to INVITE.";
           }
-          enum BYE {
+          enum bye {
             description "Terminate a dialog or session.";
           }
-          enum CANCEL {
+          enum cancel {
             description "Cancel a pending request.";
           }
-          enum REGISTER {
+          enum register {
             description "Register contact information.";
           }
-          enum OPTIONS {
+          enum options {
             description "Query capabilities of a server.";
           }
-          enum PRACK {
+          enum prack {
             description "Provisional acknowledgement.";
           }
-          enum SUBSCRIBE {
+          enum subscribe {
             description "Subscribe to an event.";
           }
-          enum NOTIFY {
+          enum notify {
             description "Notify subscriber of an event.";
           }
-          enum PUBLISH {
+          enum publish {
             description "Publish an event state.";
           }
-          enum INFO {
+          enum info {
             description "Send mid-session information.";
           }
-          enum REFER {
+          enum refer {
             description "Refer recipient to a third party.";
           }
-          enum MESSAGE {
+          enum message {
             description "Instant message transport.";
           }
-          enum UPDATE {
+          enum update {
             description "Update session parameters within a dialog.";
           }
         }
@@ -796,11 +797,11 @@ module ietf-sip-auto-peering {
 
         leaf preferred-method {
           type enumeration {
-            enum P_ASSERTED_IDENTITY {
+            enum p-asserted-identity {
               description "Use the 'P-Asserted-Identity' header to
                 determine remote party identity.";
             }
-            enum FROM {
+            enum from {
               description "Use the 'From' header to determine remote
                 party identity.";
             }
@@ -920,18 +921,21 @@ module ietf-sip-auto-peering {
 
         leaf media-format {
           type enumeration {
-            enum PCMU {
+            enum pcmu {
               description "PCMU format.";
             }
-            enum G722 {
+            enum g722 {
               description "G722 format.";
+            }
+            enum g729 {
+              description "G729 format.";
             }
           }
           description "The audio media format.";
         }
 
         leaf rate {
-          type uint8;
+          type uint16;
           description "Sampling rate in Hz.";
         }
 
@@ -957,7 +961,7 @@ module ietf-sip-auto-peering {
 
         leaf-list protocol {
           type enumeration {
-            enum pass_through {
+            enum pass-through {
               description "Protocol-based fax passthrough.";
             }
             enum t38 {
@@ -1131,11 +1135,11 @@ module ietf-sip-auto-peering {
 
         leaf-list key-management {
           type enumeration {
-            enum SDES {
+            enum sdes {
               description "Simplified Data Encryption Standard
                 key management.";
             }
-            enum DTLS-SRTP {
+            enum dtls-srtp {
               description "SRTP keys managed using DTLS.";
             }
           }
@@ -1309,13 +1313,13 @@ network that will peer with it.
     <name>JSON Capability Set Document</name>
     <sourcecode name="asap-example.json" type="json" markers="true">
         <![CDATA[
-        {
 {
     "ietf-sip-auto-peering:peering-info": [
         {
+            "index": 0,
             "variant": "v1_0",
             "revision": {
-                "notBefore": 1742330340,
+                "not-before": 1742330340,
                 "location": 
                     "https://capserver.example.org/capserver/capdoc.json"
             },
@@ -1339,7 +1343,7 @@ network that will peer with it.
                     {
                         "name": "voip.example.com",
                         "username": "voip",
-                        "password": "$6$salt$hash"
+                        "password": "$6$OoEJwExxp6U/FRFq$4RkL2lSSGLoKdfGjX4lQLFXo89gc0wtJsKiBxg/BBz6aNwu7C.D3kRUwD7lvJm6rhaCdhSzVh/XfkkAUY2dTu0"
                     }
                 ],
                 "call-control": [
@@ -1356,28 +1360,28 @@ network that will peer with it.
                     "192.0.2.50",
                     "192.0.2.51"
                 ],
-                "outbound-proxy": {
+                "outbound-proxy": [{
                     "host": "192.0.2.35",
                     "port": 5060
-                }
+                }]
             },
             "call-specs": {
                 "early-media": true,
                 "signaling-forking": false,
                 "supported-methods": [
-                    "INVITE",
-                    "OPTIONS",
-                    "BYE",
-                    "CANCEL",
-                    "ACK",
-                    "PRACK",
-                    "SUBSCRIBE",
-                    "NOTIFY",
-                    "REGISTER"
+                    "invite",
+                    "options",
+                    "bye",
+                    "cancel",
+                    "ack",
+                    "prack",
+                    "subscribe",
+                    "notify",
+                    "register"
                 ],
                 "caller-id": {
                     "e164-format": true,
-                    "preferred-method": "FROM"
+                    "preferred-method": "from"
                 },
                 "num-ranges": [
                     {
@@ -1402,12 +1406,12 @@ network that will peer with it.
             "media": {
                 "media-type-audio": [
                     {
-                        "media-format": "PCMU",
+                        "media-format": "pcmu",
                         "rate": 8000,
                         "ptime": 20
                     },
                     {
-                        "media-format": "G729",
+                        "media-format": "g729",
                         "rate": 8000,
                         "ptime": 20,
                         "param": "annexb"
@@ -1435,10 +1439,10 @@ network that will peer with it.
             "security": {
                 "signaling": {
                     "secure": true,
-                    "version": ["1.0", "1.2", "1.3"]
+                    "version": ["1.2", "1.3"]
                 },
                 "media-security": {
-                    "key-management": ["SDES", "DTLS-SRTP"]
+                    "key-management": ["sdes", "dtls-srtp"]
                 },
                 "cert-location": 
                     "https://sipserviceprovider.com/certificateList.pem",

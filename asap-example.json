@@ -1,9 +1,10 @@
 {
     "ietf-sip-auto-peering:peering-info": [
         {
+            "index": 0,
             "variant": "v1_0",
             "revision": {
-                "notBefore": 1742330340,
+                "not-before": 1742330340,
                 "location": 
                     "https://capserver.example.org/capserver/capdoc.json"
             },
@@ -44,28 +45,28 @@
                     "192.0.2.50",
                     "192.0.2.51"
                 ],
-                "outbound-proxy": {
+                "outbound-proxy": [{
                     "host": "192.0.2.35",
                     "port": 5060
-                }
+                }]
             },
             "call-specs": {
                 "early-media": true,
                 "signaling-forking": false,
                 "supported-methods": [
-                    "INVITE",
-                    "OPTIONS",
-                    "BYE",
-                    "CANCEL",
-                    "ACK",
-                    "PRACK",
-                    "SUBSCRIBE",
-                    "NOTIFY",
-                    "REGISTER"
+                    "invite",
+                    "options",
+                    "bye",
+                    "cancel",
+                    "ack",
+                    "prack",
+                    "subscribe",
+                    "notify",
+                    "register"
                 ],
                 "caller-id": {
                     "e164-format": true,
-                    "preferred-method": "FROM"
+                    "preferred-method": "from"
                 },
                 "num-ranges": [
                     {
@@ -90,12 +91,12 @@
             "media": {
                 "media-type-audio": [
                     {
-                        "media-format": "PCMU",
+                        "media-format": "pcmu",
                         "rate": 8000,
                         "ptime": 20
                     },
                     {
-                        "media-format": "G729",
+                        "media-format": "g729",
                         "rate": 8000,
                         "ptime": 20,
                         "param": "annexb"
@@ -123,10 +124,10 @@
             "security": {
                 "signaling": {
                     "secure": true,
-                    "version": ["1.0", "1.2", "1.3"]
+                    "version": ["1.2", "1.3"]
                 },
                 "media-security": {
-                    "key-management": ["SDES", "DTLS-SRTP"]
+                    "key-management": ["sdes", "dtls-srtp"]
                 },
                 "cert-location": 
                     "https://sipserviceprovider.com/certificateList.pem",
