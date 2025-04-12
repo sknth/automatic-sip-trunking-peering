@@ -246,36 +246,36 @@ module ietf-sip-auto-peering {
       leaf-list dns {
         type inet:ip-address;
         max-elements 2;
-        description "A list that encodes the IP address of one or
-          more DNS servers hosted by the SIP service provider. If
-          the enterprise network is unaware of the IP address, port
-          number, and transport protocol of servers within the
-          service provider network (for example, the registrar and
-          call control server), it must use DNS NAPTR and SRV.
-          Alternatively, if the enterprise network has the fully
-          qualified domain name of the SIP service provider network,
-          it must use DNS to resolve the said FQDN to an IP address.
-          The dns element encodes the IP address of one or more DNS
-          servers hosted in the service provider network. If however,
-          either the registrar or call-control lists or both are
-          populated with a valid IP address and port pair, the dns
+        description
+          "A list that encodes the IP address of one or more DNS servers
+          hosted by the SIP service provider. If the enterprise network
+          is unaware of the IP address, port number, and transport
+          protocol of servers within the service provider network (for
+          example, the registrar and call control server), it must use
+          DNS NAPTR and SRV. Alternatively, if the enterprise network
+          has the fully qualified domain name of the SIP service
+          provider network, it must use DNS to resolve the said FQDN to
+          an IP address. The dns element encodes the IP address of one
+          or more DNS servers hosted in the service provider network. If
+          however, either the registrar or call-control lists or both
+          are populated with a valid IP address and port pair, the dns
           element must be set to ::/0.";
       }
 
       list outbound-proxy {
         key "host port";
         uses entity;
-        description "A list that specifies the transport address of
-          one or more outbound proxies. The transport address can be
-          specified by using a combination of an IP address and a
-          port number, a subdomain of the SIP service provider
-          network, or a fully qualified domain name and port number
-          of the SIP service provider network. If the outbound-proxy
-          list is populated with a valid transport address, it
-          represents the default destination for all outbound SIP
-          requests and therefore, the registrar and call-control
-          lists must be populated with the quadruple octet of
-          0.0.0.0";
+        description
+          "A list that specifies the transport address of one or more
+          outbound proxies. The transport address can be specified by
+          using a combination of an IP address and a port number, a
+          subdomain of the SIP service provider network, or a fully
+          qualified domain name and port number of the SIP service
+          provider network. If the outbound-proxy list is populated with
+          a valid transport address, it represents the default
+          destination for all outbound SIP requests and therefore, the
+          registrar and call-control lists must be populated with the
+          quadruple octet of 0.0.0.0";
       }
     }
 
