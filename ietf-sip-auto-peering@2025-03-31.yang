@@ -550,8 +550,9 @@ module ietf-sip-auto-peering {
 
         leaf param {
           type string;
-          description "Optional parameter for additional media
-            details regarding the encoding.";
+          description
+            "Optional parameter for additional media details regarding
+            the encoding.";
         }
       }
 
