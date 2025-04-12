@@ -469,7 +469,8 @@ module ietf-sip-auto-peering {
 
         leaf-list value {
           type string;
-          description "A list that encapsulates the DID number range
+          description
+            "A list that encapsulates the DID number range
             allocated to the enterprise. If the num-ranges 'type' is
             set to 'range' or 'collection', the 'count' node MUST
             have a valid, non-zero, positive integer. If the 
