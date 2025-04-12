@@ -99,8 +99,9 @@ module ietf-sip-auto-peering {
     leaf variant {
       type enumeration {
         enum v1_0 {
-          description "Variant 1.0 of the capability set document is
-            defined in this draft";
+          description
+            "Variant 1.0 of the capability set document is defined in
+            this draft";
         }
       }
       mandatory true;
@@ -121,12 +122,12 @@ module ietf-sip-auto-peering {
       leaf not-before {
         type uint32;
         mandatory true;
-        description "A node that identifies the epoch time at
-          which the parameters in this capability set document are
-          activated or considered valid. This node has been set to
-          mandatory as it is the service provider's 
-          responsibility to inform when new peering settings take
-          effect. Without being aware of a start time, the
+        description
+          "A node that identifies the epoch time at which the parameters
+          in this capability set document are activated or considered
+          valid. This node has been set to mandatory as it is the
+          service provider's responsibility to inform when new peering
+          settings take effect. Without being aware of a start time, the
           enterprise network will experience failures.";
       }
 
