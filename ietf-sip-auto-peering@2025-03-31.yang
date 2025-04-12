@@ -78,10 +78,11 @@ module ietf-sip-auto-peering {
 
     leaf port {
       type inet:port-number;
-      description "Entity's port number (e.g. 5060).";
+      description "Entity's port number.";
     }
   }
 
+  container sip-auto-peering {
   list peering-info {
     key index;
     config false;
@@ -827,4 +828,5 @@ module ietf-sip-auto-peering {
         referenced using name registered under IANA.";
     }
   }
+}
 }
