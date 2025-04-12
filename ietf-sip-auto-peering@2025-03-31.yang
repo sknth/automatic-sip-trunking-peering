@@ -823,9 +823,10 @@ module ietf-sip-auto-peering {
 
     leaf-list extensions {
       type string;
-      description "A list of all possible SIP option tags supported
-        by the service provider network. These extensions must be
-        referenced using name registered under IANA.";
+      description
+        "A list of all possible SIP option tags supported by the service
+        provider network. These extensions must be referenced using name
+        registered under IANA.";
     }
   }
 }
