@@ -150,13 +150,16 @@ module ietf-sip-auto-peering {
       leaf-list transport {
         type enumeration {
           enum tcp {
-            description "Transmission Control Protocol";
+            description
+              "Transmission Control Protocol";
           }
           enum tls {
-            description "Transport Layer Security (over TCP)";
+            description
+              "Transport Layer Security (over TCP)";
           }
           enum udp {
-            description "User Datagram Protocol";
+            description
+              "User Datagram Protocol";
           }
         }
         min-elements 1;
