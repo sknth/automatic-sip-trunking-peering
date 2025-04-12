@@ -722,8 +722,8 @@ module ietf-sip-auto-peering {
               description "TLS version 1.3.";
             }
           }
-          description "A list that specifies the version(s) of TLS
-            supported.";
+          description
+            "A list that specifies the version(s) of TLS supported.";
         }
       }
 
