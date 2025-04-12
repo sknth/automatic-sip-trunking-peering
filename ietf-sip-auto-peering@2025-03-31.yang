@@ -1,7 +1,7 @@
 module ietf-sip-auto-peering {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering";
-  prefix "peering";
+  prefix "sipap";
 
   import ietf-inet-types {
     prefix "inet";
@@ -54,7 +54,7 @@ module ietf-sip-auto-peering {
      described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
      they appear in all capitals, as shown here.";
 
-  revision 2025-03-19 {
+  revision 2025-03-31 {
     description "Initial version";
     reference
       "NOTE TO RFC EDITOR: Please replace 'RFC XXXX' with the actual
