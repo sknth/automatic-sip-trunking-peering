@@ -540,12 +540,14 @@ module ietf-sip-auto-peering {
 
         leaf rate {
           type uint16;
-          description "Sampling rate in Hz.";
+          description
+            "Sampling rate in Hz.";
         }
 
         leaf ptime {
           type uint8;
-          description "Packetization time in milliseconds.";
+          description
+            "Packetization time in milliseconds.";
         }
 
         leaf param {
