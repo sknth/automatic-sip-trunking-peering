@@ -419,22 +419,22 @@ module ietf-sip-auto-peering {
 
       list num-ranges {
         key index;
-        description "A list that specifies the Direct Inward Dial
-         (DID) number range allocated to the enterprise network by
-         the SIP service provider. The DID number ranges allocated
-         by the service provider to the enterprise network might be
-         a contiguous or a non-contiguous block. The number ranges
-         allocated to an enterprise can be communicated as a value
-         or as a reference. For large enterprise networks, the size
-         of the DID range might run into several hundred numbers.
-         For situations in which the enterprise is allocated a large
-         DID number range or a non-contiguous number range it is
-         RECOMMENDED that the SIP service provider communicate this
-         information by reference, that is, through a URL. The
-         enterprise network is required to de-reference this URL in
-         order to obtain the DID number ranges allocated by the SIP
-         service provider. Refer to the example provided in
-         Section 9.1.";
+        description
+          "A list that specifies the Direct Inward Dial (DID) number
+          range allocated to the enterprise network by the SIP service
+          provider. The DID number ranges allocated by the service
+          provider to the enterprise network might be a contiguous or a
+          non-contiguous block. The number ranges allocated to an
+          enterprise can be communicated as a value or as a reference.
+          For large enterprise networks, the size of the DID range might
+          run into several hundred numbers. For situations in which the
+          enterprise is allocated a large DID number range or a
+          non-contiguous number range it is RECOMMENDED that the SIP
+          service provider communicate this information by reference,
+          that is, through a URL. The enterprise network is required to
+          de-reference this URL in order to obtain the DID number ranges
+          allocated by the SIP service provider. Refer to the example
+          provided in Section 9.1.";
 
         leaf index {
           type uint16;
