@@ -418,6 +418,7 @@ module ietf-sip-auto-peering {
       }
 
       list num-ranges {
+      list number-range {
         key index;
         description
           "A list that specifies the Direct Inward Dial (DID) number
@@ -540,12 +541,14 @@ module ietf-sip-auto-peering {
 
         leaf rate {
           type uint16;
+          units "Hz";
           description
             "Sampling rate in Hz.";
         }
 
         leaf ptime {
           type uint8;
+          units "milliseconds";
           description
             "Packetization time in milliseconds.";
         }
