@@ -1,7 +1,7 @@
 module ietf-sip-auto-peering {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering";
-  prefix "peering";
+  prefix "sipap";
 
   import ietf-inet-types {
     prefix "inet";
@@ -54,7 +54,7 @@ module ietf-sip-auto-peering {
      described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
      they appear in all capitals, as shown here.";
 
-  revision 2025-03-19 {
+  revision 2025-03-31 {
     description "Initial version";
     reference
       "NOTE TO RFC EDITOR: Please replace 'RFC XXXX' with the actual
@@ -78,10 +78,11 @@ module ietf-sip-auto-peering {
 
     leaf port {
       type inet:port-number;
-      description "Entity's port number (e.g. 5060).";
+      description "Entity's port number.";
     }
   }
 
+  container sip-auto-peering {
   list peering-info {
     key index;
     config false;
@@ -98,8 +99,9 @@ module ietf-sip-auto-peering {
     leaf variant {
       type enumeration {
         enum v1_0 {
-          description "Variant 1.0 of the capability set document is
-            defined in this draft";
+          description
+            "Variant 1.0 of the capability set document is defined in
+            this draft";
         }
       }
       mandatory true;
@@ -120,12 +122,12 @@ module ietf-sip-auto-peering {
       leaf not-before {
         type uint32;
         mandatory true;
-        description "A node that identifies the epoch time at
-          which the parameters in this capability set document are
-          activated or considered valid. This node has been set to
-          mandatory as it is the service provider's 
-          responsibility to inform when new peering settings take
-          effect. Without being aware of a start time, the
+        description
+          "A node that identifies the epoch time at which the parameters
+          in this capability set document are activated or considered
+          valid. This node has been set to mandatory as it is the
+          service provider's responsibility to inform when new peering
+          settings take effect. Without being aware of a start time, the
           enterprise network will experience failures.";
       }
 
@@ -148,13 +150,16 @@ module ietf-sip-auto-peering {
       leaf-list transport {
         type enumeration {
           enum tcp {
-            description "Transmission Control Protocol";
+            description
+              "Transmission Control Protocol";
           }
           enum tls {
-            description "Transport Layer Security (over TCP)";
+            description
+              "Transport Layer Security (over TCP)";
           }
           enum udp {
-            description "User Datagram Protocol";
+            description
+              "User Datagram Protocol";
           }
         }
         min-elements 1;
@@ -241,36 +246,36 @@ module ietf-sip-auto-peering {
       leaf-list dns {
         type inet:ip-address;
         max-elements 2;
-        description "A list that encodes the IP address of one or
-          more DNS servers hosted by the SIP service provider. If
-          the enterprise network is unaware of the IP address, port
-          number, and transport protocol of servers within the
-          service provider network (for example, the registrar and
-          call control server), it must use DNS NAPTR and SRV.
-          Alternatively, if the enterprise network has the fully
-          qualified domain name of the SIP service provider network,
-          it must use DNS to resolve the said FQDN to an IP address.
-          The dns element encodes the IP address of one or more DNS
-          servers hosted in the service provider network. If however,
-          either the registrar or call-control lists or both are
-          populated with a valid IP address and port pair, the dns
+        description
+          "A list that encodes the IP address of one or more DNS servers
+          hosted by the SIP service provider. If the enterprise network
+          is unaware of the IP address, port number, and transport
+          protocol of servers within the service provider network (for
+          example, the registrar and call control server), it must use
+          DNS NAPTR and SRV. Alternatively, if the enterprise network
+          has the fully qualified domain name of the SIP service
+          provider network, it must use DNS to resolve the said FQDN to
+          an IP address. The dns element encodes the IP address of one
+          or more DNS servers hosted in the service provider network. If
+          however, either the registrar or call-control lists or both
+          are populated with a valid IP address and port pair, the dns
           element must be set to ::/0.";
       }
 
       list outbound-proxy {
         key "host port";
         uses entity;
-        description "A list that specifies the transport address of
-          one or more outbound proxies. The transport address can be
-          specified by using a combination of an IP address and a
-          port number, a subdomain of the SIP service provider
-          network, or a fully qualified domain name and port number
-          of the SIP service provider network. If the outbound-proxy
-          list is populated with a valid transport address, it
-          represents the default destination for all outbound SIP
-          requests and therefore, the registrar and call-control
-          lists must be populated with the quadruple octet of
-          0.0.0.0";
+        description
+          "A list that specifies the transport address of one or more
+          outbound proxies. The transport address can be specified by
+          using a combination of an IP address and a port number, a
+          subdomain of the SIP service provider network, or a fully
+          qualified domain name and port number of the SIP service
+          provider network. If the outbound-proxy list is populated with
+          a valid transport address, it represents the default
+          destination for all outbound SIP requests and therefore, the
+          registrar and call-control lists must be populated with the
+          quadruple octet of 0.0.0.0";
       }
     }
 
@@ -413,23 +418,24 @@ module ietf-sip-auto-peering {
       }
 
       list num-ranges {
+      list number-range {
         key index;
-        description "A list that specifies the Direct Inward Dial
-         (DID) number range allocated to the enterprise network by
-         the SIP service provider. The DID number ranges allocated
-         by the service provider to the enterprise network might be
-         a contiguous or a non-contiguous block. The number ranges
-         allocated to an enterprise can be communicated as a value
-         or as a reference. For large enterprise networks, the size
-         of the DID range might run into several hundred numbers.
-         For situations in which the enterprise is allocated a large
-         DID number range or a non-contiguous number range it is
-         RECOMMENDED that the SIP service provider communicate this
-         information by reference, that is, through a URL. The
-         enterprise network is required to de-reference this URL in
-         order to obtain the DID number ranges allocated by the SIP
-         service provider. Refer to the example provided in
-         Section 9.1.";
+        description
+          "A list that specifies the Direct Inward Dial (DID) number
+          range allocated to the enterprise network by the SIP service
+          provider. The DID number ranges allocated by the service
+          provider to the enterprise network might be a contiguous or a
+          non-contiguous block. The number ranges allocated to an
+          enterprise can be communicated as a value or as a reference.
+          For large enterprise networks, the size of the DID range might
+          run into several hundred numbers. For situations in which the
+          enterprise is allocated a large DID number range or a
+          non-contiguous number range it is RECOMMENDED that the SIP
+          service provider communicate this information by reference,
+          that is, through a URL. The enterprise network is required to
+          de-reference this URL in order to obtain the DID number ranges
+          allocated by the SIP service provider. Refer to the example
+          provided in Section 9.1.";
 
         leaf index {
           type uint16;
@@ -464,7 +470,8 @@ module ietf-sip-auto-peering {
 
         leaf-list value {
           type string;
-          description "A list that encapsulates the DID number range
+          description
+            "A list that encapsulates the DID number range
             allocated to the enterprise. If the num-ranges 'type' is
             set to 'range' or 'collection', the 'count' node MUST
             have a valid, non-zero, positive integer. If the 
@@ -534,18 +541,23 @@ module ietf-sip-auto-peering {
 
         leaf rate {
           type uint16;
-          description "Sampling rate in Hz.";
+          units "Hz";
+          description
+            "Sampling rate in Hz.";
         }
 
         leaf ptime {
           type uint8;
-          description "Packetization time in milliseconds.";
+          units "milliseconds";
+          description
+            "Packetization time in milliseconds.";
         }
 
         leaf param {
           type string;
-          description "Optional parameter for additional media
-            details regarding the encoding.";
+          description
+            "Optional parameter for additional media details regarding
+            the encoding.";
         }
       }
 
@@ -721,8 +733,8 @@ module ietf-sip-auto-peering {
               description "TLS version 1.3.";
             }
           }
-          description "A list that specifies the version(s) of TLS
-            supported.";
+          description
+            "A list that specifies the version(s) of TLS supported.";
         }
       }
 
@@ -822,9 +834,11 @@ module ietf-sip-auto-peering {
 
     leaf-list extensions {
       type string;
-      description "A list of all possible SIP option tags supported
-        by the service provider network. These extensions must be
-        referenced using name registered under IANA.";
+      description
+        "A list of all possible SIP option tags supported by the service
+        provider network. These extensions must be referenced using name
+        registered under IANA.";
     }
   }
+}
 }
