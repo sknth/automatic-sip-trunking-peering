@@ -34,6 +34,18 @@ module ietf-sip-auto-peering {
   description
     "Data model for encoding SIP Service Provider Capability Set
 
+    This YANG module defines a read-only data model intended for
+    exchanging SIP service provider capabilities with enterprise
+    networks. The data is published by service providers and
+    consumed by enterprises via standard YANG-based interfaces
+    (RESTCONF, NETCONF, gNMI, etc.).
+
+    This module does NOT provide configuration capabilities - it
+    serves purely as a standardized format for capability exchange.
+    Service providers generate and host capability documents based
+    on this schema, which enterprises retrieve and use to configure
+    their SIP equipment.
+
     Copyright (c) 2025 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
@@ -54,7 +66,7 @@ module ietf-sip-auto-peering {
      described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
      they appear in all capitals, as shown here.";
 
-  revision 2025-03-31 {
+  revision 2025-06-29 {
     description "Initial version";
     reference
       "NOTE TO RFC EDITOR: Please replace 'RFC XXXX' with the actual
@@ -62,6 +74,44 @@ module ietf-sip-auto-peering {
       sentence. Also replace the revision with the date of publication
       of this document.
       RFC XXXX: Automatic Peering for SIP Trunks";
+  }
+
+  identity sip-extension {
+    description
+      "Base identity for SIP extensions/option tags as defined by IANA
+      SIP Parameters registry.";
+  }
+
+  identity reliable-provisional-responses {
+    base sip-extension;
+    description
+      "This extension indicates support for reliable provisional
+       responses as defined in RFC 3262.";
+    reference "RFC 3262";
+  }
+
+  identity session-timers {
+    base sip-extension;
+    description
+      "This extension indicates support for session timers
+      as defined in RFC 4028.";
+    reference "RFC 4028";
+  }
+
+  identity replaces {
+    base sip-extension;
+    description
+      "This extension indicates support for the Replaces header
+      as defined in RFC 3891.";
+    reference "RFC 3891";
+  }
+
+  identity path {
+    base sip-extension;
+    description
+      "This extension indicates support for the Path header
+      as defined in RFC 3327.";
+    reference "RFC 3327";
   }
 
   grouping entity {
@@ -83,13 +133,15 @@ module ietf-sip-auto-peering {
   }
 
   container sip-auto-peering {
-  list peering-info {
-    key index;
+  // list peering-info {
+    // key index;
     config false;
-    max-elements 1;
-    description "A list containing a single container; the
-      peering-info node is akin to the root element of a JSON
-      document.";
+    // max-elements 1;
+    description "Root container for SIP service provider capability
+      data. This container holds read-only operational data that
+      represents the capabilities and requirements of a SIP service
+      provider. Enterprise networks retrieve this data to automatically
+      configure their SIP trunking parameters.";
 
     leaf index {
       type uint8;
@@ -121,6 +173,7 @@ module ietf-sip-auto-peering {
 
       leaf not-before {
         type uint32;
+        units "seconds";
         mandatory true;
         description
           "A node that identifies the epoch time at which the parameters
@@ -259,7 +312,7 @@ module ietf-sip-auto-peering {
           or more DNS servers hosted in the service provider network. If
           however, either the registrar or call-control lists or both
           are populated with a valid IP address and port pair, the dns
-          element must be set to ::/0.";
+          element can be omitted.";
       }
 
       list outbound-proxy {
@@ -274,8 +327,7 @@ module ietf-sip-auto-peering {
           provider network. If the outbound-proxy list is populated with
           a valid transport address, it represents the default
           destination for all outbound SIP requests and therefore, the
-          registrar and call-control lists must be populated with the
-          quadruple octet of 0.0.0.0";
+          registrar and call-control lists can be omitted.";
       }
     }
 
@@ -417,7 +469,6 @@ module ietf-sip-auto-peering {
         }
       }
 
-      list num-ranges {
       list number-range {
         key index;
         description
@@ -553,7 +604,7 @@ module ietf-sip-auto-peering {
             "Packetization time in milliseconds.";
         }
 
-        leaf param {
+        leaf parameter {
           type string;
           description
             "Optional parameter for additional media details regarding
@@ -725,11 +776,12 @@ module ietf-sip-auto-peering {
         }
 
         leaf-list version {
+          when "../secure = 'true'";
           type enumeration {
-            enum 1.2 {
+            enum v1_2 {
               description "TLS version 1.2.";
             }
-            enum 1.3 {
+            enum v1_3 {
               description "TLS version 1.3.";
             }
           }
@@ -833,12 +885,15 @@ module ietf-sip-auto-peering {
     }
 
     leaf-list extensions {
-      type string;
+      type identityref {
+        base sip-extension;
+      }
       description
-        "A list of all possible SIP option tags supported by the service
-        provider network. These extensions must be referenced using name
-        registered under IANA.";
+        "A list of SIP option tags (extensions) supported by the service
+         provider network. Each extension is represented as an identity
+         derived from the sip-extension base identity. This provides
+         type safety and allows for proper validation of supported
+         extensions.";
     }
   }
-}
 }

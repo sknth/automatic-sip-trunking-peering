@@ -1,148 +1,147 @@
 {
-    "ietf-sip-auto-peering:peering-info": [
-        {
-            "index": 0,
-            "variant": "v1_0",
-            "revision": {
-                "not-before": 1742330340,
-                "location": 
-                    "https://capserver.example.org/capserver/capdoc.json"
-            },
-            "transport-info": {
-                "transport": [
-                    "tcp",
-                    "tls",
-                    "udp"
-                ],
-                "registrar": [
-                    {
-                        "host": "registrar1.voip.example.com",
-                        "port": 5060
-                    },
-                    {
-                        "host": "registrar2.voip.example.com",
-                        "port": 5060
-                    }
-                ],
-                "realms": [
-                    {
-                        "name": "voip.example.com",
-                        "username": "voip",
-                        "password": "$6$OoEJwExxp6U/FRFq$4RkL2lSSGLoKdfGjX4lQLFXo89gc0wtJsKiBxg/BBz6aNwu7C.D3kRUwD7lvJm6rhaCdhSzVh/XfkkAUY2dTu0"
-                    }
-                ],
-                "call-control": [
-                    {
-                        "host": "callServer1.voip.example.com",
-                        "port": 5060
-                    },
-                    {
-                        "host": "192.0.2.40",
-                        "port": 5065
-                    }
-                ],
-                "dns": [
-                    "192.0.2.50",
-                    "192.0.2.51"
-                ],
-                "outbound-proxy": [{
-                    "host": "192.0.2.35",
+    "ietf-sip-auto-peering:peering-info":
+    {
+        "index": 0,
+        "variant": "v1_0",
+        "revision": {
+            "not-before": 1742330340,
+            "location": 
+                "https://capserver.example.org/capserver/capdoc.json"
+        },
+        "transport-info": {
+            "transport": [
+                "tcp",
+                "tls",
+                "udp"
+            ],
+            "registrar": [
+                {
+                    "host": "registrar1.voip.example.com",
                     "port": 5060
-                }]
-            },
-            "call-specs": {
-                "early-media": true,
-                "signaling-forking": false,
-                "supported-methods": [
-                    "invite",
-                    "options",
-                    "bye",
-                    "cancel",
-                    "ack",
-                    "prack",
-                    "subscribe",
-                    "notify",
-                    "register"
-                ],
-                "caller-id": {
-                    "e164-format": true,
-                    "preferred-method": "from"
                 },
-                "num-ranges": [
-                    {
-                        "index": 0,
-                        "type": "range",
-                        "count": 20,
-                        "value": [
-                            "19725455000"
-                        ]
-                    },
-                    {
-                        "index": 1,
-                        "type": "collection",
-                        "count": 2,
-                        "value": [
-                            "19725455000",
-                            "19725455001"
-                        ]
-                    }
-                ]
+                {
+                    "host": "registrar2.voip.example.com",
+                    "port": 5060
+                }
+            ],
+            "realms": [
+                {
+                    "name": "voip.example.com",
+                    "username": "voip",
+                    "password": "$6$OoEJwExxp6U/FRFq$4RkL2lSSGLoKdfGjX4lQLFXo89gc0wtJsKiBxg/BBz6aNwu7C.D3kRUwD7lvJm6rhaCdhSzVh/XfkkAUY2dTu0"
+                }
+            ],
+            "call-control": [
+                {
+                    "host": "callServer1.voip.example.com",
+                    "port": 5060
+                },
+                {
+                    "host": "192.0.2.40",
+                    "port": 5065
+                }
+            ],
+            "dns": [
+                "192.0.2.50",
+                "192.0.2.51"
+            ],
+            "outbound-proxy": [{
+                "host": "192.0.2.35",
+                "port": 5060
+            }]
+        },
+        "call-specs": {
+            "early-media": true,
+            "signaling-forking": false,
+            "supported-methods": [
+                "invite",
+                "options",
+                "bye",
+                "cancel",
+                "ack",
+                "prack",
+                "subscribe",
+                "notify",
+                "register"
+            ],
+            "caller-id": {
+                "e164-format": true,
+                "preferred-method": "from"
             },
-            "media": {
-                "media-type-audio": [
-                    {
-                        "media-format": "pcmu",
-                        "rate": 8000,
-                        "ptime": 20
-                    },
-                    {
-                        "media-format": "g729",
-                        "rate": 8000,
-                        "ptime": 20,
-                        "param": "annexb"
-                    }
-                ],
-                "fax": {
-                    "protocol": [
-                        "t38",
-                        "pass-through"
+            "num-ranges": [
+                {
+                    "index": 0,
+                    "type": "range",
+                    "count": 20,
+                    "value": [
+                        "19725455000"
                     ]
                 },
-                "rtp": {
-                    "rtp-trigger": true,
-                    "symmetric-rtp": true
-                },
-                "rtcp": {
-                    "symmetric-rtcp": true,
-                    "rtcp-feedback": true
+                {
+                    "index": 1,
+                    "type": "collection",
+                    "count": 2,
+                    "value": [
+                        "19725455000",
+                        "19725455001"
+                    ]
                 }
-            },
-            "dtmf": {
-                "payload-number": 101,
-                "iteration": false
-            },
-            "security": {
-                "signaling": {
-                    "secure": true,
-                    "version": ["1.2", "1.3"]
-                },
-                "media-security": {
-                    "key-management": ["sdes", "dtls-srtp"]
-                },
-                "cert-location": 
-                    "https://sipserviceprovider.com/certificateList.pem",
-                "secure-telephony-identity": {
-                    "stir-compliance": true,
-                    "cert-delegation": true,
-                    "acme-directory": "https://sipserviceprovider.com/acme.html"
-                }
-            },
-            "extensions": [
-                "timer",
-                "rel100",
-                "gin",
-                "path"
             ]
-        }
-    ]
+        },
+        "media": {
+            "media-type-audio": [
+                {
+                    "media-format": "pcmu",
+                    "rate": 8000,
+                    "ptime": 20
+                },
+                {
+                    "media-format": "g729",
+                    "rate": 8000,
+                    "ptime": 20,
+                    "param": "annexb"
+                }
+            ],
+            "fax": {
+                "protocol": [
+                    "t38",
+                    "pass-through"
+                ]
+            },
+            "rtp": {
+                "rtp-trigger": true,
+                "symmetric-rtp": true
+            },
+            "rtcp": {
+                "symmetric-rtcp": true,
+                "rtcp-feedback": true
+            }
+        },
+        "dtmf": {
+            "payload-number": 101,
+            "iteration": false
+        },
+        "security": {
+            "signaling": {
+                "secure": true,
+                "version": ["v1_2", "v1_3"]
+            },
+            "media-security": {
+                "key-management": ["sdes", "dtls-srtp"]
+            },
+            "cert-location": 
+                "https://sipserviceprovider.com/certificateList.pem",
+            "secure-telephony-identity": {
+                "stir-compliance": true,
+                "cert-delegation": true,
+                "acme-directory": "https://sipserviceprovider.com/acme.html"
+            }
+        },
+        "extensions": [
+            "ietf-sip-auto-peering:reliable-provisional-responses",
+            "ietf-sip-auto-peering:session-timers", 
+            "ietf-sip-auto-peering:replaces",
+            "ietf-sip-auto-peering:path"
+        ]
+    }
 }
