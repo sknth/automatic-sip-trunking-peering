@@ -1,5 +1,5 @@
 {
-    "ietf-sip-auto-peering:peering-info":
+    "ietf-sip-auto-peering:sip-auto-peering":
     {
         "index": 0,
         "variant": "v1_0",
@@ -68,7 +68,7 @@
                 "e164-format": true,
                 "preferred-method": "from"
             },
-            "num-ranges": [
+            "number-range": [
                 {
                     "index": 0,
                     "type": "range",
@@ -99,7 +99,7 @@
                     "media-format": "g729",
                     "rate": 8000,
                     "ptime": 20,
-                    "param": "annexb"
+                    "parameter": "annexb"
                 }
             ],
             "fax": {
