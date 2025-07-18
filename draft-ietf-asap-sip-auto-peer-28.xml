@@ -15,12 +15,12 @@
       </address>
     </author>
     <author initials="S." surname="Narayanan" fullname="Sreekanth Narayanan">
-      <organization>Cisco Systems</organization>
+      <organization>Unaffiliated</organization>
       <address>
         <postal>
           <street/>
         </postal>
-        <email>sreenara@cisco.com</email>
+        <email>sknth.n@protonmail.com</email>
       </address>
     </author>
     <author initials="C." surname="Jennings" fullname="Cullen Jennings">
@@ -428,7 +428,7 @@ module ietf-sip-auto-peering {
     <mailto:kaustubh.ietf@gmail.com>
 
     Editor: Sreekanth Narayanan
-    <mailto:sreenara@cisco.com>
+    <mailto:sknth.n@protonmail.com>
 
     Editor: Cullen Jennings
     <mailto:fluffy@iii.ca>";
