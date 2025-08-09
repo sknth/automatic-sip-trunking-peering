@@ -1,0 +1,64 @@
+module: ietf-sip-auto-peering
+  +--ro sip-auto-peering
+     +--ro index?            uint8
+     +--ro variant           enumeration
+     +--ro revision
+     |  +--ro not-before    uint32
+     |  +--ro location      inet:uri
+     +--ro transport-info
+     |  +--ro transport*        enumeration
+     |  +--ro registrar* [host port]
+     |  |  +--ro host    union
+     |  |  +--ro port    inet:port-number
+     |  +--ro realms* [name]
+     |  |  +--ro name        string
+     |  |  +--ro username?   string
+     |  |  +--ro password?   ianach:crypt-hash
+     |  +--ro call-control* [host port]
+     |  |  +--ro host    union
+     |  |  +--ro port    inet:port-number
+     |  +--ro dns*              inet:ip-address
+     |  +--ro outbound-proxy* [host port]
+     |     +--ro host    union
+     |     +--ro port    inet:port-number
+     +--ro call-specs
+     |  +--ro early-media?         boolean
+     |  +--ro signaling-forking?   boolean
+     |  +--ro supported-methods*   enumeration
+     |  +--ro caller-id
+     |  |  +--ro e164-format?        boolean
+     |  |  +--ro preferred-method?   enumeration
+     |  +--ro number-range* [index]
+     |     +--ro index    uint16
+     |     +--ro type?    enumeration
+     |     +--ro count?   uint16
+     |     +--ro value*   string
+     +--ro media
+     |  +--ro media-type-audio* [media-format]
+     |  |  +--ro media-format    enumeration
+     |  |  +--ro rate?           uint16
+     |  |  +--ro ptime?          uint8
+     |  |  +--ro parameter?      string
+     |  +--ro fax
+     |  |  +--ro protocol*   enumeration
+     |  +--ro rtp
+     |  |  +--ro rtp-trigger?     boolean
+     |  |  +--ro symmetric-rtp?   boolean
+     |  +--ro rtcp
+     |     +--ro symmetric-rtcp?   boolean
+     |     +--ro rtcp-feedback?    boolean
+     +--ro dtmf
+     |  +--ro payload-number?   uint8
+     |  +--ro iteration?        boolean
+     +--ro security
+     |  +--ro signaling
+     |  |  +--ro secure?    boolean
+     |  |  +--ro version*   enumeration
+     |  +--ro media-security
+     |  |  +--ro key-management*   enumeration
+     |  +--ro cert-location?               inet:uri
+     |  +--ro secure-telephony-identity
+     |     +--ro stir-compliance?   boolean
+     |     +--ro cert-delegation?   boolean
+     |     +--ro acme-directory?    inet:uri
+     +--ro extensions*       identityref
