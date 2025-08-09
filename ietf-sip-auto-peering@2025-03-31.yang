@@ -26,7 +26,7 @@ module ietf-sip-auto-peering {
     <mailto:kaustubh.ietf@gmail.com>
 
     Editor: Sreekanth Narayanan
-    <mailto:sreenara@cisco.com>
+    <mailto:sknth.n@protonmail.com>
 
     Editor: Cullen Jennings
     <mailto:fluffy@iii.ca>";
@@ -38,7 +38,7 @@ module ietf-sip-auto-peering {
     exchanging SIP service provider capabilities with enterprise
     networks. The data is published by service providers and
     consumed by enterprises via standard YANG-based interfaces
-    (RESTCONF, NETCONF, gNMI, etc.).
+    (RESTCONF, NETCONF, etc.).
 
     This module does NOT provide configuration capabilities - it
     serves purely as a standardized format for capability exchange.
@@ -47,26 +47,26 @@ module ietf-sip-auto-peering {
     their SIP equipment.
 
     Copyright (c) 2025 IETF Trust and the persons identified as
-     authors of the code.  All rights reserved.
+    authors of the code.  All rights reserved.
 
-     Redistribution and use in source and binary forms, with or
-     without modification, is permitted pursuant to, and subject to
-     the license terms contained in, the Revised BSD License set
-     forth in Section 4.c of the IETF Trust's Legal Provisions
-     Relating to IETF Documents
-     (https://trustee.ietf.org/license-info).
+    Redistribution and use in source and binary forms, with or
+    without modification, is permitted pursuant to, and subject to
+    the license terms contained in, the Revised BSD License set
+    forth in Section 4.c of the IETF Trust's Legal Provisions
+    Relating to IETF Documents
+    (https://trustee.ietf.org/license-info).
 
     This version of this YANG module is part of RFC XXXX
-     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
-     for full legal notices.
+    (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+    for full legal notices.
     
     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
-     NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
-     'MAY', and 'OPTIONAL' in this document are to be interpreted as
-     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
-     they appear in all capitals, as shown here.";
+    NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+    'MAY', and 'OPTIONAL' in this document are to be interpreted as
+    described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+    they appear in all capitals, as shown here.";
 
-  revision 2025-06-29 {
+  revision 2025-03-31 {
     description "Initial version";
     reference
       "NOTE TO RFC EDITOR: Please replace 'RFC XXXX' with the actual
@@ -115,7 +115,8 @@ module ietf-sip-auto-peering {
   }
 
   grouping entity {
-    description "Grouping that provides a reusable list named
+    description 
+      "Grouping that provides a reusable list named
       'entity', with each entry containing a host and a port.";
 
     leaf host {
@@ -123,7 +124,8 @@ module ietf-sip-auto-peering {
         type inet:ip-address;
         type inet:domain-name; 
       }
-      description "IP Address or host name of the entity";
+      description 
+        "IP Address or host name of the entity";
     }
 
     leaf port {
@@ -133,11 +135,9 @@ module ietf-sip-auto-peering {
   }
 
   container sip-auto-peering {
-  // list peering-info {
-    // key index;
     config false;
-    // max-elements 1;
-    description "Root container for SIP service provider capability
+    description 
+      "Root container for SIP service provider capability
       data. This container holds read-only operational data that
       represents the capabilities and requirements of a SIP service
       provider. Enterprise networks retrieve this data to automatically
@@ -145,7 +145,8 @@ module ietf-sip-auto-peering {
 
     leaf index {
       type uint8;
-      description "Index for the peering-info document.";
+      description 
+        "Index for the peering-info document.";
     }
 
     leaf variant {
@@ -157,7 +158,8 @@ module ietf-sip-auto-peering {
         }
       }
       mandatory true;
-      description "A node that identifies the version number of the
+      description 
+        "A node that identifies the version number of the
         capability set document. This draft defines the parameters
         for variant 1.0; future specifications might define a richer
         parameter set, in which case the variant must be changed to
@@ -167,7 +169,8 @@ module ietf-sip-auto-peering {
     }
 
     container revision {
-      description "A container that encapsulates information
+      description 
+        "A container that encapsulates information
         regarding the availability of a new version of the
         capability set document for the enterprise.";
 
@@ -176,12 +179,13 @@ module ietf-sip-auto-peering {
         units "seconds";
         mandatory true;
         description
-          "A node that identifies the epoch time at which the parameters
-          in this capability set document are activated or considered
-          valid. This node has been set to mandatory as it is the
-          service provider's responsibility to inform when new peering
-          settings take effect. Without being aware of a start time, the
-          enterprise network will experience failures.";
+          "A node that identifies the unix epoch time at which the
+          parameters in this capability set document are activated
+          or considered valid. This node has been set to mandatory
+          as it is the service provider's responsibility to inform
+          when new peering settings take effect. Without being aware
+          of a start time, the enterprise network will experience
+          failures.";
       }
 
       leaf location {
@@ -196,7 +200,8 @@ module ietf-sip-auto-peering {
     }
 
     container transport-info {
-      description "A container that encapsulates transport
+      description 
+        "A container that encapsulates transport
         characteristics of SIP sessions between enterprise and
         service provider networks.";
 
@@ -216,7 +221,8 @@ module ietf-sip-auto-peering {
           }
         }
         min-elements 1;
-        description "A list that enumerates the different Transport
+        description 
+          "A list that enumerates the different Transport
           Layer protocols supported by the SIP service provider.
           Valid transport layer protocols include: UDP, TCP and TLS";
       }
@@ -225,7 +231,8 @@ module ietf-sip-auto-peering {
         key "host port";
         uses entity;
         max-elements 3;
-        description "A list that specifies the transport address of
+        description 
+          "A list that specifies the transport address of
           one or more registrar servers in the service provider
           network. The transport address of the registrar can be
           provided using a combination of a valid IP address and
@@ -240,14 +247,16 @@ module ietf-sip-auto-peering {
 
       list realms {
         key "name";
-        description "A container that encapsulates the set of realms
+        description 
+          "A container that encapsulates the set of realms
           or protection domains the SIP service provider is
           responsible for.";
 
         leaf name {
           type string;
           mandatory true;
-          description "A node specifying the SIP service provider
+          description 
+            "A node specifying the SIP service provider
             realm or protection domain. This node is encoded as a
             string; the value of this node must be identical to the
             value of the 'realm' parameter in a WWW-Authenticate
@@ -258,7 +267,8 @@ module ietf-sip-auto-peering {
 
         leaf username {
           type string;
-          description "A node that encodes the username for the
+          description 
+            "A node that encodes the username for the
             given realm. The username is one of many inputs used by
             the enterprise network in generating the response
             parameter of the Authorization header field.";
@@ -266,7 +276,8 @@ module ietf-sip-auto-peering {
 
         leaf password {
           type ianach:crypt-hash;
-          description "A node that encodes the password for the
+          description 
+            "A node that encodes the password for the
             given realm. The password is one of many inputs used by
             the enterprise network in generating the response
             parameter of the Authorization header field. The
@@ -278,7 +289,8 @@ module ietf-sip-auto-peering {
         key "host port";
         uses entity;
         max-elements 3;
-        description "A list that specifies the transport address of
+        description 
+          "A list that specifies the transport address of
           the call server(s) in the service provider network. The
           enterprise network must use an applicable transport
           protocol in conjunction with the call control server(s)
@@ -332,14 +344,16 @@ module ietf-sip-auto-peering {
     }
 
     container call-specs {
-      description "A container that encapsulates information about
+      description 
+        "A container that encapsulates information about
         call specifications, restrictions and additional handling
         criteria for SIP calls between the enterprise and service
         provider network.";
 
       leaf early-media {
         type boolean;
-        description "A node that specifies whether the service
+        description 
+          "A node that specifies whether the service
           provider network is expected to deliver in-band
           announcements/tones before call connect. The
           'P-Early-Media' header field can be used to indicate
@@ -359,7 +373,8 @@ module ietf-sip-auto-peering {
 
       leaf signaling-forking {
         type boolean;
-        description "A node that specifies whether outbound call
+        description 
+          "A node that specifies whether outbound call
           requests from the enterprise might be forked on the
           service provider network that MAY lead to multiple early
           dialogs. This information would be useful to the
@@ -414,10 +429,12 @@ module ietf-sip-auto-peering {
             description "Instant message transport.";
           }
           enum update {
-            description "Update session parameters within a dialog.";
+            description 
+              "Update session parameters within a dialog.";
           }
         }
-        description "A list that specifies the various SIP methods
+        description 
+          "A list that specifies the various SIP methods
             supported by the SIP service provider. The list of
             supported methods help to appropriately configure
             various devices within the enterprise network. For
@@ -428,7 +445,8 @@ module ietf-sip-auto-peering {
       }
 
       container caller-id {
-        description "A container that encodes the preferences of SIP
+        description 
+          "A container that encodes the preferences of SIP
           service providers in terms of calling number presentation
           by the enterprise network. Certain ITSPs require that the
           calling number be formatted in E.164, whereas others place
@@ -441,7 +459,8 @@ module ietf-sip-auto-peering {
 
         leaf e164-format {
           type boolean;
-          description "A node that indicates whether the service
+          description 
+            "A node that indicates whether the service
             provider requires the enterprise network to normalize
             the calling number into E.164 format. A value of true
             mandates the enterprise network to format calling
@@ -453,15 +472,18 @@ module ietf-sip-auto-peering {
         leaf preferred-method {
           type enumeration {
             enum p-asserted-identity {
-              description "Use the 'P-Asserted-Identity' header to
+              description 
+                "Use the 'P-Asserted-Identity' header to
                 determine remote party identity.";
             }
             enum from {
-              description "Use the 'From' header to determine remote
+              description 
+                "Use the 'From' header to determine remote
                 party identity.";
             }
           }
-          description "A node that specifies which SIP header MUST
+          description 
+            "A node that specifies which SIP header MUST
             be used by the enterprise network to communicate caller
             information. The value of this node is a string that
             contains the name of the SIP header required to carry
@@ -490,23 +512,27 @@ module ietf-sip-auto-peering {
 
         leaf index {
           type uint16;
-          description "Index for the number ranges.";
+          description 
+            "Index for the number ranges.";
         }
 
         leaf type {
           type enumeration {
             enum range {
-              description "Numbers specified as a range.";
+              description
+                "Numbers specified as a range.";
             }
             enum collection {
-              description "Numbers specified in the form of a 
-                collection.";
+              description
+                "Numbers specified in the form of a collection.";
             }
             enum reference {
-              description "Number range available at a URL.";
+              description
+                "Number range available at a URL.";
             }
           }
-          description "A node that indicates whether the DID range
+          description 
+            "A node that indicates whether the DID range
             is communicated by value or by reference. It can have a
             value of 'range', 'collection' or 'reference'.";
         }
@@ -514,7 +540,8 @@ module ietf-sip-auto-peering {
         leaf count {
           when "../type = 'range' or ../type = 'collection'";
           type uint16;
-          description "Indicates the size of the DID number range.
+          description
+            "Indicates the size of the DID number range.
             This leaf MUST NOT be included when using the
             'reference' type.";
         }
@@ -538,7 +565,8 @@ module ietf-sip-auto-peering {
     }
 
     container media {
-      description "A container that is used to collectively
+      description
+        "A container that is used to collectively
         encapsulate the characteristics of UDP-based audio streams.
         A future extension to this draft may extend the media
         container to describe other media types. The media container
@@ -551,7 +579,8 @@ module ietf-sip-auto-peering {
 
       list media-type-audio {
         key "media-format";
-        description "A list encoding the various audio media formats
+        description
+          "A list encoding the various audio media formats
           supported by the SIP service provider. The relative
           ordering of different media formats in the list indicates
           preference from the perspective of the service provider.
@@ -578,16 +607,20 @@ module ietf-sip-auto-peering {
         leaf media-format {
           type enumeration {
             enum pcmu {
-              description "PCMU format.";
+              description
+                "PCMU format.";
             }
             enum g722 {
-              description "G722 format.";
+              description
+                "G722 format.";
             }
             enum g729 {
-              description "G729 format.";
+              description
+                "G729 format.";
             }
           }
-          description "The audio media format.";
+          description
+            "The audio media format.";
         }
 
         leaf rate {
@@ -613,7 +646,8 @@ module ietf-sip-auto-peering {
       }
 
       container fax {
-        description "A container that encapsulates the fax
+        description
+          "A container that encapsulates the fax
           protocol(s) supported by the SIP service provider. The fax
           container encloses a list (protocol) that enumerates
           whether the service provider supports t38 relay,
@@ -623,26 +657,31 @@ module ietf-sip-auto-peering {
         leaf-list protocol {
           type enumeration {
             enum pass-through {
-              description "Protocol-based fax passthrough.";
+              description
+                "Protocol-based fax passthrough.";
             }
             enum t38 {
-              description "T38 relay.";
+              description
+                "T38 relay.";
             }
           }
           max-elements 2;
-          description "List indicating the different fax protocols
+          description
+            "List indicating the different fax protocols
             supported by the service provider.";
         }
       }
 
       container rtp {
-        description "A container that encapsulates generic
+        description
+          "A container that encapsulates generic
           characteristics of RTP sessions between the enterprise
           and service provider network.";
 
         leaf rtp-trigger {
           type boolean;
-          description "A node indicating whether the SIP service
+          description
+            "A node indicating whether the SIP service
             provider network always expects the enterprise network
             to send the first RTP packet for an established
             communication session. This information is useful in
@@ -670,7 +709,8 @@ module ietf-sip-auto-peering {
 
         leaf symmetric-rtp {
           type boolean;
-          description "A node indicating whether the SIP service
+          description 
+            "A node indicating whether the SIP service
             provider expects the enterprise network to use symmetric
             RTP as defined in [@RFC4961]. Enforcement of this
             requirement by service providers on enterprise networks
@@ -684,13 +724,15 @@ module ietf-sip-auto-peering {
       }
 
       container rtcp {
-        description "A container that encapsulates generic 
+        description
+          "A container that encapsulates generic 
           characteristics of RTCP sessions between the enterprise
           and service provider network.";
 
         leaf symmetric-rtcp {
           type boolean;
-          description "A node indicating whether the SIP service 
+          description
+            "A node indicating whether the SIP service 
             provider expects the enterprise network to use symmetric
             RTCP as defined in [@RFC4961]. This node is a boolean
             type, a value of true indicates that the service
@@ -701,7 +743,8 @@ module ietf-sip-auto-peering {
 
         leaf rtcp-feedback {
           type boolean;
-          description "A node that indicates whether the SIP service
+          description
+            "A node that indicates whether the SIP service
             provider supports the RTP profile extension for
             RTCP-based feedback [@RFC4585]. Media sessions spanning
             enterprise and service provider networks, are rarely
@@ -733,7 +776,8 @@ module ietf-sip-auto-peering {
     }
 
     container dtmf {
-      description "A container that describes the various aspects of
+      description
+        "A container that describes the various aspects of
         DTMF relay via RTP Named Telephony Events. The dtmf
         container allows SIP service providers to specify two facets
         of DTMF relay via Named Telephony Events.";
@@ -742,30 +786,35 @@ module ietf-sip-auto-peering {
         type uint8 {
           range "96..127";
         }
-        description "Indicates the payload type number.";
+        description
+          "Indicates the payload type number.";
       }
 
       leaf iteration {
         type boolean;
-        description "A value of true indicates that the service
+        description
+          "A value of true indicates that the service
           provider supports RFC4733 while a value of false indicates
           that the service provider prefers RFC2833";
       }
     }
 
     container security {
-      description "A container that encapsulates characteristics
+      description
+        "A container that encapsulates characteristics
         about encrypting signalling streams between the enterprise
         and SIP service provider networks.";
 
       container signaling {
-        description "A container that encapsulates the type of
+        description
+          "A container that encapsulates the type of
           security protocol for the SIP communication between the
           enterprise SBC and the service provider.";
 
         leaf secure {
           type boolean;
-          description "A node that specifies whether the service
+          description
+            "A node that specifies whether the service
             provider allows the use of TLS to secure SIP signalling
             messages between the enterprise and service provider
             network. This node is of boolean type, a value of true
@@ -779,10 +828,12 @@ module ietf-sip-auto-peering {
           when "../secure = 'true'";
           type enumeration {
             enum v1_2 {
-              description "TLS version 1.2.";
+              description
+                "TLS version 1.2.";
             }
             enum v1_3 {
-              description "TLS version 1.3.";
+              description
+                "TLS version 1.3.";
             }
           }
           description
@@ -791,21 +842,25 @@ module ietf-sip-auto-peering {
       }
 
       container media-security {
-        description "A container that describes the various
+        description
+          "A container that describes the various
           characteristics of securing media streams between
           enterprise and service provider networks.";
 
         leaf-list key-management {
           type enumeration {
             enum sdes {
-              description "Simplified Data Encryption Standard
+              description
+                "Simplified Data Encryption Standard
                 key management.";
             }
             enum dtls-srtp {
-              description "SRTP keys managed using DTLS.";
+              description
+                "SRTP keys managed using DTLS.";
             }
           }
-          description "A list that specifies the key management
+          description
+            "A list that specifies the key management
             method(s) used by the service provider. Possible values
             in this list include 'SDES' and 'DTLS-SRTP'. A value of
             'SDES' signifies that the SIP service provider uses the
@@ -818,7 +873,8 @@ module ietf-sip-auto-peering {
 
       leaf cert-location {
         type inet:uri;
-        description "If the enterprise network is required to
+        description
+          "If the enterprise network is required to
           exchange SIP traffic over TLS with the SIP service
           provider, and if the SIP service provider is capable of
           accepting TLS connections from the enterprise network, it
@@ -831,12 +887,14 @@ module ietf-sip-auto-peering {
       }
 
       container secure-telephony-identity {
-        description "Encapsulates Secure Telephony Identity (STIR)
+        description
+          "Encapsulates Secure Telephony Identity (STIR)
           characteristics.";
 
         leaf stir-compliance {
           type boolean;
-          description "A node that indicates whether the SIP service
+          description
+            "A node that indicates whether the SIP service
             provider is STIR compliant. This node is of boolean
             type, a value of true indicates that the SIP service
             provider is STIR compliant. A value of false indicates
@@ -848,7 +906,8 @@ module ietf-sip-auto-peering {
 
         leaf cert-delegation {
           type boolean;
-          description "A node that indicates whether a SIP service
+          description
+            "A node that indicates whether a SIP service
             provider that allocates one or more number ranges to an
             enterprise network, is willing to delegate authority to
             the enterprise network over that number range(s). This
@@ -870,7 +929,8 @@ module ietf-sip-auto-peering {
         leaf acme-directory {
           when "../cert-delegation = 'true'";
           type inet:uri;
-          description "A node that provides the URL of the directory
+          description
+            "A node that provides the URL of the directory
             object for delegate certificates using Automatic
             Certificate Management Environment (ACME) [@RFC8555].
             The directory object URL, when de-referenced, provides a
