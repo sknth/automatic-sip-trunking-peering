@@ -56,9 +56,9 @@ module: ietf-sip-auto-peering
      |  |  +--ro version*   enumeration
      |  +--ro media-security
      |  |  +--ro key-management*   enumeration
-     |  +--ro cert-location?               inet:uri
+     |  +--ro certificate-location?        inet:uri
      |  +--ro secure-telephony-identity
-     |     +--ro stir-compliance?   boolean
-     |     +--ro cert-delegation?   boolean
-     |     +--ro acme-directory?    inet:uri
+     |     +--ro stir-compliance?          boolean
+     |     +--ro certificate-delegation?   boolean
+     |     +--ro acme-directory?           inet:uri
      +--ro extensions*       identityref

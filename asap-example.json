@@ -129,11 +129,11 @@
             "media-security": {
                 "key-management": ["sdes", "dtls-srtp"]
             },
-            "cert-location": 
+            "certificate-location": 
                 "https://sipserviceprovider.com/certificateList.pem",
             "secure-telephony-identity": {
                 "stir-compliance": true,
-                "cert-delegation": true,
+                "certificate-delegation": true,
                 "acme-directory": "https://sipserviceprovider.com/acme.html"
             }
         },
