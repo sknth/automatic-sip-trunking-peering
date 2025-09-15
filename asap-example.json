@@ -124,7 +124,7 @@
         "security": {
             "signaling": {
                 "secure": true,
-                "version": ["v1_2", "v1_3"]
+                "version": ["tls_v1_2", "tls_v1_3"]
             },
             "media-security": {
                 "key-management": ["sdes", "dtls-srtp"]
