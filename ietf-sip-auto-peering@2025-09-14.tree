@@ -10,21 +10,21 @@ module: ietf-sip-auto-peering
      |  +--ro registrar* [host port]
      |  |  +--ro host    union
      |  |  +--ro port    inet:port-number
-     |  +--ro realms* [name]
+     |  +--ro realm* [name]
      |  |  +--ro name        string
      |  |  +--ro username?   string
      |  |  +--ro password?   ianach:crypt-hash
      |  +--ro call-control* [host port]
      |  |  +--ro host    union
      |  |  +--ro port    inet:port-number
-     |  +--ro dns*              inet:ip-address
+     |  +--ro dns-server*              inet:ip-address
      |  +--ro outbound-proxy* [host port]
      |     +--ro host    union
      |     +--ro port    inet:port-number
-     +--ro call-specs
+     +--ro call-spec
      |  +--ro early-media?         boolean
      |  +--ro signaling-forking?   boolean
-     |  +--ro supported-methods*   enumeration
+     |  +--ro supported-method*   enumeration
      |  +--ro caller-id
      |  |  +--ro e164-format?        boolean
      |  |  +--ro preferred-method?   enumeration
@@ -61,4 +61,4 @@ module: ietf-sip-auto-peering
      |     +--ro stir-compliance?          boolean
      |     +--ro certificate-delegation?   boolean
      |     +--ro acme-directory?           inet:uri
-     +--ro extensions*       identityref
+     +--ro extension*       identityref
