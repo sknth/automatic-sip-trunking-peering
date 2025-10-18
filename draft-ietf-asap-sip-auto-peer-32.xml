@@ -1653,7 +1653,7 @@ the different points at which the workflow is vulnerable to attackers.</t>
   <t>All communication used by the edge element to obtain the capability set document from the capability server MUST be secured using HTTPS. Failure to do so, results in the capability set document being transmitted over clear text, thus exposing sensitive information such as targets for trunks registration, targets for outbound calling requests and credentials used in building the Authorisation header field provided in response to authentication challenges. </t>
 </section>
 <section anchor="security-considerations-yang" numbered="true" toc="default">
-  <name>Yang Security Considerations</name>
+  <name>YANG Security Considerations</name>
   <t>The "ietf-sip-auto-peering" YANG module defines a data model that is
 designed to be accessed via YANG-based management protocols, such as
 NETCONF <xref target="RFC6241" /> and RESTCONF <xref target="RFC8040" />. These YANG-based management
