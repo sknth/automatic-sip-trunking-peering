@@ -1656,19 +1656,16 @@ the different points at which the workflow is vulnerable to attackers.</t>
   <name>YANG Security Considerations</name>
   <t>The "ietf-sip-auto-peering" YANG module defines a data model that is
 designed to be accessed via YANG-based management protocols, such as
-NETCONF <xref target="RFC6241" /> and RESTCONF <xref target="RFC8040" />. These YANG-based management
-protocols (1) have to use a secure transport layer
-(e.g., SSH <xref target="RFC4252" />, TLS <xref target="RFC8446" />, and QUIC <xref target="RFC9000" />) and (2) have
-to use mutual authentication.
+NETCONF <xref target="RFC6241" /> and RESTCONF <xref target="RFC8040" />. These YANG-based management protocols (1) have to use a secure transport layer (e.g., SSH <xref target="RFC4252" />, TLS <xref target="RFC8446" />, and QUIC <xref target="RFC9000" />) and (2) have to use mutual authentication.</t>
 
-There are no particularly sensitive writable data nodes.
+<t>There are no particularly sensitive writable data nodes.</t>
 
-Some of the readable data nodes in this YANG module may be considered
+<t>Some of the readable data nodes in this YANG module may be considered
 sensitive or vulnerable in some network environments.  It is thus
 important to control read access (e.g., via get, get-config, or
 notification) to these data nodes. Specifically, the following
 subtrees and data nodes have particular sensitivities/
-vulnerabilities:
+vulnerabilities:</t>
 
 <ul spacing="normal">
 	<li>registrar: This list contains IP addresses or hostnames belonging to registration servers in the service provider network, which may be targeted by malicious actors.</li>
@@ -1678,9 +1675,9 @@ vulnerabilities:
   <li>number-range: This list contains a range of phone numbers allocated by the service provider to an enterprise that the service provider may want conceal from other enterprises or customers.</li>
 </ul>
 
-There are no particularly sensitive RPC or action operations.
+<t>There are no particularly sensitive RPC or action operations.</t>
 
-This YANG module uses groupings from other YANG modules that
+<t>This YANG module uses groupings from other YANG modules that
 define nodes that may be considered sensitive or vulnerable
 in network environments. Refer to the Security Considerations
 of <xref target="RFC6991" />, <xref target="RFC7317" /> for information as to which nodes may
