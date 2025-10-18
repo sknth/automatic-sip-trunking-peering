@@ -24,7 +24,7 @@
                     "port": 5060
                 }
             ],
-            "realms": [
+            "realm": [
                 {
                     "name": "voip.example.com",
                     "username": "voip",
@@ -41,7 +41,7 @@
                     "port": 5065
                 }
             ],
-            "dns": [
+            "dns-server": [
                 "192.0.2.50",
                 "192.0.2.51"
             ],
@@ -50,10 +50,10 @@
                 "port": 5060
             }]
         },
-        "call-specs": {
+        "call-spec": {
             "early-media": true,
             "signaling-forking": false,
-            "supported-methods": [
+            "supported-method": [
                 "invite",
                 "options",
                 "bye",
@@ -137,7 +137,7 @@
                 "acme-directory": "https://sipserviceprovider.com/acme.html"
             }
         },
-        "extensions": [
+        "extension": [
             "ietf-sip-auto-peering:reliable-provisional-responses",
             "ietf-sip-auto-peering:session-timers", 
             "ietf-sip-auto-peering:replaces",

@@ -12,7 +12,7 @@ module ietf-sip-auto-peering {
   import iana-crypt-hash {
     prefix "ianach";
     reference
-      "RFC 7317:  A YANG Data Model for System Management";
+      "https://www.iana.org/assignments/iana-crypt-hash/iana-crypt-hash.xhtml;
   }
 
   organization
@@ -86,31 +86,28 @@ module ietf-sip-auto-peering {
     base sip-extension;
     description
       "This extension indicates support for reliable provisional
-      responses as defined in RFC 3262.";
+      responses.";
     reference "RFC 3262";
   }
 
   identity session-timers {
     base sip-extension;
     description
-      "This extension indicates support for session timers as defined
-      in RFC 4028.";
+      "This extension indicates support for session timers.";
     reference "RFC 4028";
   }
 
   identity replaces {
     base sip-extension;
     description
-      "This extension indicates support for the Replaces header as
-      defined in RFC 3891.";
+      "This extension indicates support for the Replaces header.";
     reference "RFC 3891";
   }
 
   identity path {
     base sip-extension;
     description
-      "This extension indicates support for the Path header as defined
-      in RFC 3327.";
+      "This extension indicates support for the Path header.";
     reference "RFC 3327";
   }
 
@@ -241,7 +238,7 @@ module ietf-sip-auto-peering {
           server IP addresses.";
       }
 
-      list realms {
+      list realm {
         key "name";
         description 
           "A container that encapsulates the set of realms or
@@ -301,7 +298,7 @@ module ietf-sip-auto-peering {
           target for non-call requests such as SIP OPTIONS.";
       }
 
-      leaf-list dns {
+      leaf-list dns-server {
         type inet:ip-address;
         max-elements 2;
         description
@@ -336,7 +333,7 @@ module ietf-sip-auto-peering {
       }
     }
 
-    container call-specs {
+    container call-spec {
       description 
         "A container that encapsulates information about call
         specifications, restrictions and additional handling criteria
@@ -377,7 +374,7 @@ module ietf-sip-auto-peering {
           provider will not fork outbound call requests.";
       }
 
-      leaf-list supported-methods {
+      leaf-list supported-method {
         type enumeration {
           enum invite {
             description "Initiate a dialog or session.";
@@ -564,6 +561,8 @@ module ietf-sip-auto-peering {
 
       list media-type-audio {
         key "media-format";
+        reference
+          "RFC 4855: Media Type Registration of RTP Payload Formats"
         description
           "A list encoding the various audio media formats
           supported by the SIP service provider. The relative
@@ -576,7 +575,7 @@ module ietf-sip-auto-peering {
           encoding and the packetization time. Additionally, any
           other required and optional parameters for the given media
           format as specified when the media format is registered
-          [@RFC4855] are described the 'param' field.
+          are described the 'param' field.
           Given that the parameters of media formats can vary from
           one communication session to another, for example, across
           two separate communication sessions, the packetization
@@ -694,17 +693,19 @@ module ietf-sip-auto-peering {
 
         leaf symmetric-rtp {
           type boolean;
+          reference
+            "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP)"
+            "RFC 7362: Latching: Hosted NAT Traversal (HNT) for Media in Real-Time Communication"
           description 
             "A node indicating whether the SIP service
             provider expects the enterprise network to use symmetric
-            RTP as defined in [@RFC4961]. Enforcement of this
-            requirement by service providers on enterprise networks
-            is typically useful in scenarios such as media latching
-            [@RFC7362]. This node is a boolean type, a value of true
-            indicates that the service provider expects the
-            enterprise network to use symmetric RTP, whereas a value
-            of false indicates that the enterprise network can use
-            asymmetric RTP.";
+            RTP. Enforcement of this requirement by service providers
+            on enterprise networks is typically useful in scenarios
+            such as media latching. This node is a boolean type, a
+            value of true indicates that the service provider expects
+            the enterprise network to use symmetric RTP, whereas a
+            value of false indicates that the enterprise network can
+            use asymmetric RTP.";
         }
       }
 
@@ -716,22 +717,26 @@ module ietf-sip-auto-peering {
 
         leaf symmetric-rtcp {
           type boolean;
+          reference
+            "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP)"
           description
             "A node indicating whether the SIP service 
             provider expects the enterprise network to use symmetric
-            RTCP as defined in [@RFC4961]. This node is a boolean
-            type, a value of true indicates that the service
-            provider expects symmetric RTCP reports, whereas a
-            value of false indicates that the enterprise can use
-            asymmetric RTCP.";
+            RTCP. This node is a boolean type, a value of true
+            indicates that the service provider expects symmetric RTCP
+            reports, whereas a value of false indicates that the
+            enterprise can use asymmetric RTCP.";
         }
 
         leaf rtcp-feedback {
           type boolean;
+          reference
+            "RFC 4585: Extended RTP Profile for Real-time Transport
+            Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"
           description
             "A node that indicates whether the SIP service
             provider supports the RTP profile extension for
-            RTCP-based feedback [@RFC4585]. Media sessions spanning
+            RTCP-based feedback. Media sessions spanning
             enterprise and service provider networks, are rarely
             made to flow directly between the caller and callee,
             rather, it is often the case that media traffic flows
@@ -744,18 +749,17 @@ module ietf-sip-auto-peering {
             would be required, for example, if the intermediary has
             performed media payload transformation operations such
             as transcoding or transrating. In a similar vein, for
-            the RTCP-based feedback mechanism as defined in
-            [@RFC4585] to be truly effective, intermediaries must
-            ensure that feedback messages are passed reliably and
-            with the correct formatting to enterprise endpoints.
-            This might require additional configuration and
-            considerations that need to be dealt with at the time of
-            provisioning the intermediary device. This node is of
-            boolean type, a value of true indicates that the service
-            provider supports the RTP profile extension for
-            RTP-based feedback and a value of false indicates that
-            the service provider does not support the RTP profile
-            extension for RTP-based feedback.";
+            the RTCP-based feedback mechanism as defined in to be truly
+            effective, intermediaries must ensure that feedback
+            messages are passed reliably and with the correct
+            formatting to enterprise endpoints.This might require
+            additional configuration and considerations that need to be
+            dealt with at the time of provisioning the intermediary
+            device. This node is of boolean type, a value of true
+            indicates that the service provider supports the RTP
+            profile extension for RTP-based feedback and a value of
+            false indicates that the service provider does not support
+            the RTP profile extension for RTP-based feedback.";
         }
       }
     }
@@ -777,10 +781,13 @@ module ietf-sip-auto-peering {
 
       leaf iteration {
         type boolean;
+        reference
+          "RFC4733 & RFC 2833: RTP Payload for DTMF Digits, Telephony
+          Tones, and Telephony Signals"
         description
           "A value of true indicates that the service provider supports
-          RFC4733 while a value of false indicates that the service
-          provider prefers RFC2833";
+          the newer standard while a value of false indicates that the
+          service provider prefers the older standard";
       }
     }
 
@@ -843,15 +850,16 @@ module ietf-sip-auto-peering {
                 "SRTP keys managed using DTLS.";
             }
           }
+          reference
+            "RFC4568: Session Description Protocol (SDP) Security
+            Descriptions for Media Streams"
+            "RFC5764: Datagram Transport Layer Security (DTLS)
+            Extension to Establish Keys for the Secure Real-time
+            Transport Protocol (SRTP)"
           description
             "A list that specifies the key management method(s) used by
             the service provider. Possible values in this list include
-            'SDES' and 'DTLS-SRTP'. A value of 'SDES' signifies that
-            the SIP service provider uses the methods defined in
-            [@RFC4568] for the purpose of key management. A value of
-            'DTLS-SRTP' signifies that the SIP service provider uses
-            the methods defined in [@RFC5764] for the purpose of key
-            management.";
+            'SDES' and 'DTLS-SRTP'.";
         }
       }
 
@@ -912,21 +920,24 @@ module ietf-sip-auto-peering {
         leaf acme-directory {
           when "../certificate-delegation = 'true'";
           type inet:uri;
+          reference
+            "RFC8555: Automatic Certificate Management Environment
+            (ACME)"
           description
             "A node that provides the URL of the directory object for
             delegate certificates using Automatic Certificate
-            Management Environment (ACME) [@RFC8555]. The directory
-            object URL, when de-referenced, provides a collection of
-            field name-value pairs. Certain field name-value pairs
-            provided in the response are used to bootstrap the process
-            the obtaining delegate certificates. This node MUST only be
+            Management Environment (ACME). The directory object URL,
+            when de-referenced, provides a collection of field
+            name-value pairs. Certain field name-value pairs provided
+            in the response are used to bootstrap the process the
+            obtaining delegate certificates. This node MUST only be
             included in the capability set if the value of the
             certificate-delegation leaf node is set to true.";
         }
       }
     }
 
-    leaf-list extensions {
+    leaf-list extension {
       type identityref {
         base sip-extension;
       }

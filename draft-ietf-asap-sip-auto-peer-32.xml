@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-32">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-33">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -143,7 +143,7 @@ HTTPS <xref target="RFC9110" /> server.
           <li>Enterprise Network: A communications network infrastructure deployed by an enterprise which interconnects with the service provider network over SIP. The enterprise network could include devices such as application servers, endpoints, call agents and edge devices, among others.</li>
           <li>Edge Device: A device that is the last hop in the enterprise network and that is the transit point for traffic entering and leaving the enterprise. An edge device is typically a back-to-back user agent (B2BUA) <xref target = "RFC7092" /> such as a Session Border Controller (SBC).</li>
           <li>Service Provider Network: A communications network infrastructure deployed by service providers. In the context of this draft, the service provider network is accessible over SIP for the establishment, modification and termination of calls and accessible over HTTPS for the transfer of the capability set document. The service provider network is also referred to as a SIP Service Provider (SSP) or Internet Telephony Service Provider (ITSP) network.</li>
-          <li>Call Control: Call Control within a telephony networks refers to software that is responsible for delivering its core functionality. Call control not only provides the basic functionality of setting up, sustaining and terminating calls, but also provides the necessary control and logic required for additional services within the telephony network, such as, registration of endpoints, integration with application servers (voicemail, instant messaging, presence), among others.</li>
+          <li>Call Control: Call Control within a telephony networks refers to software that is responsible for delivering core telephony functions. Call control not only provides the basic functionality of setting up, sustaining and terminating calls, but also provides the necessary control and logic required for additional services within the telephony network, such as, registration of endpoints, integration with application servers (voicemail, instant messaging, presence), among others.</li>
           <li>Capability Server: A server hosted in the service provider network, such that this server is the target for capability set document requests from the enterprise network.</li>
           <li>Capability Set: The term capability set (or capability set document) refers collectively to a set of characteristics within the service provider network, which when communicated to the enterprise network, provides the enterprise network the information required to interconnect with the service provider network. The various parameters that constitute the capability set relate to characteristics that are specific to signalling, media, transport and security. Certain aspects of interconnecting with service providers are out of scope of the capability set; for example, the access technology used to interconnect with service provider networks.</li>
         </ul>
@@ -162,7 +162,7 @@ HTTPS <xref target="RFC9110" /> server.
         <t>Taking the above considerations into account, this document proposes a Hypertext Transfer Protocol (HTTP)-based workflow using which the enterprise network can solicit and ultimately obtain the service provider capability set. The enterprise network creates a well formed HTTP GET request to solicit the service provider capability set. Subsequently, the HTTPS response from the SIP service provider includes the capability set. The capability set is encoded in JSON, thus ensuring that the response can be easily parsed by automation.</t>
         <t>There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package <xref target = "RFC6665" />, such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set.</t>
         <t>This mechanism is likely to result in a barrier to adoption for SIP service providers and enterprise networks as equipment manufacturers would have to first add support for such a SIP extension. A HTTPS-based approach would be relatively easier to adopt as most edge devices deployed in enterprise networks today already support HTTPS; from the perspective of service provider networks, all that is required is for them to deploy HTTPS servers that function as capability servers. Additionally, most SIP service providers require enterprise networks to register with them (using a SIP REGISTER message) before any other SIP methods that initiate subscriptions (SIP SUBSCRIBE) or calls (SIP INVITE) are processed. As a result, a SIP-based framework to obtain a capability set would require operational changes on the part of service provider networks.</t>
-        <t>Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <xref target = "RFC6020" /> that enable configuration to be pushed over NETCONF <xref target = "RFC6241" /> to enterprise networks from a centralised source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a "one-size-fits-all" YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.</t>
+        <t> Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <xref target = "RFC6020" /><xref target = "RFC7950" /> that enable configuration to be pushed over NETCONF<xref target = "RFC6241" /> to enterprise networks from a centralised source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a "one-size-fits-all" YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.</t>
       </section>
       <section anchor="transport" numbered="true" toc="default">
         <name>Transport</name>
@@ -170,7 +170,7 @@ HTTPS <xref target="RFC9110" /> server.
         <ol spacing="normal" type="1"><li>Edge elements are devices that normalise any mismatches between the enterprise and service provider networks in the media and signaling planes. As a result, when the capability set is received from the SIP service provider network, the edge element can generate appropriate configuration blocks (possibly across multiple devices) to enable interconnection.</li>
           <li>Given that edge elements are configured to "talk" to networks external to the enterprise, the complexity in terms of NAT traversal and firewall configuration would be minimal.</li>
         </ol>
-        <t>The HTTP GET request is targeted at a capability server that is managed by the SIP service provider such that this server processes, and on successfully processing the request, includes the capability set document in the response. The capability set document is constructed according the guidelines of the YANG model described in this draft. The capability set document included in a successful response is formatted in JSON. More details about the formatting of the HTTP request and response are provided in Section 4.</t>
+        <t>The HTTP GET request is targeted at a capability server that is managed by the SIP service provider such that this server processes, and on successfully processing the request, includes the capability set document in the response. The capability set document is constructed according to the guidelines of the YANG model described in this draft. The capability set document included in a successful response is formatted in JSON. More details about the formatting of the HTTP request and response are provided in Section 4.</t>
         <t>There could be situations wherein an enterprise telephony network interconnects with its SIP service provider such that traffic between the two networks traverses an intermediary SIP service provider network. This could be a result of interconnect agreements between the terminating and transit SIP service provider networks. In such situations, the capability set provided to the enterprise network by its SIP service provider must account for the characteristics of the transit SIP service provider network from a signalling and media perspective. For example, if the terminating SIP service provider network supports the G.729 codec and the transit SIP service provider network does not, G.729 must not be advertised in the capability set. As another example, if the transit SIP service provider network doesn't support a SIP extension, for instance, the SIP extension for Reliable Provisional Responses as defined in RFC 3262, the terminating SIP service provider network must not advertise support for this extension in the capability set provided to the enterprise network. How a terminating SIP service provider obtains the characteristics of the intermediary SIP service provider network is out of the scope of this document; however, one method could be for the terminating SIP service provider to obtain the characteristics of the intermediary SIP service provider by leveraging the YANG model introduced in this document.</t>
       </section>
     </section>
@@ -193,7 +193,7 @@ HTTPS <xref target="RFC9110" /> server.
       </section>
       <section anchor="integrity-and-confidentiality" numbered="true" toc="default">
         <name>Integrity and Confidentiality</name>
-        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 is used, TLS is incorporated within QUIC. Additionally, the enterprise edge element and capability server MUST support the use of the HTTPS URI scheme as defined in <xref target="RFC9110" />.</t>
+        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 is used, TLS is incorporated within QUIC for the transport of the capability set document. The usage of SIP or RTP-over-QUIC are beyond the scope of this draft. Additionally, the enterprise edge element and capability server MUST support the use of the HTTPS URI scheme as defined in <xref target="RFC9110" />.</t>
       </section>
       <section anchor="authenticated-client-identity" numbered="true" toc="default">
         <name>Authenticated Client Identity</name>
@@ -316,14 +316,7 @@ The complete HTTPS URLs to be used when authenticating the enterprise edge eleme
       <t>This section defines a YANG module <xref target="RFC7950" /> for encoding the service provider capability set. Section 7.1 provides the tree diagram, which is followed by a description of the various nodes within the module defined in this draft.</t>
       <section anchor="tree-diagram" numbered="true" toc="default">
         <name>Tree Diagram</name>
-        <t>This section provides a tree diagram <xref target = "RFC8340" /> for the "ietf-sip-auto-peering" module. The interpretation of the symbols appearing in the tree diagram is as follows:</t>
-        <ul spacing="normal">
-          <li>Brackets "[" and "]" enclose list keys.</li>
-          <li>Abbreviations before data node names: "rw" means configuration (read-write), and "ro" means state data (read-only).</li>
-          <li>Symbols after data node names: "?" means an optional node, "!" means a presence container, and "*" denotes a list and leaf-list.</li>
-          <li>Parentheses enclose choice and case nodes, and case nodes are also marked with a colon (":").</li>
-          <li>Ellipsis ("...") stands for contents of subtrees that are not shown.</li>
-        </ul>
+        <t>The meanings of the symbols in the YANG tree diagrams are defined in "YANG Tree Diagrams" <xref target = "RFC8340" />.</t>
         <t>The data model for the peering capability document has the following structure:</t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
 module: ietf-sip-auto-peering
@@ -338,21 +331,21 @@ module: ietf-sip-auto-peering
      |  +--ro registrar* [host port]
      |  |  +--ro host    union
      |  |  +--ro port    inet:port-number
-     |  +--ro realms* [name]
+     |  +--ro realm* [name]
      |  |  +--ro name        string
      |  |  +--ro username?   string
      |  |  +--ro password?   ianach:crypt-hash
      |  +--ro call-control* [host port]
      |  |  +--ro host    union
      |  |  +--ro port    inet:port-number
-     |  +--ro dns*              inet:ip-address
+     |  +--ro dns-server*              inet:ip-address
      |  +--ro outbound-proxy* [host port]
      |     +--ro host    union
      |     +--ro port    inet:port-number
-     +--ro call-specs
+     +--ro call-spec
      |  +--ro early-media?         boolean
      |  +--ro signaling-forking?   boolean
-     |  +--ro supported-methods*   enumeration
+     |  +--ro supported-method*   enumeration
      |  +--ro caller-id
      |  |  +--ro e164-format?        boolean
      |  |  +--ro preferred-method?   enumeration
@@ -389,7 +382,7 @@ module: ietf-sip-auto-peering
      |     +--ro stir-compliance?          boolean
      |     +--ro certificate-delegation?   boolean
      |     +--ro acme-directory?           inet:uri
-     +--ro extensions*       identityref
+     +--ro extension*       identityref
         ]]></artwork>
       </section>
       <section anchor="yang-model" numbered="true" toc="default">
@@ -414,7 +407,7 @@ module ietf-sip-auto-peering {
   import iana-crypt-hash {
     prefix "ianach";
     reference
-      "RFC 7317:  A YANG Data Model for System Management";
+      "https://www.iana.org/assignments/iana-crypt-hash/iana-crypt-hash.xhtml;
   }
 
   organization
@@ -488,31 +481,28 @@ module ietf-sip-auto-peering {
     base sip-extension;
     description
       "This extension indicates support for reliable provisional
-      responses as defined in RFC 3262.";
+      responses.";
     reference "RFC 3262";
   }
 
   identity session-timers {
     base sip-extension;
     description
-      "This extension indicates support for session timers as defined
-      in RFC 4028.";
+      "This extension indicates support for session timers.";
     reference "RFC 4028";
   }
 
   identity replaces {
     base sip-extension;
     description
-      "This extension indicates support for the Replaces header as
-      defined in RFC 3891.";
+      "This extension indicates support for the Replaces header.";
     reference "RFC 3891";
   }
 
   identity path {
     base sip-extension;
     description
-      "This extension indicates support for the Path header as defined
-      in RFC 3327.";
+      "This extension indicates support for the Path header.";
     reference "RFC 3327";
   }
 
@@ -643,7 +633,7 @@ module ietf-sip-auto-peering {
           server IP addresses.";
       }
 
-      list realms {
+      list realm {
         key "name";
         description 
           "A container that encapsulates the set of realms or
@@ -703,7 +693,7 @@ module ietf-sip-auto-peering {
           target for non-call requests such as SIP OPTIONS.";
       }
 
-      leaf-list dns {
+      leaf-list dns-server {
         type inet:ip-address;
         max-elements 2;
         description
@@ -738,7 +728,7 @@ module ietf-sip-auto-peering {
       }
     }
 
-    container call-specs {
+    container call-spec {
       description 
         "A container that encapsulates information about call
         specifications, restrictions and additional handling criteria
@@ -779,7 +769,7 @@ module ietf-sip-auto-peering {
           provider will not fork outbound call requests.";
       }
 
-      leaf-list supported-methods {
+      leaf-list supported-method {
         type enumeration {
           enum invite {
             description "Initiate a dialog or session.";
@@ -966,6 +956,8 @@ module ietf-sip-auto-peering {
 
       list media-type-audio {
         key "media-format";
+        reference
+          "RFC 4855: Media Type Registration of RTP Payload Formats"
         description
           "A list encoding the various audio media formats
           supported by the SIP service provider. The relative
@@ -978,7 +970,7 @@ module ietf-sip-auto-peering {
           encoding and the packetization time. Additionally, any
           other required and optional parameters for the given media
           format as specified when the media format is registered
-          [@RFC4855] are described the 'param' field.
+          are described the 'param' field.
           Given that the parameters of media formats can vary from
           one communication session to another, for example, across
           two separate communication sessions, the packetization
@@ -1096,17 +1088,19 @@ module ietf-sip-auto-peering {
 
         leaf symmetric-rtp {
           type boolean;
+          reference
+            "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP)"
+            "RFC 7362: Latching: Hosted NAT Traversal (HNT) for Media in Real-Time Communication"
           description 
             "A node indicating whether the SIP service
             provider expects the enterprise network to use symmetric
-            RTP as defined in [@RFC4961]. Enforcement of this
-            requirement by service providers on enterprise networks
-            is typically useful in scenarios such as media latching
-            [@RFC7362]. This node is a boolean type, a value of true
-            indicates that the service provider expects the
-            enterprise network to use symmetric RTP, whereas a value
-            of false indicates that the enterprise network can use
-            asymmetric RTP.";
+            RTP. Enforcement of this requirement by service providers
+            on enterprise networks is typically useful in scenarios
+            such as media latching. This node is a boolean type, a
+            value of true indicates that the service provider expects
+            the enterprise network to use symmetric RTP, whereas a
+            value of false indicates that the enterprise network can
+            use asymmetric RTP.";
         }
       }
 
@@ -1118,22 +1112,26 @@ module ietf-sip-auto-peering {
 
         leaf symmetric-rtcp {
           type boolean;
+          reference
+            "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP)"
           description
             "A node indicating whether the SIP service 
             provider expects the enterprise network to use symmetric
-            RTCP as defined in [@RFC4961]. This node is a boolean
-            type, a value of true indicates that the service
-            provider expects symmetric RTCP reports, whereas a
-            value of false indicates that the enterprise can use
-            asymmetric RTCP.";
+            RTCP. This node is a boolean type, a value of true
+            indicates that the service provider expects symmetric RTCP
+            reports, whereas a value of false indicates that the
+            enterprise can use asymmetric RTCP.";
         }
 
         leaf rtcp-feedback {
           type boolean;
+          reference
+            "RFC 4585: Extended RTP Profile for Real-time Transport
+            Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"
           description
             "A node that indicates whether the SIP service
             provider supports the RTP profile extension for
-            RTCP-based feedback [@RFC4585]. Media sessions spanning
+            RTCP-based feedback. Media sessions spanning
             enterprise and service provider networks, are rarely
             made to flow directly between the caller and callee,
             rather, it is often the case that media traffic flows
@@ -1146,18 +1144,17 @@ module ietf-sip-auto-peering {
             would be required, for example, if the intermediary has
             performed media payload transformation operations such
             as transcoding or transrating. In a similar vein, for
-            the RTCP-based feedback mechanism as defined in
-            [@RFC4585] to be truly effective, intermediaries must
-            ensure that feedback messages are passed reliably and
-            with the correct formatting to enterprise endpoints.
-            This might require additional configuration and
-            considerations that need to be dealt with at the time of
-            provisioning the intermediary device. This node is of
-            boolean type, a value of true indicates that the service
-            provider supports the RTP profile extension for
-            RTP-based feedback and a value of false indicates that
-            the service provider does not support the RTP profile
-            extension for RTP-based feedback.";
+            the RTCP-based feedback mechanism as defined in to be truly
+            effective, intermediaries must ensure that feedback
+            messages are passed reliably and with the correct
+            formatting to enterprise endpoints.This might require
+            additional configuration and considerations that need to be
+            dealt with at the time of provisioning the intermediary
+            device. This node is of boolean type, a value of true
+            indicates that the service provider supports the RTP
+            profile extension for RTP-based feedback and a value of
+            false indicates that the service provider does not support
+            the RTP profile extension for RTP-based feedback.";
         }
       }
     }
@@ -1179,10 +1176,13 @@ module ietf-sip-auto-peering {
 
       leaf iteration {
         type boolean;
+        reference
+          "RFC4733 & RFC 2833: RTP Payload for DTMF Digits, Telephony
+          Tones, and Telephony Signals"
         description
           "A value of true indicates that the service provider supports
-          RFC4733 while a value of false indicates that the service
-          provider prefers RFC2833";
+          the newer standard while a value of false indicates that the
+          service provider prefers the older standard";
       }
     }
 
@@ -1245,15 +1245,16 @@ module ietf-sip-auto-peering {
                 "SRTP keys managed using DTLS.";
             }
           }
+          reference
+            "RFC4568: Session Description Protocol (SDP) Security
+            Descriptions for Media Streams"
+            "RFC5764: Datagram Transport Layer Security (DTLS)
+            Extension to Establish Keys for the Secure Real-time
+            Transport Protocol (SRTP)"
           description
             "A list that specifies the key management method(s) used by
             the service provider. Possible values in this list include
-            'SDES' and 'DTLS-SRTP'. A value of 'SDES' signifies that
-            the SIP service provider uses the methods defined in
-            [@RFC4568] for the purpose of key management. A value of
-            'DTLS-SRTP' signifies that the SIP service provider uses
-            the methods defined in [@RFC5764] for the purpose of key
-            management.";
+            'SDES' and 'DTLS-SRTP'.";
         }
       }
 
@@ -1314,21 +1315,24 @@ module ietf-sip-auto-peering {
         leaf acme-directory {
           when "../certificate-delegation = 'true'";
           type inet:uri;
+          reference
+            "RFC8555: Automatic Certificate Management Environment
+            (ACME)"
           description
             "A node that provides the URL of the directory object for
             delegate certificates using Automatic Certificate
-            Management Environment (ACME) [@RFC8555]. The directory
-            object URL, when de-referenced, provides a collection of
-            field name-value pairs. Certain field name-value pairs
-            provided in the response are used to bootstrap the process
-            the obtaining delegate certificates. This node MUST only be
+            Management Environment (ACME). The directory object URL,
+            when de-referenced, provides a collection of field
+            name-value pairs. Certain field name-value pairs provided
+            in the response are used to bootstrap the process the
+            obtaining delegate certificates. This node MUST only be
             included in the capability set if the value of the
             certificate-delegation leaf node is set to true.";
         }
       }
     }
 
-    leaf-list extensions {
+    leaf-list extension {
       type identityref {
         base sip-extension;
       }
@@ -1451,7 +1455,7 @@ network that will peer with it.
                     "port": 5060
                 }
             ],
-            "realms": [
+            "realm": [
                 {
                     "name": "voip.example.com",
                     "username": "voip",
@@ -1468,7 +1472,7 @@ network that will peer with it.
                     "port": 5065
                 }
             ],
-            "dns": [
+            "dns-server": [
                 "192.0.2.50",
                 "192.0.2.51"
             ],
@@ -1477,10 +1481,10 @@ network that will peer with it.
                 "port": 5060
             }]
         },
-        "call-specs": {
+        "call-spec": {
             "early-media": true,
             "signaling-forking": false,
-            "supported-methods": [
+            "supported-method": [
                 "invite",
                 "options",
                 "bye",
@@ -1564,7 +1568,7 @@ network that will peer with it.
                 "acme-directory": "https://sipserviceprovider.com/acme.html"
             }
         },
-        "extensions": [
+        "extension": [
             "ietf-sip-auto-peering:reliable-provisional-responses",
             "ietf-sip-auto-peering:session-timers", 
             "ietf-sip-auto-peering:replaces",
@@ -1613,7 +1617,23 @@ is encoded in JSON.
     </section>
     <section anchor="iana-considerations" numbered="true" toc="default">
       <name>IANA Considerations</name>
-      <t>This document has no IANA actions.</t>
+
+   <t>This document registers a new URI in the "IETF XML Registry"
+   [RFC3688].  Following the format in RFC 3688, the following
+   registrations have been made.
+
+      URI: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering
+      Registrant Contact: The IESG.
+      XML: N/A; the requested URI is an XML namespace.
+
+   This document registers a new YANG module in the "YANG Module Names"
+   registry [RFC6020].
+
+      Name: ietf-sip-auto-peering
+      Maintained by IANA?  N
+      Namespace: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering
+      Prefix: sipap
+      Reference: RFC XXXX</t>
     </section>
     <section anchor="security-considerations" numbered="true" toc="default">
       <name>Security Considerations</name>
@@ -1631,6 +1651,40 @@ the different points at which the workflow is vulnerable to attackers.</t>
 <section anchor="security-considerations-transmission" numbered="true" toc="default">
   <name>Client-Server Communication</name>
   <t>All communication used by the edge element to obtain the capability set document from the capability server MUST be secured using HTTPS. Failure to do so, results in the capability set document being transmitted over clear text, thus exposing sensitive information such as targets for trunks registration, targets for outbound calling requests and credentials used in building the Authorisation header field provided in response to authentication challenges. </t>
+</section>
+<section anchor="security-considerations-yang" numbered="true" toc="default">
+  <name>Yang Security Considerations</name>
+  <t>The "ietf-sip-auto-peering" YANG module defines a data model that is
+designed to be accessed via YANG-based management protocols, such as
+NETCONF <xref target="RFC6241" /> and RESTCONF <xref target="RFC8040" />. These YANG-based management
+protocols (1) have to use a secure transport layer
+(e.g., SSH <xref target="RFC4252" />, TLS <xref target="RFC8446" />, and QUIC <xref target="RFC9000" />) and (2) have
+to use mutual authentication.
+
+There are no particularly sensitive writable data nodes.
+
+Some of the readable data nodes in this YANG module may be considered
+sensitive or vulnerable in some network environments.  It is thus
+important to control read access (e.g., via get, get-config, or
+notification) to these data nodes. Specifically, the following
+subtrees and data nodes have particular sensitivities/
+vulnerabilities:
+
+<ul spacing="normal">
+	<li>registrar: This list contains IP addresses or hostnames belonging to registration servers in the service provider network, which may be targeted by malicious actors.</li>
+	<li>realms: This list contains sensitive credentials that are utilized by the enterprise to create a registration with the service provider's network. The registration is a pre-requisite to making and receiving calls to and from the service provider respectively.</li>
+	<li>call-control: This list contains IP addresses or hostnames belonging to call processing servers in the sevice provider network, which may be targeted by malicious actors.</li>
+  <li>outbound-proxy: This list contains IP addresses or hostnames belonging to SIP proxies in the sevice provider network, which may be targeted by malicious actors.</li>
+  <li>number-range: This list contains a range of phone numbers allocated by the service provider to an enterprise that the service provider may want conceal from other enterprises or customers.</li>
+</ul>
+
+There are no particularly sensitive RPC or action operations.
+
+This YANG module uses groupings from other YANG modules that
+define nodes that may be considered sensitive or vulnerable
+in network environments. Refer to the Security Considerations
+of <xref target="RFC6991" />, <xref target="RFC7317" /> for information as to which nodes may
+be considered sensitive or vulnerable in network environments.</t>
 </section>
 <!-- <section anchor="security-considerations-capability-set" numbered="true" toc="default">
   <name>Capability Set</name>
@@ -1706,24 +1760,28 @@ the different points at which the workflow is vulnerable to attackers.</t>
         <t>We would like to thank those who provided detailed and thoughtful comments on this draft, especially
     Marc Petit-Huguenin, Paul Jones, Ram Mohan R, Nicola Serafini, Jonathan Rosenberg, Jon Peterson, Chris Wendt and Henning Schulzrinne.
     Additional thanks to Murray Kucherawy, Joel Halpern, Dan Harkins, Éric Vyncke, Joerg Ott, Mahesh Jethanandani,
-     Orie Steele, Harald Alvestrand and Ebben Aries for their reviews and feedback.</t>
+     Orie Steele, Harald Alvestrand, Ebben Aries, Jen Linkova, David Dong, Gorry Fairhurst and Mohamed Boucadair for their reviews and feedback.</t>
   </section>
   </middle>
   <back>
     <references>
       <name>Informative References</name>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2833.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3261.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4252.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4568.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4585.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4733.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4961.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9409.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7033.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7092.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7362.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8040.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8340.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8555.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9000.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9114.xml"/>
       <reference anchor="SIP-Connect-TR"
         target="https://www.sipforum.org/download/sipconnect-technical-recommendation-version-2-0/?wpdmdl=2818">
@@ -1737,15 +1795,14 @@ the different points at which the workflow is vulnerable to attackers.</t>
     <references>
       <name>Normative References</name>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3261.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6665.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6991.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7317.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9110.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8340.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4855.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/>
