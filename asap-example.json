@@ -1,8 +1,7 @@
 {
     "ietf-sip-auto-peering:sip-auto-peering":
     {
-        "index": 0,
-        "variant": "v1_0",
+        "variant": "ietf-sip-auto-peering:v1-0",
         "revision": {
             "not-before": 1742330340,
             "location": 
@@ -10,9 +9,9 @@
         },
         "transport-info": {
             "transport": [
-                "tcp",
-                "tls",
-                "udp"
+                "ietf-sip-auto-peering:tcp",
+                "ietf-sip-auto-peering:tls",
+                "ietf-sip-auto-peering:udp"
             ],
             "registrar": [
                 {
@@ -91,12 +90,12 @@
         "media": {
             "media-type-audio": [
                 {
-                    "media-format": "pcmu",
+                    "media-format": "ietf-sip-auto-peering:pcmu",
                     "rate": 8000,
                     "ptime": 20
                 },
                 {
-                    "media-format": "g729",
+                    "media-format": "ietf-sip-auto-peering:g729",
                     "rate": 8000,
                     "ptime": 20,
                     "parameter": "annexb"
@@ -124,7 +123,10 @@
         "security": {
             "signaling": {
                 "secure": true,
-                "version": ["tls_v1_2", "tls_v1_3"]
+                "version": [
+                    "ietf-sip-auto-peering:tls-v1-2",
+                    "ietf-sip-auto-peering:tls-v1-3"
+                ]
             },
             "media-security": {
                 "key-management": ["sdes", "dtls-srtp"]

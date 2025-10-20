@@ -12,7 +12,7 @@ module ietf-sip-auto-peering {
   import iana-crypt-hash {
     prefix "ianach";
     reference
-      "https://www.iana.org/assignments/iana-crypt-hash/iana-crypt-hash.xhtml;
+      "https://www.iana.org/assignments/iana-crypt-hash/iana-crypt-hash.xhtml";
   }
 
   organization
@@ -66,7 +66,7 @@ module ietf-sip-auto-peering {
     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
     they appear in all capitals, as shown here.";
 
-  revision 2025-10-18 {
+  revision 2025-10-20 {
     description "Initial version";
     reference
       "NOTE TO RFC EDITOR: Please replace 'RFC XXXX' with the actual
@@ -76,10 +76,90 @@ module ietf-sip-auto-peering {
       RFC XXXX: Automatic Peering for SIP Trunks";
   }
 
+  identity capability-doc-variant {
+    description 
+      "Base for capability document variants.";
+  }
+
+  identity "v1-0" {
+    base capability-doc-variant;
+    description
+      "Variant 1.0 of the capability set document.";
+  }
+
+  identity sip-transport-protocol {
+    description
+      "Base for transport protocols used to send SIP requests across.";
+  }
+
+  identity udp {
+    base sip-transport-protocol;
+    description
+      "UDP used for SIP requests and responses.";
+  }
+
+  identity tcp {
+    base sip-transport-protocol;
+    description
+      "TCP used for SIP requests and responses.";
+  }
+
+  identity tls {
+    base sip-transport-protocol;
+    description
+      "TLS used for SIP requests and responses.";
+  }
+
+  identity codec-variant {
+    description
+      "Base for variants of codec supported by the service provider.";
+  }
+
+  identity pcmu {
+    base codec-variant;
+    description
+      "PCMU codec.";
+  }
+
+  identity pcma {
+    base codec-variant;
+    description
+      "PCMA codec.";
+  }
+
+  identity g722 {
+    base codec-variant;
+    description
+      "G722 codec.";
+  }
+
+  identity g729 {
+    base codec-variant;
+    description
+      "G729 codec.";
+  }
+
+  identity tls-version {
+    description
+      "Base for Transport Layer Security versions.";
+  }
+
+  identity "tls-v1-2" {
+    base tls-version;
+    description
+      "Version 1.2 of TLS";
+  }
+
+  identity "tls-v1-3" {
+    base tls-version;
+    description
+      "Version 1.3 of TLS";
+  }
+
   identity sip-extension {
     description
       "Base identity for SIP extensions/option tags as defined by IANA
-      SIP Parameters registry.";
+      SIP Parameters sub-registry.";
   }
 
   identity reliable-provisional-responses {
@@ -140,19 +220,9 @@ module ietf-sip-auto-peering {
       Enterprise networks retrieve this data to automatically configure
       their SIP trunking parameters.";
 
-    leaf index {
-      type uint8;
-      description 
-        "Index for the peering-info document.";
-    }
-
     leaf variant {
-      type enumeration {
-        enum v1_0 {
-          description
-            "Variant 1.0 of the capability set document is defined in
-            this draft";
-        }
+      type identityref {
+        base capability-doc-variant;
       }
       mandatory true;
       description 
@@ -200,19 +270,8 @@ module ietf-sip-auto-peering {
         sessions between enterprise and service provider networks.";
 
       leaf-list transport {
-        type enumeration {
-          enum tcp {
-            description
-              "Transmission Control Protocol";
-          }
-          enum tls {
-            description
-              "Transport Layer Security (over TCP)";
-          }
-          enum udp {
-            description
-              "User Datagram Protocol";
-          }
+        type identityref {
+          base sip-transport-protocol;
         }
         min-elements 1;
         description 
@@ -561,8 +620,6 @@ module ietf-sip-auto-peering {
 
       list media-type-audio {
         key "media-format";
-        reference
-          "RFC 4855: Media Type Registration of RTP Payload Formats"
         description
           "A list encoding the various audio media formats
           supported by the SIP service provider. The relative
@@ -587,21 +644,12 @@ module ietf-sip-auto-peering {
           respective parameters, allows enterprise networks to
           configure the media plane characteristics of various
           devices such as endpoints and middleboxes.";
+        reference
+          "RFC 4855: Media Type Registration of RTP Payload Formats";
 
         leaf media-format {
-          type enumeration {
-            enum pcmu {
-              description
-                "PCMU format.";
-            }
-            enum g722 {
-              description
-                "G722 format.";
-            }
-            enum g729 {
-              description
-                "G729 format.";
-            }
+          type identityref {
+            base codec-variant;
           }
           description
             "The audio media format.";
@@ -693,9 +741,6 @@ module ietf-sip-auto-peering {
 
         leaf symmetric-rtp {
           type boolean;
-          reference
-            "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP)"
-            "RFC 7362: Latching: Hosted NAT Traversal (HNT) for Media in Real-Time Communication"
           description 
             "A node indicating whether the SIP service
             provider expects the enterprise network to use symmetric
@@ -706,6 +751,10 @@ module ietf-sip-auto-peering {
             the enterprise network to use symmetric RTP, whereas a
             value of false indicates that the enterprise network can
             use asymmetric RTP.";
+          reference
+            "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP),
+            RFC 7362: Latching: Hosted NAT Traversal (HNT) for Media
+            in Real-Time Communication";
         }
       }
 
@@ -717,8 +766,6 @@ module ietf-sip-auto-peering {
 
         leaf symmetric-rtcp {
           type boolean;
-          reference
-            "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP)"
           description
             "A node indicating whether the SIP service 
             provider expects the enterprise network to use symmetric
@@ -726,13 +773,12 @@ module ietf-sip-auto-peering {
             indicates that the service provider expects symmetric RTCP
             reports, whereas a value of false indicates that the
             enterprise can use asymmetric RTCP.";
+          reference
+            "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP)";
         }
 
         leaf rtcp-feedback {
           type boolean;
-          reference
-            "RFC 4585: Extended RTP Profile for Real-time Transport
-            Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"
           description
             "A node that indicates whether the SIP service
             provider supports the RTP profile extension for
@@ -760,6 +806,9 @@ module ietf-sip-auto-peering {
             profile extension for RTP-based feedback and a value of
             false indicates that the service provider does not support
             the RTP profile extension for RTP-based feedback.";
+          reference
+            "RFC 4585: Extended RTP Profile for Real-time Transport
+            Control Protocol (RTCP)-Based Feedback (RTP/AVPF)";
         }
       }
     }
@@ -781,13 +830,13 @@ module ietf-sip-auto-peering {
 
       leaf iteration {
         type boolean;
-        reference
-          "RFC4733 & RFC 2833: RTP Payload for DTMF Digits, Telephony
-          Tones, and Telephony Signals"
         description
           "A value of true indicates that the service provider supports
           the newer standard while a value of false indicates that the
           service provider prefers the older standard";
+        reference
+          "RFC4733 & RFC 2833: RTP Payload for DTMF Digits, Telephony
+          Tones, and Telephony Signals";
       }
     }
 
@@ -817,15 +866,8 @@ module ietf-sip-auto-peering {
 
         leaf-list version {
           when "../secure = 'true'";
-          type enumeration {
-            enum tls_v1_2 {
-              description
-                "TLS version 1.2.";
-            }
-            enum tls_v1_3 {
-              description
-                "TLS version 1.3.";
-            }
+          type identityref {
+            base tls-version;
           }
           description
             "A list that specifies the version(s) of TLS supported.";
@@ -850,16 +892,15 @@ module ietf-sip-auto-peering {
                 "SRTP keys managed using DTLS.";
             }
           }
-          reference
-            "RFC4568: Session Description Protocol (SDP) Security
-            Descriptions for Media Streams"
-            "RFC5764: Datagram Transport Layer Security (DTLS)
-            Extension to Establish Keys for the Secure Real-time
-            Transport Protocol (SRTP)"
           description
             "A list that specifies the key management method(s) used by
             the service provider. Possible values in this list include
             'SDES' and 'DTLS-SRTP'.";
+          reference
+            "RFC4568: Session Description Protocol (SDP) Security
+            Descriptions for Media Streams, RFC5764: Datagram Transport
+            Layer Security (DTLS) Extension to Establish Keys for the
+            Secure Real-time Transport Protocol (SRTP)";
         }
       }
 
@@ -920,9 +961,6 @@ module ietf-sip-auto-peering {
         leaf acme-directory {
           when "../certificate-delegation = 'true'";
           type inet:uri;
-          reference
-            "RFC8555: Automatic Certificate Management Environment
-            (ACME)"
           description
             "A node that provides the URL of the directory object for
             delegate certificates using Automatic Certificate
@@ -933,6 +971,9 @@ module ietf-sip-auto-peering {
             obtaining delegate certificates. This node MUST only be
             included in the capability set if the value of the
             certificate-delegation leaf node is set to true.";
+          reference
+            "RFC8555: Automatic Certificate Management Environment
+            (ACME)";
         }
       }
     }
@@ -947,6 +988,8 @@ module ietf-sip-auto-peering {
          derived from the sip-extension base identity. This provides
          type safety and allows for proper validation of supported
          extensions.";
+      reference
+        "https://www.iana.org/assignments/sip-parameters/sip-parameters-4.csv";
     }
   }
 }
