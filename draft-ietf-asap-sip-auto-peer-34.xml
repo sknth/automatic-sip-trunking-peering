@@ -1653,7 +1653,7 @@ is encoded in JSON.
     Content-Length: nnn
 
     {
-        "peering-info": ...
+        "ietf-sip-auto-peering:sip-auto-peering": ...
     }
 ]]></artwork>
       </section>
@@ -1665,18 +1665,22 @@ is encoded in JSON.
    [RFC3688].  Following the format in RFC 3688, the following
    registrations have been made.</t>
 
-      <t>URI: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering
-      Registrant Contact: The IESG.
-      XML: N/A; the requested URI is an XML namespace.</t>
+    <ul spacing="normal">
+      <li>URI: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering</li>
+      <li>Registrant Contact: The IESG.</li>
+      <li>XML: N/A; the requested URI is an XML namespace.</li>
+    </ul>
 
    <t>This document registers a new YANG module in the "YANG Module Names"
    registry [RFC6020].</t>
 
-      <t>Name: ietf-sip-auto-peering
-      Maintained by IANA?  N
-      Namespace: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering
-      Prefix: sipap
-      Reference: RFC XXXX</t>
+    <ul spacing="normal">
+      <li>Name: ietf-sip-auto-peering</li>
+      <li>Maintained by IANA?  N</li>
+      <li>Namespace: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering</li>
+      <li>Prefix: sipap</li>
+      <li>Reference: RFC XXXX</li>
+    </ul>
     </section>
     <section anchor="security-considerations" numbered="true" toc="default">
       <name>Security Considerations</name>
