@@ -1665,18 +1665,18 @@ is encoded in JSON.
    [RFC3688].  Following the format in RFC 3688, the following
    registrations have been made.</t>
 
-      <t>URI: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering
-      Registrant Contact: The IESG.
-      XML: N/A; the requested URI is an XML namespace.</t>
+      <t>URI: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering</t>
+      <t>Registrant Contact: The IESG.</t>
+      <t>XML: N/A; the requested URI is an XML namespace.</t>
 
    <t>This document registers a new YANG module in the "YANG Module Names"
    registry [RFC6020].</t>
 
-      <t>Name: ietf-sip-auto-peering
-      Maintained by IANA?  N
-      Namespace: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering
-      Prefix: sipap
-      Reference: RFC XXXX</t>
+      <t>Name: ietf-sip-auto-peering</t>
+      <t>Maintained by IANA?  N</t>
+      <t>Namespace: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering</t>
+      <t>Prefix: sipap</t>
+      <t>Reference: RFC XXXX</t>
     </section>
     <section anchor="security-considerations" numbered="true" toc="default">
       <name>Security Considerations</name>
