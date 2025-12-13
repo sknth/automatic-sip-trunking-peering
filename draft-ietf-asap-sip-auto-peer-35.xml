@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-35">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-36">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -65,9 +65,8 @@ providing a central reference that promotes seamless peering between
 enterprise and service provider SIP networks. However, despite the
 extensive set of implementation rules and operating guidelines,
 interoperability issues between service provider and enterprise networks
-persist. This is in large part because service providers and equipment
-manufacturers aren't required to enforce the guidelines of the technical
-specifications and have a fair degree of freedom to deviate from them.
+persist. This is in large part because the guidelines of the technical
+specifications aren't hard requirements that can be enforced by the peer.
 Consequently, enterprise administrators usually undertake a fairly
 rigorous regimen of testing, analysis and troubleshooting to arrive at a
 configuration block that ensures seamless service provider peering. However,
@@ -85,7 +84,7 @@ nuanced enough to intuitively allow the generation of specific
 configuration blocks.
 </t>
       <t>
-This draft introduces a mechanism using which an enterprise network can
+This draft introduces the SIP Auto Peer framework by which an enterprise network can
 solicit a detailed capability set from a SIP service provider; the
 detailed capability set can subsequently be used by automation or an
 administrator to generate configuration blocks across one or more
@@ -106,8 +105,7 @@ support the mechanism described in this document. The enterprise network
 consists of a SIP-PBX, media endpoints (M.E.) and a Session Border Controller <xref target="RFC7092" />.
 It may also include additional components such as application servers
 for voicemail, recording, fax etc. At a high level, the service provider
-consists of a SIP signaling entity (SP-SSE), a media entity for handling media streams of calls setup by the SP-SSE and a
-HTTPS <xref target="RFC9110" /> server.
+consists of a SIP signaling entity (SP-SSE), a media entity for handling media streams of calls setup by the SP-SSE and a https <xref target="RFC9110" /> server.
 </t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
 
@@ -115,7 +113,7 @@ HTTPS <xref target="RFC9110" /> server.
     | +---------------+         +-----------------------+ |
     | |               |         |                       | |
     | | +----------+  |         |   +-------+           | |
-    | | |   Cap    |  | HTTPS   |   |       |           | |
+    | | |   Cap    |  | https   |   |       |           | |
     | | |  Server  |--|---------|-->|       |           | |
     | | |          |<-|---------|---|       |   +-----+ | |
     | | +----------+  |         |   |       |-->| SIP | | |
@@ -142,7 +140,7 @@ HTTPS <xref target="RFC9110" /> server.
         <ul spacing="normal">
           <li>Enterprise Network: A communications network infrastructure deployed by an enterprise which interconnects with the service provider network over SIP. The enterprise network could include devices such as application servers, endpoints, call agents and edge devices, among others.</li>
           <li>Edge Device: A device that is the last hop in the enterprise network and that is the transit point for traffic entering and leaving the enterprise. An edge device is typically a back-to-back user agent (B2BUA) <xref target = "RFC7092" /> such as a Session Border Controller (SBC).</li>
-          <li>Service Provider Network: A communications network infrastructure deployed by service providers. In the context of this draft, the service provider network is accessible over SIP for the establishment, modification and termination of calls and accessible over HTTPS for the transfer of the capability set document. The service provider network is also referred to as a SIP Service Provider (SSP) or Internet Telephony Service Provider (ITSP) network.</li>
+          <li>Service Provider Network: A communications network infrastructure deployed by service providers. In the context of this draft, the service provider network is accessible over SIP for the establishment, modification and termination of calls and accessible over HTTP for the transfer of the capability set document. The service provider network is also referred to as a SIP Service Provider (SSP) or Internet Telephony Service Provider (ITSP) network.</li>
           <li>Call Control: Call Control within a telephony networks refers to software that is responsible for delivering core telephony functions. Call control not only provides the basic functionality of setting up, sustaining and terminating calls, but also provides the necessary control and logic required for additional services within the telephony network, such as, registration of endpoints, integration with application servers (voicemail, instant messaging, presence), among others.</li>
           <li>Capability Server: A server hosted in the service provider network, such that this server is the target for capability set document requests from the enterprise network.</li>
           <li>Capability Set: The term capability set (or capability set document) refers collectively to a set of characteristics within the service provider network, which when communicated to the enterprise network, provides the enterprise network the information required to interconnect with the service provider network. The various parameters that constitute the capability set relate to characteristics that are specific to signalling, media, transport and security. Certain aspects of interconnecting with service providers are out of scope of the capability set; for example, the access technology used to interconnect with service provider networks.</li>
@@ -150,7 +148,7 @@ HTTPS <xref target="RFC9110" /> server.
       </section>
       <section anchor="configuration-workflow" numbered="true" toc="default">
         <name>Configuration Workflow</name>
-        <t>A workflow that facilitates an enterprise network to solicit the capability set of a SIP service provider ought to take into account the following considerations:</t>
+        <t>A workflow that enables an enterprise network to solicit the capability set of a SIP service provider ought to take into account the following considerations:</t>
         <ul spacing="normal">
           <li>The configuration workflow must be based on a protocol or a set of protocols commonly used between enterprise and service provider telephony networks.</li>
           <li>
@@ -159,19 +157,16 @@ HTTPS <xref target="RFC9110" /> server.
           </li>
           <li>Capability set documents obtained as a result of the configuration workflow must be conducive to easy parsing by automation. Subsequently, automation may be used for the generation of appropriate configuration blocks on the edge element or across one or more elements in the enterprise network.</li>
         </ul>
-        <t>Taking the above considerations into account, this document proposes a Hypertext Transfer Protocol (HTTP)-based workflow using which the enterprise network can solicit and ultimately obtain the service provider capability set. The enterprise network creates a well formed HTTP GET request to solicit the service provider capability set. Subsequently, the HTTPS response from the SIP service provider includes the capability set. The capability set is encoded in JSON, thus ensuring that the response can be easily parsed by automation.</t>
-        <t>There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package <xref target = "RFC6665" />, such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set.</t>
-        <t>This mechanism is likely to result in a barrier to adoption for SIP service providers and enterprise networks as equipment manufacturers would have to first add support for such a SIP extension. A HTTPS-based approach would be relatively easier to adopt as most edge devices deployed in enterprise networks today already support HTTPS; from the perspective of service provider networks, all that is required is for them to deploy HTTPS servers that function as capability servers. Additionally, most SIP service providers require enterprise networks to register with them (using a SIP REGISTER message) before any other SIP methods that initiate subscriptions (SIP SUBSCRIBE) or calls (SIP INVITE) are processed. As a result, a SIP-based framework to obtain a capability set would require operational changes on the part of service provider networks.</t>
-        <t> Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <xref target = "RFC6020" /><xref target = "RFC7950" /> that enable configuration to be pushed over NETCONF<xref target = "RFC6241" /> to enterprise networks from a centralised source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a "one-size-fits-all" YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.</t>
+        <t>Taking the above considerations into account, this document proposes a Hypertext Transfer Protocol (HTTP)-based workflow using which the enterprise network can solicit and ultimately obtain the service provider capability set. The enterprise network creates a well formed HTTP GET request to solicit the service provider capability set. Subsequently, the HTTP response from the SIP service provider includes the capability set. The capability set is encoded in JSON, thus ensuring that the response can be easily parsed by automation.</t>
       </section>
       <section anchor="transport" numbered="true" toc="default">
         <name>Transport</name>
-        <t>To solicit the capability set of a SIP service provider, the edge element in an enterprise network generates a well-formed HTTP GET request. There are two reasons why it makes sense for the enterprise edge element to generate the HTTPS request:</t>
+        <t>To solicit the capability set of a SIP service provider, the edge element in an enterprise network generates a well-formed HTTP GET request. There are two reasons why it makes sense for the enterprise edge element to generate the HTTP request:</t>
         <ol spacing="normal" type="1"><li>Edge elements are devices that normalise any mismatches between the enterprise and service provider networks in the media and signaling planes. As a result, when the capability set is received from the SIP service provider network, the edge element can generate appropriate configuration blocks (possibly across multiple devices) to enable interconnection.</li>
           <li>Given that edge elements are configured to "talk" to networks external to the enterprise, the complexity in terms of NAT traversal and firewall configuration would be minimal.</li>
         </ol>
         <t>The HTTP GET request is targeted at a capability server that is managed by the SIP service provider such that this server processes, and on successfully processing the request, includes the capability set document in the response. The capability set document is constructed according to the guidelines of the YANG model described in this draft. The capability set document included in a successful response is formatted in JSON. More details about the formatting of the HTTP request and response are provided in Section 4.</t>
-        <t>There could be situations wherein an enterprise telephony network interconnects with its SIP service provider such that traffic between the two networks traverses an intermediary SIP service provider network. This could be a result of interconnect agreements between the terminating and transit SIP service provider networks. In such situations, the capability set provided to the enterprise network by its SIP service provider must account for the characteristics of the transit SIP service provider network from a signalling and media perspective. For example, if the terminating SIP service provider network supports the G.729 codec and the transit SIP service provider network does not, G.729 must not be advertised in the capability set. As another example, if the transit SIP service provider network doesn't support a SIP extension, for instance, the SIP extension for Reliable Provisional Responses as defined in RFC 3262, the terminating SIP service provider network must not advertise support for this extension in the capability set provided to the enterprise network. How a terminating SIP service provider obtains the characteristics of the intermediary SIP service provider network is out of the scope of this document; however, one method could be for the terminating SIP service provider to obtain the characteristics of the intermediary SIP service provider by leveraging the YANG model introduced in this document.</t>
+        <t>There could be situations wherein an enterprise telephony network interconnects with its SIP service provider such that traffic between the two networks traverses an intermediary SIP service provider network. This could be a result of interconnect agreements between the terminating and transit SIP service provider networks. In such situations, the capability set provided to the enterprise network by its SIP service provider must account for the characteristics of the transit SIP service provider network from a signalling and media perspective. For example, if the terminating SIP service provider network supports the G.729 codec and the transit SIP service provider network does not, G.729 must not be advertised in the capability set. As another example, if the transit SIP service provider network doesn't support a SIP extension, for instance, the SIP extension for Reliable Provisional Responses as defined in <xref target = "RFC3262" />, the terminating SIP service provider network must not advertise support for this extension in the capability set provided to the enterprise network. How a terminating SIP service provider obtains the characteristics of the intermediary SIP service provider network is out of the scope of this document; however, one method could be for the terminating SIP service provider to obtain the characteristics of the intermediary SIP service provider by leveraging the YANG model introduced in this document.</t>
       </section>
     </section>
     <section anchor="conventions-and-terminology" numbered="true" toc="default">
@@ -186,14 +181,14 @@ HTTPS <xref target="RFC9110" /> server.
     </section>
     <section anchor="http-transport" numbered="true" toc="default">
       <name>HTTP Transport</name>
-      <t>This section describes the use of HTTPS as a transport protocol for the peering workflow. This workflow is based on HTTP/1.1, and as such is compatible with any future version of HTTP that is backward compatible with HTTP/1.1 including HTTP/3 <xref target="RFC9114" />.</t>
+      <t>This section describes the use of HTTP <xref target = "RFC9110" /> as a transport protocol for the peering workflow.</t>
       <section anchor="http-methods" numbered="true" toc="default">
         <name>HTTP Methods</name>
         <t>The workflow defined in this document leverages the HTTP GET method and its corresponding response(s) to request for and subsequently obtain the service provider capability set document.</t>
       </section>
       <section anchor="integrity-and-confidentiality" numbered="true" toc="default">
         <name>Integrity and Confidentiality</name>
-        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 is used, TLS is incorporated within QUIC for the transport of the capability set document. The usage of SIP or RTP-over-QUIC are beyond the scope of this draft. Additionally, the enterprise edge element and capability server MUST support the use of the HTTPS URI scheme as defined in <xref target="RFC9110" />.</t>
+        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 <xref target="RFC9114" /> is used, TLS is incorporated within QUIC for the transport of the capability set document. The usage of SIP or RTP-over-QUIC are beyond the scope of this draft. Additionally, the enterprise edge element and capability server MUST support the use of the https URI scheme as defined in <xref target="RFC9110" />.</t>
       </section>
       <section anchor="authenticated-client-identity" numbered="true" toc="default">
         <name>Authenticated Client Identity</name>
@@ -260,12 +255,12 @@ HTTPS <xref target="RFC9110" /> server.
           <li>Discovery using the Webfinger Protocol</li>
         </ol>
         <t>
-The complete HTTPS URLs to be used when authenticating the enterprise edge element (optional) and obtaining the SIP service provider capability set can be obtained from the SIP service provider beforehand and entered into the edge element manually via some interface - for example, a CLI or GUI.</t>
+The complete https URLs to be used when authenticating the enterprise edge element (optional) and obtaining the SIP service provider capability set can be obtained from the SIP service provider beforehand and entered into the edge element manually via some interface - for example, a CLI or GUI.</t>
         <t>However, if the resource URL is unknown to the administrator (and, by extension, to the edge element), the WebFinger protocol <xref target="RFC7033" /> and the 'sipTrunkingCapability' <xref target="RFC9409" /> link relation type may be leveraged assuming that the service SIP service provider has implemented WebFinger within their network and hosts the capability set at the respective location.</t>
-        <t>If an enterprise edge element attempts to discover the URL of the endpoints hosted in the ssp1.example.com domain, it issues the following request (line wraps are for display purposes only).</t>
+        <t>If an enterprise edge element attempts to discover the URL of the endpoints hosted in the ssp1.example.com domain, it issues the following request.</t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
         GET /.well-known/webfinger?
-            resource=http%3A%2F%2Fssp1.example.com
+            resource=https%3A%2F%2Fssp1.example.com
             rel=sipTrunkingCapability
             HTTP/1.1
         Host: ssp1.example.com
@@ -276,7 +271,7 @@ The complete HTTPS URLs to be used when authenticating the enterprise edge eleme
         Content-Type: application/jrd+json
 
         {
-          "subject" : "http://ssp1.example.com",
+          "subject" : "https://ssp1.example.com",
           "links" :
           [
             {
@@ -289,22 +284,17 @@ The complete HTTPS URLs to be used when authenticating the enterprise edge eleme
 ]]></artwork>
         <t>Once the target URI is obtained by an enterprise telephony network, the URI may be dereferenced to obtain a unique capability set document that is specific to that given enterprise telephony network. The ITSP may use credentials to determine the identity of the enterprise telephony network and provide the appropriate capability set document.</t>
       </section>
-      <section anchor="generating-the-response" numbered="true" toc="default">
-        <name>Generating the response</name>
-        <t>Capability servers include the capability set documents in the body of a successful response. Capability set documents MUST be formatted in JSON. For requests that are incorrectly formatted, an example being an incorrect query parameter in the URI, the capability server must generate a "400 Bad Request" response for the incorrect request. If requests contain an invalid token, the capability server must generate a "403 Forbidden" response clearly indicating that this token does not have the permission to view the capability set document.</t>
-        <t>The capability server can respond to client requests with redirect responses, specifically, the server can respond with the following redirect responses:</t>
-        <ol spacing="normal" type="1"><li>301 Moved Temporarily</li>
-          <li>302 Found</li>
-          <li>307 Temporary Redirect</li>
-        </ol>
-        <t>The server SHOULD include the Location header field in such responses. If the Location header isn't included in the response,
-        this can lead to the client being unable to find the capability set document, leading to a failure in the peering process or 
-        requiring manual intervention by an administrator.</t>
+      <section anchor="generating-the-status-code" numbered="true" toc="default">
+        <name>Generating the status code</name>
+        <t>Capability servers include the capability set documents in the body of a successful response. Capability set documents MUST be formatted in JSON. For requests that are incorrectly formatted, an example being an incorrect query parameter in the URI, the capability server MUST generate a "400 Bad Request" status code for the incorrect request. If requests contain an invalid token, the capability server MUST generate a "403 Forbidden" status code clearly indicating that this token does not have the permission to view the capability set document.</t>
+        <t>The capability server can respond to client requests with redirect status codes (3xx).</t>
+        <t>The server SHOULD include the Location header field in such statuses. If the Location header isn't included with the status code, this can lead to the client being unable to find the capability set document, leading to a failure in the peering process or requiring manual intervention by an administrator.</t>
+        <t>The enterprise edge element SHOULD handle the 3xx status codes from the capability server in accordance with <xref target = "RFC9110" />.</t>
       </section>
     </section>
-    <section anchor="state-deltas" numbered="true" toc="default">
-      <name>State Deltas</name>
-      <t>Given that the service provider capability set is largely expected to remain static, the work needed to implement an asynchronous push mechanism to encode minor changes in the capability set document (state deltas) is not commensurate with the benefits. Rather, enterprise edge elements can poll capability servers at pre-defined intervals to obtain the full capability set document. It is recommended that capability servers are polled every 24 hours.</t>
+    <section anchor="monitoring-for-updates" numbered="true" toc="default">
+      <name>Monitoring for updates</name>
+      <t>Given that the service provider capability set is largely expected to remain static, the work needed to implement an asynchronous push mechanism to encode minor changes in the capability set document (state deltas) is not commensurate with the benefits. Rather, enterprise edge elements can poll capability servers at pre-defined intervals to obtain the full capability set document. It is recommended that capability servers are polled every 24 hours. Alternatively, the enterprise edge elements can leverage Preconditions specified in <xref target = "RFC9110" /> to conditionally retrieve the capability set document if any changes have occurred.</t>
     </section>
     <section anchor="encoding-the-service-provider-capability-set" numbered="true" toc="default">
       <name>Encoding the Service Provider Capability Set</name>
@@ -323,7 +313,7 @@ module: ietf-sip-auto-peering
   +--ro sip-auto-peering
      +--ro variant           identityref
      +--ro revision
-     |  +--ro not-before    uint32
+     |  +--ro not-before    yang:timestamp
      |  +--ro location      inet:uri
      +--ro transport-info
      |  +--ro transport*        identityref
@@ -373,7 +363,7 @@ module: ietf-sip-auto-peering
      +--ro security
      |  +--ro signaling
      |  |  +--ro secure?    boolean
-     |  |  +--ro version*   identityref
+     |  |  +--ro version*   tlscmn:tls-version-base
      |  +--ro media-security
      |  |  +--ro key-management*   enumeration
      |  +--ro certificate-location?        inet:uri
@@ -381,7 +371,7 @@ module: ietf-sip-auto-peering
      |     +--ro stir-compliance?          boolean
      |     +--ro certificate-delegation?   boolean
      |     +--ro acme-directory?           inet:uri
-     +--ro extension*        identityref
+     +--ro extension*        iana-sip-option-tags:sip-option-tag
         ]]></artwork>
       </section>
       <section anchor="yang-model" numbered="true" toc="default">
@@ -400,13 +390,25 @@ module ietf-sip-auto-peering {
   import ietf-inet-types {
     prefix "inet";
     reference
-      "RFC 6991: Common YANG Data Types";
+      "RFC 6991: Common YANG Data Types.";
   }
 
   import iana-crypt-hash {
     prefix "ianach";
     reference
       "https://www.iana.org/assignments/iana-crypt-hash/iana-crypt-hash.xhtml";
+  }
+
+  import ietf-tls-common {
+    prefix "tlscmn";
+    reference
+      "RFC 9645: YANG Groupings for TLS Clients and TLS Servers.";
+  }
+
+  import iana-sip-option-tags {
+    prefix "iana-sip-option-tags";
+    reference
+      "https://www.iana.org/assignments/sip-parameters/sip-parameters.xhtml";
   }
 
   organization
@@ -426,7 +428,7 @@ module ietf-sip-auto-peering {
     <mailto:fluffy@iii.ca>";
 
   description
-    "Data model for encoding SIP Service Provider Capability Set
+    "Data model for encoding SIP Service Provider Capability Set.
 
     This YANG module defines a read-only data model intended for
     exchanging SIP service provider capabilities with enterprise
@@ -460,7 +462,7 @@ module ietf-sip-auto-peering {
     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
     they appear in all capitals, as shown here.";
 
-  revision 2025-10-20 {
+  revision 2025-12-13 {
     description "Initial version";
     reference
       "NOTE TO RFC EDITOR: Please replace 'RFC XXXX' with the actual
@@ -498,12 +500,6 @@ module ietf-sip-auto-peering {
       "TCP used for SIP requests and responses.";
   }
 
-  identity tls {
-    base sip-transport-protocol;
-    description
-      "TLS used for SIP requests and responses.";
-  }
-
   identity codec-variant {
     description
       "Base for variants of codec supported by the service provider.";
@@ -533,58 +529,6 @@ module ietf-sip-auto-peering {
       "G729 codec.";
   }
 
-  identity tls-version {
-    description
-      "Base for Transport Layer Security versions.";
-  }
-
-  identity "tls-v1-2" {
-    base tls-version;
-    description
-      "Version 1.2 of TLS";
-  }
-
-  identity "tls-v1-3" {
-    base tls-version;
-    description
-      "Version 1.3 of TLS";
-  }
-
-  identity sip-extension {
-    description
-      "Base identity for SIP extensions/option tags as defined by IANA
-      SIP Parameters sub-registry.";
-  }
-
-  identity reliable-provisional-responses {
-    base sip-extension;
-    description
-      "This extension indicates support for reliable provisional
-      responses.";
-    reference "RFC 3262";
-  }
-
-  identity session-timers {
-    base sip-extension;
-    description
-      "This extension indicates support for session timers.";
-    reference "RFC 4028";
-  }
-
-  identity replaces {
-    base sip-extension;
-    description
-      "This extension indicates support for the Replaces header.";
-    reference "RFC 3891";
-  }
-
-  identity path {
-    base sip-extension;
-    description
-      "This extension indicates support for the Path header.";
-    reference "RFC 3327";
-  }
-
   grouping entity {
     description 
       "Grouping that provides a reusable list named 'entity', with each
@@ -596,12 +540,13 @@ module ietf-sip-auto-peering {
         type inet:domain-name; 
       }
       description 
-        "IP Address or host name of the entity";
+        "IP Address or host name of the entity.";
     }
 
     leaf port {
       type inet:port-number;
-      description "Entity's port number.";
+      description
+        "Entity's port number.";
     }
   }
 
@@ -635,8 +580,7 @@ module ietf-sip-auto-peering {
         for the enterprise.";
 
       leaf not-before {
-        type uint32;
-        units "seconds";
+        type inet:timestamp;
         mandatory true;
         description
           "A node that identifies the unix epoch time at which the
@@ -944,8 +888,7 @@ module ietf-sip-auto-peering {
           service provider communicate this information by reference,
           that is, through a URL. The enterprise network is required to
           de-reference this URL in order to obtain the DID number
-          ranges allocated by the SIP service provider. Refer to the
-          example provided in Section 9.1.";
+          ranges allocated by the SIP service provider.";
 
         leaf index {
           type uint16;
@@ -1147,8 +1090,8 @@ module ietf-sip-auto-peering {
             use asymmetric RTP.";
           reference
             "RFC 4961: Symmetric RTP / RTP Control Protocol (RTCP), 
-            RFC 7362: Latching: Hosted NAT Traversal (HNT) for Media
-            in Real-Time Communication";
+             RFC 7362: Latching: Hosted NAT Traversal (HNT) for Media
+             in Real-Time Communication";
         }
       }
 
@@ -1229,8 +1172,9 @@ module ietf-sip-auto-peering {
           the newer standard while a value of false indicates that the
           service provider prefers the older standard";
         reference
-          "RFC4733 & RFC 2833: RTP Payload for DTMF Digits, Telephony
-          Tones, and Telephony Signals";
+          "RFC 4733: RTP Payload for DTMF Digits,
+           RFC 2833: RTP Payload for DTMF Digits, Telephony
+           Tones, and Telephony Signals";
       }
     }
 
@@ -1260,9 +1204,7 @@ module ietf-sip-auto-peering {
 
         leaf-list version {
           when "../secure = 'true'";
-          type identityref {
-            base tls-version;
-          }
+          type tlscmn:tls-version-base;
           description
             "A list that specifies the version(s) of TLS supported.";
         }
@@ -1291,7 +1233,7 @@ module ietf-sip-auto-peering {
             the service provider. Possible values in this list include
             'SDES' and 'DTLS-SRTP'.";
           reference
-            "RFC4568: Session Description Protocol (SDP) Security
+            "RFC 4568: Session Description Protocol (SDP) Security
             Descriptions for Media Streams, RFC5764: Datagram Transport
             Layer Security (DTLS) Extension to Establish Keys for the
             Secure Real-time Transport Protocol (SRTP)";
@@ -1366,27 +1308,23 @@ module ietf-sip-auto-peering {
             included in the capability set if the value of the
             certificate-delegation leaf node is set to true.";
           reference
-            "RFC8555: Automatic Certificate Management Environment
+            "RFC 8555: Automatic Certificate Management Environment
             (ACME)";
         }
       }
     }
 
     leaf-list extension {
-      type identityref {
-        base sip-extension;
-      }
+      type iana-sip-option-tags:sip-option-tag;
       description
-        "A list of SIP option tags (extensions) supported by the service
-         provider network. Each extension is represented as an identity
-         derived from the sip-extension base identity. This provides
-         type safety and allows for proper validation of supported
-         extensions.";
+        "A list of SIP option tags (extensions) supported by the
+        service provider network.";
       reference
-        "https://www.iana.org/assignments/sip-parameters/sip-parameters-4.csv";
+        "https://www.iana.org/assignments/sip-parameters/sip-parameters.xhtml";
     }
   }
 }
+
     ]]></sourcecode>
       </section>
       <section anchor="extending-the-capability-set" numbered="true" toc="default">
@@ -1662,7 +1600,7 @@ is encoded in JSON.
       <name>IANA Considerations</name>
 
    <t>This document registers a new URI in the "IETF XML Registry"
-   [RFC3688].  Following the format in RFC 3688, the following
+   <xref target="RFC3688" />.  Following the format in RFC 3688, the following
    registrations have been made.</t>
 
     <ul spacing="normal">
@@ -1671,8 +1609,8 @@ is encoded in JSON.
       <li>XML: N/A; the requested URI is an XML namespace.</li>
     </ul>
 
-   <t>This document registers a new YANG module in the "YANG Module Names"
-   registry [RFC6020].</t>
+   <t>This document registers two new YANG modules in the "YANG Module Names"
+   registry <xref target="RFC6020" />.</t>
 
     <ul spacing="normal">
       <li>Name: ietf-sip-auto-peering</li>
@@ -1681,6 +1619,87 @@ is encoded in JSON.
       <li>Prefix: sipap</li>
       <li>Reference: RFC XXXX</li>
     </ul>
+
+    <ul spacing="normal">
+      <li>Name: iana-sip-option-tags</li>
+      <li>Maintained by IANA?  Y</li>
+      <li>Namespace: urn:ietf:params:xml:ns:yang:iana-sip-option-tags</li>
+      <li>Prefix: sip-option-tags</li>
+      <li>Reference: https://www.iana.org/assignments/sip-parameters/sip-parameters.xhtml</li>
+    </ul>
+
+    <section anchor="iana-considerations-iana-module" numbered="true" toc="default">
+      <name>IANA maintained module for SIP Option Tags</name>
+
+      <t>This document defines the initial version of the IANA-maintained
+      "iana-sip-option-tags" YANG module.  The most recent version of the YANG module
+      is available from the Appendix section of this document.</t>
+
+      <t>IANA is requested to add this note to the registry:</t>
+
+          <t>New values must not be directly added to the "iana-sip-option-tags" YANG
+          module.  They must instead be added to the "Option Tags" registry located at
+          https://www.iana.org/assignments/sip-parameters/sip-parameters.xhtml.</t>
+
+      <t>When a value is added to the "Option Tags" registry, a new "enum" statement
+      must be added to the "iana-sip-option-tags" YANG module.  The "enum" statement,
+      and sub-statements thereof, should be defined:</t>
+
+      <ul>
+      <li>"enum":        Replicates a name from the registry.</li>
+      <li>"description":  Replicates the description from the registry.</li>
+      <li>"reference":   Replicates the reference(s) from the registry with the title of the document(s) added.</li>
+      </ul>
+      
+      <t>Unassigned or reserved values are not present in the module.</t>
+
+      <t>When the "iana-sip-option-tags" YANG module is updated, a new "revision"
+      statement with a unique revision date needs to be added in front of
+      the existing revision statements. The "revision" statement MUST
+      contain both "description" and "reference" substatements as follows.</t>
+
+      <t>The "description" substatement captures what changed in the
+      revised version. Typically, the description enumerates the changes
+      such as udpates to existing entries (e.g., update a description or
+      a reference) or notes which "enums" were added or had their status
+      changed (e.g., deprecated, discouraged, or obsoleted).</t>
+
+      
+      <t>-- When such a description is not feasible, the description varies on how the update is triggered.</t>
+
+      <t>-- If the update is triggered by an RFC, insert this text:</t>
+
+      <t>The "description" substatement should include this text:
+      "Applied updates as specified by RFC XXXX.".</t>
+
+      <t>-- If the update is triggered following other IANA registration
+      -- policy (Section 4 of [RFC8126]) but not all the values in the
+      -- registry are covered by the same policy, insert this text:</t>
+
+      <t>The "description" substatement should include this text:
+      "Applied updates as specified by the registration policy Some_IANA_policy".</t>
+
+      <t>The "reference" substatement points specifically to the published
+      module (i.e., IANA_SIP_OPTION_TAGS_URL_With_REV). It may also point to an
+      authoritative event triggering the update to the YANG module. In all
+      cases, this event is cited from the underlying IANA registry. If the
+      update is triggered by an RFC, that RFC must also be included in
+      the "reference" substatement.</t>
+
+      <t>-- If a name in the IANA registry does not comply with the
+        -- YANG naming conventions, add details how IANA can generate
+        -- legal identifiers. For example, if the name begins with
+        -- a number, indicate a preference to spell out the number when
+        -- used as an identifier.</t>
+
+      <t>IANA is requested to add this note to [reference-to-the-iana-sip-option-tags-
+      registry]:</t>
+
+        <t>When this registry is modified, the YANG module "iana-sip-option-tags"
+          [IANA_SIP_OPTION_TAGS_URL] must be updated as defined in RFC IIII.</t>
+
+      <t>The service provider will filter out the advertised extensions using local policy.</t>
+      </section>
     </section>
     <section anchor="security-considerations" numbered="true" toc="default">
       <name>Security Considerations</name>
@@ -1697,7 +1716,7 @@ the different points at which the workflow is vulnerable to attackers.</t>
 </section>
 <section anchor="security-considerations-transmission" numbered="true" toc="default">
   <name>Client-Server Communication</name>
-  <t>All communication used by the edge element to obtain the capability set document from the capability server MUST be secured using HTTPS. Failure to do so, results in the capability set document being transmitted over clear text, thus exposing sensitive information such as targets for trunks registration, targets for outbound calling requests and credentials used in building the Authorisation header field provided in response to authentication challenges. </t>
+  <t>All communication used by the edge element to obtain the capability set document from the capability server MUST be secured using https. Failure to do so, results in the capability set document being transmitted over clear text, thus exposing sensitive information such as targets for trunks registration, targets for outbound calling requests and credentials used in building the Authorisation header field provided in response to authentication challenges. </t>
 </section>
 <section anchor="security-considerations-yang" numbered="true" toc="default">
   <name>YANG Security Considerations</name>
@@ -1804,13 +1823,14 @@ be considered sensitive or vulnerable in network environments.</t>
         <t>We would like to thank those who provided detailed and thoughtful comments on this draft, especially
     Marc Petit-Huguenin, Paul Jones, Ram Mohan R, Nicola Serafini, Jonathan Rosenberg, Jon Peterson, Chris Wendt and Henning Schulzrinne.
     Additional thanks to Murray Kucherawy, Joel Halpern, Dan Harkins, Éric Vyncke, Joerg Ott, Mahesh Jethanandani,
-     Orie Steele, Harald Alvestrand, Ebben Aries, Jen Linkova, David Dong, Gorry Fairhurst and Mohamed Boucadair for their reviews and feedback.</t>
+     Orie Steele, Harald Alvestrand, Ebben Aries, Jen Linkova, David Dong, Gorry Fairhurst, Mohamed Boucadair, Paul Wouters and Mike Bishop for their reviews and feedback.</t>
   </section>
   </middle>
   <back>
     <references>
       <name>Informative References</name>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2833.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3262.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4252.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4568.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4585.xml"/>
@@ -1858,14 +1878,493 @@ be considered sensitive or vulnerable in network environments.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4855.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9645.xml"/>
       <reference anchor="iana-crypt-hash-yang-module"
-        target="https://www.iana.org/assignments/yang-parameters/iana-crypt-hash@2014-08-06.yang">
+        target="https://www.iana.org/assignments/iana-crypt-hash/iana-crypt-hash.xhtml">
         <front>
-          <title>IANA Crypt Hash YANG module revision 2014-08-06</title>
+          <title>IANA Crypt Hash YANG module</title>
           <author/>
           <date/>
         </front>
       </reference>
     </references>
+    <section anchor="appendix" numbered="true" toc="default">
+      <name>Appendix A: Initial Version of the SIP Option Tags IANA-Maintained Module</name>
+      <t>NOTE TO RFC EDITOR. This appendix section contains the initial version of the iana-sip-option-tags module. Please remove this from the final RFC.</t>
+    <sourcecode name="iana-sip-option-tags@2025-12-13.yang"
+      markers="true">
+    <![CDATA[
+module iana-sip-option-tags {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:iana-sip-option-tags";
+  prefix iana-sip-option-tags;
+
+  organization
+    "Internet Assigned Numbers Authority (IANA)";
+
+  contact
+    "Internet Assigned Numbers Authority
+
+     ICANN
+     12025 Waterfront Drive, Suite 300
+     Los Angeles, CA 90094
+
+     Tel: +1 424 254 5300
+
+     <mailto:iana@iana.org>";
+
+  description
+    "This YANG module translates IANA registry SIP 'Option Tags'
+     to YANG derived types.
+
+     Copyright (c) 2025 IETF Trust and the persons identified as
+     authors of the code. All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject to
+     the license terms contained in, the Revised BSD License set
+     forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
+
+     The initial version of this YANG module is part of RFC XXXX;
+     see the RFC itself for full legal notices.
+
+     The latest version of this YANG module is available at
+     <IANA_URL>.";
+
+  reference
+    "Session Initiation Protocol (SIP) Parameters
+     (https://www.iana.org/assignments/sip-parameters/sip-parameters.xhtml)";
+
+  revision 2025-12-13 {
+    description
+      "Initial revision.";
+    reference
+      "NOTE TO RFC EDITOR: Please replace 'RFC XXXX' with the actual
+      RFC number of this document when published, and delete this
+      sentence. Also replace the revision with the date of publication
+      of this document.
+      RFC XXXX: Automatic Peering for SIP Trunks";
+  }
+
+  typedef sip-option-tag {
+    type enumeration {
+      enum one-hundred-rel {
+        description
+          "This option tag is for reliability of provisional
+          responses. When present in a Supported header, it
+          indicates that the UA can send or receive reliable
+          provisional responses. When present in a Require header
+          in a request it indicates that the UAS MUST send all
+          provisional responses reliably. When present in a Require
+          header in a reliable provisional response, it indicates
+          that the response is to be sent reliably.";
+        reference
+          "RFC 3262: Reliability of Provisional Responses in the
+          Session Initiation Protocol (SIP).";
+      }
+
+      enum one-nine-nine {
+        description
+          "This option-tag is for indicating support of the 199 Early
+          Dialog Terminated provisional response code. When present
+          in a Supported header of a request, it indicates that the
+          UAC supports the 199 response code. When present in a Require
+          or Proxy-Require header field of a request, it indicates that
+          the UAS, or proxies, MUST support the 199 response code. It
+          does not require the UAS, or proxies, to actually
+          send 199 responses.";
+        reference
+          "RFC 6228: Session Initiation Protocol (SIP) Response Code
+          for Indication of Terminated Dialog.";
+      }
+
+      enum answermode {
+        description
+          "This option tag is for support of the Answer-Mode
+           and Priv-Answer-Mode extensions used to negotiate
+           automatic or manual answering of a request.";
+        reference
+          "RFC 5373: Requesting Answering Modes for the Session 
+          Initiation Protocol (SIP).";
+      }
+
+      enum early-session {
+        description
+          "A UA adding the early-session option tag to a message
+           indicates that it understands the early-session content
+           disposition.";
+        reference
+          "RFC 3959: The Early Session Disposition Type for the Session
+          Initiation Protocol (SIP).";
+      }
+
+      enum eventlist {
+        description
+          "Extension to allow subscriptions to lists of resources.";
+        reference
+          "RFC 4662: A Session Initiation Protocol (SIP) Event
+          Notification Extension for Resource Lists.";
+      }
+
+      enum explicitsub {
+        description
+          "This option tag identifies an extension to REFER to
+           suppress the implicit subscription and provide a URI
+           for an explicit subscription.";
+        reference
+          "RFC 7614: Explicit Subscriptions for the REFER Method.";
+      }
+
+      enum from-change {
+        description
+          "This option tag is used to indicate that a UA supports
+           changes to URIs in From and To header fields during a
+           dialog.";
+        reference
+          "RFC 4916: Connected Identity in the Session Initiation
+          Protocol (SIP).";
+      }
+
+      enum geolocation-http {
+        description
+          "The geolocation-http option tag signals support for
+           acquiring location information via HTTP. A location
+           recipient who supports this option can request location
+           with an HTTP GET and parse a resulting 200 response
+           containing a PIDF-LO object. The URI schemes supported
+           by this option include http and https.";
+        reference
+          "RFC 6442: Location Conveyance for the Session Initiation
+          Protocol.";
+      }
+
+      enum geolocation-sip {
+        description
+          "The geolocation-sip option tag signals support for
+           acquiring location information via the presence event
+           package of SIP. A location recipient who supports this
+           option can send a SUBSCRIBE request and parse a
+           resulting NOTIFY containing a PIDF-LO object. The URI
+           schemes supported by this option include sip, sips, and
+           pres.";
+        reference
+          "RFC 6442: Location Conveyance for the Session Initiation
+          Protocol.";
+      }
+
+      enum gin {
+        description
+          "This option tag is used to identify the extension that
+           provides Registration for Multiple Phone Numbers in
+           SIP. When present in a Require or Proxy-Require header
+           field of a REGISTER request, it indicates that support
+           for this extension is required of registrars and
+           proxies that are a party to the registration
+           transaction.";
+        reference
+          "RFC 6140: Registration for Multiple Phone Numbers in the
+          Session Initiation Protocol (SIP).";
+      }
+
+      enum gruu {
+        description
+          "This option tag is used to identify the Globally
+           Routable User Agent URI extension. When used in a
+           Supported header, it indicates that a User Agent
+           understands the extension. When used in a Require
+           header field of a REGISTER request, it indicates that
+           the registrar is not expected to process the
+           registration unless it supports the extension.";
+        reference
+          "RFC 5627: Obtaining and Using Globally Routable User Agent
+          URIs (GRUUs) in the Session Initiation Protocol (SIP).";
+      }
+
+      enum histinfo {
+        description
+          "When used with the Supported header field, this option
+           tag indicates the UAC supports History Information to
+           be captured for requests and returned in subsequent
+           responses. This tag is not used in a Proxy-Require or
+           Require header field, since support of History-Info is
+           optional.";
+        reference
+          "RFC 7044: An Extension to the Session Initiation Protocol
+          (SIP) for Request History Information.";
+      }
+
+      enum ice {
+        description
+          "This option tag is used to identify the Interactive
+           Connectivity Establishment extension. When present in
+           a Require header field, it indicates that ICE is
+           required by an agent.";
+        reference
+          "RFC 5768: Indicating Support for Interactive Connectivity
+          Establishment (ICE) in the Session Initiation Protocol
+          (SIP).";
+      }
+
+      enum join {
+        description
+          "Support for the SIP Join header.";
+        reference
+          "RFC 3911: The Session Initiation Protocol (SIP) 'Join'
+          Header.";
+      }
+
+      enum multiple-refer {
+        description
+          "This option tag indicates support for REFER requests
+           that contain a resource list document describing
+           multiple REFER targets.";
+        reference
+          "RFC 5368: Referring to Multiple Resources in the Session
+          Initiation Protocol (SIP).";
+      }
+
+      enum norefersub {
+        description
+          "This option tag specifies a User Agent ability of
+           accepting a REFER request without establishing an
+           implicit subscription compared to the default case.";
+        reference
+          "RFC 4488: Suppression of Session Initiation Protocol (SIP)
+          REFER Method Implicit Subscription.";
+      }
+
+      enum nosub {
+        description
+          "This option tag identifies an extension to REFER to
+           suppress the implicit subscription and indicate that
+           no explicit subscription is forthcoming.";
+        reference
+          "RFC 7614: Explicit Subscriptions for the REFER Method.";
+      }
+
+      enum outbound {
+        description
+          "This option tag is used to identify UAs and Registrars
+           which support extensions for Client Initiated
+           Connections. A UA places this option tag in a Supported
+           header to communicate its support. A Registrar places
+           this option tag in a Require header to indicate that
+           the Registrar used registrations based on this
+           extension.";
+        reference
+          "RFC 5626: Managing Client-Initiated Connections in the
+          Session Initiation Protocol (SIP).";
+      }
+
+      enum path {
+        description
+          "A SIP UA that supports the Path extension header field
+           includes this option tag in a Supported header field in
+           all requests it generates. Intermediate proxies may
+           use this option tag in a REGISTER request to determine
+           whether to offer Path service. If required, the option
+           tag is included in a Require header field.";
+        reference
+          "RFC 3327: Session Initiation Protocol (SIP) Extension Header
+          Field for Registering Non-Adjacent Contacts.";
+      }
+
+      enum policy {
+        description
+          "This option tag is used to indicate that a UA can
+           process policy server URIs and subscribe to
+           session-specific policies.";
+        reference
+          "RFC 6794: A Framework for Session Initiation Protocol (SIP)
+          Session Policies.";
+      }
+
+      enum precondition {
+        description
+          "An offerer MUST include this tag in the Require header
+           field if the offer contains one or more mandatory
+           strength-tags. If all strength-tags are optional or
+           none, the tag MUST be included in Supported or
+           Require.";
+        reference
+          "RFC 3312: Integration of Resource Management and Session
+          Initiation Protocol (SIP).";
+      }
+
+      enum pref {
+        description
+          "This option tag is used to ensure that a server
+           understands the callee capabilities parameters used in
+           the request.";
+        reference
+          "RFC 3840: Indicating User Agent Capabilities in the Session
+          Initiation Protocol (SIP).";
+      }
+
+      enum privacy {
+        description
+          "This option tag indicates support for the Privacy
+           mechanism. When used in the Proxy-Require header, it
+           indicates that proxy servers do not forward the
+           request unless they can provide the requested privacy
+           service. Proxies remove this option tag after the
+           privacy function has been performed.";
+        reference
+          "RFC 3323: A Privacy Mechanism for the Session Initiation
+          Protocol (SIP).";
+      }
+
+      enum recipient-list-invite {
+        description
+          "The body contains a list of URIs that indicates the
+           recipients of the SIP INVITE request.";
+        reference
+          "RFC 5366: Conference Establishment Using Request-Contained
+          Lists in the Session Initiation Protocol (SIP).";
+      }
+
+      enum recipient-list-message {
+        description
+          "The body contains a list of URIs that indicates the
+           recipients of the SIP MESSAGE request.";
+        reference
+          "RFC 5365: Multiple-Recipient MESSAGE Requests in the Session
+          Initiation Protocol (SIP).";
+      }
+
+      enum recipient-list-subscribe {
+        description
+          "This option tag is used to ensure that a server can
+           process the recipient-list body used in a SUBSCRIBE
+           request.";
+        reference
+          "RFC 5367: Subscriptions to Request-Contained Resource Lists
+          in the Session Initiation Protocol (SIP).";
+      }
+
+      enum record-aware {
+        description
+          "This option tag indicates the ability of the UA to
+           receive recording indicators in media-level or
+           session-level SDP. When present in a Supported header,
+           it indicates that the UA can receive such indicators.";
+        reference
+          "RFC 7866: Session Recording Protocol.";
+      }
+
+      enum replaces {
+        description
+          "This option tag indicates support for the SIP Replaces
+           header.";
+        reference
+          "RFC 3891: The Session Initiation Protocol (SIP) 'Replaces'
+          Header.";
+      }
+
+      enum resource-priority {
+        description
+          "Indicates or requests support for the resource
+           priority mechanism.";
+        reference
+          "RFC 4412: Communications Resource Priority for the Session
+          Initiation Protocol (SIP).";
+      }
+
+      enum sdp-anat {
+        description
+          "The sdp-anat option tag is defined for use in Require
+           and Supported SIP header fields. User agents that place
+           this option tag in a Supported header understand the
+           ANAT semantics.";
+        reference
+          "RFC 4092: Usage of the Session Description Protocol (SDP)
+          Alternative Network Address Types (ANAT) Semantics in the
+          Session Initiation Protocol (SIP).";
+      }
+
+      enum sec-agree {
+        description
+          "This option tag indicates support for the Security
+           Agreement mechanism. When used in Require or
+           Proxy-Require headers, it indicates proxies are
+           required to use the mechanism. When used in Supported,
+           it indicates UAC support. When used in Require headers
+           in responses, it indicates mandatory use.";
+        reference
+          "RFC 3329: Security Mechanism Agreement for the Session
+          Initiation Protocol (SIP).";
+      }
+
+      enum siprec {
+        description
+          "This option tag identifies that the SIP session is for
+           the purpose of a recording session. When present in a
+           Require header, it indicates that the UA is capable of
+           handling such a session.";
+        reference
+          "RFC 7866: Session Recording Protocol.";
+      }
+
+      enum tdialog {
+        description
+          "This option tag identifies the Target-Dialog header
+           field extension. When used in Require, the recipient
+           must support it. When used in Supported, the sender
+           supports it.";
+        reference
+          "RFC 4538: Request Authorization through Dialog Identification
+          in the Session Initiation Protocol (SIP).";
+      }
+
+      enum timer {
+        description
+          "This option tag indicates support for the session timer
+           extension. Inclusion in Supported indicates refresh
+           capability. Inclusion in Require indicates mandatory
+           support for processing.";
+        reference
+          "RFC 4028: Session Timers in the Session Initiation Protocol
+          (SIP).";
+      }
+
+      enum trickle-ice {
+        description
+          "This option tag indicates that a UA supports and
+           understands Trickle ICE.";
+        reference
+          "RFC 8840: A Session Initiation Protocol (SIP) Usage for
+          Incremental Provisioning of Candidates for the Interactive
+          Connectivity Establishment (Trickle ICE).";
+      }
+
+      enum uui {
+        description
+          "This option tag indicates that a UA supports and
+           understands the User-to-User header field.";
+        reference
+          "RFC 7433: A Mechanism for Transporting User-to-User Call
+          Control Information in SIP.";
+      }
+    }
+    description
+      "This enumeration type defines mnemonic names of SIP Option
+       tags.";
+    reference
+      "RFC 3261: SIP: Session Initiation Protocol,
+       RFC 5727: Change Process for the Session Initiation
+                 Protocol (SIP) and the Real-time Applications
+                 and Infrastructure Area";
+  }
+}
+    ]]></sourcecode>
+    </section>
+    <section anchor="appendix-alternative-approaches" numbered="true" toc="default">
+      <name>Appendix B: Alternative mechanisms to transmit the capability set</name>
+    <t>There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package <xref target = "RFC6665" />, such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set.</t>
+        <t>This mechanism is likely to result in a barrier to adoption for SIP service providers and enterprise networks as equipment manufacturers would have to first add support for such a SIP extension. An HTTP-based approach would be relatively easier to adopt as most edge devices deployed in enterprise networks today already support HTTP; from the perspective of service provider networks, all that is required is for them to deploy HTTP servers that function as capability servers. Additionally, most SIP service providers require enterprise networks to register with them (using a SIP REGISTER message) before any other SIP methods that initiate subscriptions (SIP SUBSCRIBE) or calls (SIP INVITE) are processed. As a result, a SIP-based framework to obtain a capability set would require operational changes on the part of service provider networks.</t>
+        <t> Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <xref target = "RFC6020" /><xref target = "RFC7950" /> that enable configuration to be pushed over NETCONF<xref target = "RFC6241" /> to enterprise networks from a centralised source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a "one-size-fits-all" YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.</t>
+    </section>
 	</back>
 </rfc>
