@@ -393,6 +393,12 @@ module ietf-sip-auto-peering {
       "RFC 6991: Common YANG Data Types.";
   }
 
+  import ietf-yang-types {
+    prefix "yang";
+    reference
+      "RFC 6991: Common YANG Data Types.";
+  }
+
   import iana-crypt-hash {
     prefix "ianach";
     reference
@@ -580,7 +586,7 @@ module ietf-sip-auto-peering {
         for the enterprise.";
 
       leaf not-before {
-        type inet:timestamp;
+        type yang:timestamp;
         mandatory true;
         description
           "A node that identifies the unix epoch time at which the
