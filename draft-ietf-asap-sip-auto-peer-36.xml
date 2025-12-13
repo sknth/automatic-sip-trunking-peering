@@ -379,7 +379,7 @@ module: ietf-sip-auto-peering
         <t>
 This section defines the YANG module for the peering capability set
 document. This module depends on existing YANG modules that provide common YANG data types <xref target="RFC6991" /> and system management <xref target="RFC7317" />.</t>
-    <sourcecode name="ietf-sip-auto-peering@2025-10-20.yang"
+    <sourcecode name="ietf-sip-auto-peering@2025-12-13.yang"
       markers="true">
     <![CDATA[
 module ietf-sip-auto-peering {
