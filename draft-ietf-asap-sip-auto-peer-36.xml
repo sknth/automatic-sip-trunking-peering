@@ -285,7 +285,7 @@ The complete https URLs to be used when authenticating the enterprise edge eleme
         <t>Once the target URI is obtained by an enterprise telephony network, the URI may be dereferenced to obtain a unique capability set document that is specific to that given enterprise telephony network. The ITSP may use credentials to determine the identity of the enterprise telephony network and provide the appropriate capability set document.</t>
       </section>
       <section anchor="generating-the-status-code" numbered="true" toc="default">
-        <name>Generating the status code</name>
+        <name>Generating status codes</name>
         <t>Capability servers include the capability set documents in the body of a successful response. Capability set documents MUST be formatted in JSON. For requests that are incorrectly formatted, an example being an incorrect query parameter in the URI, the capability server MUST generate a "400 Bad Request" status code for the incorrect request. If requests contain an invalid token, the capability server MUST generate a "403 Forbidden" status code clearly indicating that this token does not have the permission to view the capability set document.</t>
         <t>The capability server can respond to client requests with redirect status codes (3xx).</t>
         <t>The server SHOULD include the Location header field in such statuses. If the Location header isn't included with the status code, this can lead to the client being unable to find the capability set document, leading to a failure in the peering process or requiring manual intervention by an administrator.</t>
@@ -1831,6 +1831,7 @@ be considered sensitive or vulnerable in network environments.</t>
       <name>Informative References</name>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2833.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3262.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3688.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4252.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4568.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4585.xml"/>
@@ -1889,7 +1890,7 @@ be considered sensitive or vulnerable in network environments.</t>
       </reference>
     </references>
     <section anchor="appendix" numbered="true" toc="default">
-      <name>Appendix A: Initial Version of the SIP Option Tags IANA-Maintained Module</name>
+      <name>Initial Version of the SIP Option Tags IANA-Maintained Module</name>
       <t>NOTE TO RFC EDITOR. This appendix section contains the initial version of the iana-sip-option-tags module. Please remove this from the final RFC.</t>
     <sourcecode name="iana-sip-option-tags@2025-12-13.yang"
       markers="true">
@@ -2361,7 +2362,7 @@ module iana-sip-option-tags {
     ]]></sourcecode>
     </section>
     <section anchor="appendix-alternative-approaches" numbered="true" toc="default">
-      <name>Appendix B: Alternative mechanisms to transmit the capability set</name>
+      <name>Alternative mechanisms to transmit the capability set</name>
     <t>There are alternative mechanisms using which the SIP service provider can offload its capability set. For example, the Session Initiation Protocol (SIP) can be extended to define a new event package <xref target = "RFC6665" />, such that the enterprise network can establish a SIP subscription with the service provider for its capability set; the SIP service provider can subsequently use the SIP NOTIFY request to communicate its capability set or any state deltas to its baseline capability set.</t>
         <t>This mechanism is likely to result in a barrier to adoption for SIP service providers and enterprise networks as equipment manufacturers would have to first add support for such a SIP extension. An HTTP-based approach would be relatively easier to adopt as most edge devices deployed in enterprise networks today already support HTTP; from the perspective of service provider networks, all that is required is for them to deploy HTTP servers that function as capability servers. Additionally, most SIP service providers require enterprise networks to register with them (using a SIP REGISTER message) before any other SIP methods that initiate subscriptions (SIP SUBSCRIBE) or calls (SIP INVITE) are processed. As a result, a SIP-based framework to obtain a capability set would require operational changes on the part of service provider networks.</t>
         <t> Yet another example of an alternative mechanism would be for service providers and enterprise equipment manufacturers to agree on YANG models <xref target = "RFC6020" /><xref target = "RFC7950" /> that enable configuration to be pushed over NETCONF<xref target = "RFC6241" /> to enterprise networks from a centralised source hosted in service provider networks. The presence of proprietary software logic for call and media handling in enterprise devices would preclude the generation of a "one-size-fits-all" YANG model. Additionally, service provider networks pushing configuration to enterprises devices might lead to the loss of implementation autonomy on the part of the enterprise network.</t>
