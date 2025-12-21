@@ -52,7 +52,7 @@ module: ietf-sip-auto-peering
      +--ro security
      |  +--ro signaling
      |  |  +--ro secure?    boolean
-     |  |  +--ro version*   tlscmn:tls-version-base
+     |  |  +--ro version*   identityref
      |  +--ro media-security
      |  |  +--ro key-management*   enumeration
      |  +--ro certificate-location?        inet:uri
