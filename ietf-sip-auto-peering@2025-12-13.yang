@@ -826,7 +826,9 @@ module ietf-sip-auto-peering {
 
         leaf-list version {
           when "../secure = 'true'";
-          type tlscmn:tls-version-base;
+          type identityref {
+            base tlscmn:tls-version-base;
+          }
           description
             "A list that specifies the version(s) of TLS supported.";
         }

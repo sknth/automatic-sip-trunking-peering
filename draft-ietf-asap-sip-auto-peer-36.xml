@@ -363,7 +363,7 @@ module: ietf-sip-auto-peering
      +--ro security
      |  +--ro signaling
      |  |  +--ro secure?    boolean
-     |  |  +--ro version*   tlscmn:tls-version-base
+     |  |  +--ro version*   identityref
      |  +--ro media-security
      |  |  +--ro key-management*   enumeration
      |  +--ro certificate-location?        inet:uri
@@ -1210,7 +1210,9 @@ module ietf-sip-auto-peering {
 
         leaf-list version {
           when "../secure = 'true'";
-          type tlscmn:tls-version-base;
+          type identityref {
+            base tlscmn:tls-version-base;
+          }
           description
             "A list that specifies the version(s) of TLS supported.";
         }
