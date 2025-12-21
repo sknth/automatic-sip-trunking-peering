@@ -54,9 +54,8 @@ module ietf-sip-auto-peering {
 
     This YANG module defines a read-only data model intended for
     exchanging SIP service provider capabilities with enterprise
-    networks. The data is published by service providers and
-    consumed by enterprises via standard YANG-based interfaces
-    (RESTCONF, NETCONF, etc.).
+    networks. The data is published by service providers and consumed
+    by enterprises via an out-of-band interface.
 
     This module does NOT provide configuration capabilities - it
     serves purely as a standardized format for capability exchange.
@@ -129,20 +128,23 @@ module ietf-sip-auto-peering {
 
   identity pcmu {
     base codec-variant;
-    description
-      "PCMU codec.";
+    description "PCMU (G.711 μ-law) audio codec.";
   }
 
   identity pcma {
     base codec-variant;
-    description
-      "PCMA codec.";
+    description "PCMA (G.711 A-law) audio codec.";
+  }
+
+  identity opus {
+    base codec-variant;
+    description "Opus audio codec (RFC 6716).";
   }
 
   identity g722 {
     base codec-variant;
     description
-      "G722 codec.";
+      "G.722 audio codec.";
   }
 
   identity g729 {
@@ -202,10 +204,10 @@ module ietf-sip-auto-peering {
         for the enterprise.";
 
       leaf not-before {
-        type yang:timestamp;
+        type yang:date-and-time;
         mandatory true;
         description
-          "A node that identifies the unix epoch time at which the
+          "A node that identifies the absolute UTC time at which the
           parameters in this capability set document are activated or
           considered valid. This node has been set to mandatory as it
           is the service provider's responsibility to inform when new
