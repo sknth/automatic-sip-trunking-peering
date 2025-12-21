@@ -47,7 +47,7 @@ module iana-sip-option-tags {
     "Session Initiation Protocol (SIP) Parameters
      (https://www.iana.org/assignments/sip-parameters/sip-parameters.xhtml)";
 
-  revision 2025-12-13 {
+  revision 2025-12-21 {
     description
       "Initial revision.";
     reference
