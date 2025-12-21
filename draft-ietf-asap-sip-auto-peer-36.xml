@@ -105,7 +105,7 @@ support the mechanism described in this document. The enterprise network
 consists of a SIP-PBX, media endpoints (M.E.) and a Session Border Controller <xref target="RFC7092" />.
 It may also include additional components such as application servers
 for voicemail, recording, fax etc. At a high level, the service provider
-consists of a SIP signaling entity (SP-SSE), a media entity for handling media streams of calls setup by the SP-SSE and a https <xref target="RFC9110" /> server.
+consists of a SIP signaling entity (SP-SSE), a media entity for handling media streams of calls setup by the SP-SSE and an HTTP <xref target="RFC9110" /> server.
 </t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
 
@@ -113,7 +113,7 @@ consists of a SIP signaling entity (SP-SSE), a media entity for handling media s
     | +---------------+         +-----------------------+ |
     | |               |         |                       | |
     | | +----------+  |         |   +-------+           | |
-    | | |   Cap    |  | https   |   |       |           | |
+    | | |   Cap    |  | HTTPS   |   |       |           | |
     | | |  Server  |--|---------|-->|       |           | |
     | | |          |<-|---------|---|       |   +-----+ | |
     | | +----------+  |         |   |       |-->| SIP | | |
@@ -188,7 +188,7 @@ consists of a SIP signaling entity (SP-SSE), a media entity for handling media s
       </section>
       <section anchor="integrity-and-confidentiality" numbered="true" toc="default">
         <name>Integrity and Confidentiality</name>
-        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS. When HTTP/3 <xref target="RFC9114" /> is used, TLS is incorporated within QUIC for the transport of the capability set document. The usage of SIP or RTP-over-QUIC are beyond the scope of this draft. Additionally, the enterprise edge element and capability server MUST support the use of the https URI scheme as defined in <xref target="RFC9110" />.</t>
+        <t>Peering requests and responses are defined over HTTP <xref target = "RFC9110" />. However, due to the sensitive nature of information transmitted between client and server, it is required to secure HTTP communications using Transport Layer Security (TLS) <xref target="RFC8446" />; therefore the enterprise edge element and the capability server MUST support TLS version 1.2 <xref target="RFC5246" /> or later <xref target="RFC8446" />. When HTTP/3 <xref target="RFC9114" /> is used, TLS is incorporated within QUIC for the transport of the capability set document. The usage of SIP or RTP-over-QUIC are beyond the scope of this draft. Additionally, the enterprise edge element and capability server MUST support the use of the https URI scheme as defined in <xref target="RFC9110" />.</t>
       </section>
       <section anchor="authenticated-client-identity" numbered="true" toc="default">
         <name>Authenticated Client Identity</name>
@@ -288,7 +288,7 @@ The complete https URLs to be used when authenticating the enterprise edge eleme
         <name>Generating status codes</name>
         <t>Capability servers include the capability set documents in the body of a successful response. Capability set documents MUST be formatted in JSON. For requests that are incorrectly formatted, an example being an incorrect query parameter in the URI, the capability server MUST generate a "400 Bad Request" status code for the incorrect request. If requests contain an invalid token, the capability server MUST generate a "403 Forbidden" status code clearly indicating that this token does not have the permission to view the capability set document.</t>
         <t>The capability server can respond to client requests with redirect status codes (3xx).</t>
-        <t>The server SHOULD include the Location header field in such statuses. If the Location header isn't included with the status code, this can lead to the client being unable to find the capability set document, leading to a failure in the peering process or requiring manual intervention by an administrator.</t>
+        <t>The server SHOULD include the Location header field in such responses. If the Location header isn't included with the status code, this can lead to the client being unable to find the capability set document, leading to a failure in the peering process or requiring manual intervention by an administrator.</t>
         <t>The enterprise edge element SHOULD handle the 3xx status codes from the capability server in accordance with <xref target = "RFC9110" />.</t>
       </section>
     </section>
@@ -313,7 +313,7 @@ module: ietf-sip-auto-peering
   +--ro sip-auto-peering
      +--ro variant           identityref
      +--ro revision
-     |  +--ro not-before    yang:timestamp
+     |  +--ro not-before    yang:date-and-time
      |  +--ro location      inet:uri
      +--ro transport-info
      |  +--ro transport*        identityref
@@ -378,7 +378,7 @@ module: ietf-sip-auto-peering
         <name>YANG Model</name>
         <t>
 This section defines the YANG module for the peering capability set
-document. This module depends on existing YANG modules that provide common YANG data types <xref target="RFC6991" /> and system management <xref target="RFC7317" />.</t>
+document. This module depends on existing YANG modules that provide common YANG data types <xref target="RFC6991" /> and system management <xref target="RFC7317" />. In addition, this YANG module references <xref target="RFC2833" />, <xref target="RFC4585" />, <xref target="RFC4568" />, <xref target="RFC4733" />, <xref target="RFC4855" />, <xref target="RFC4961" />, <xref target="RFC7362" />, <xref target="RFC8555" /> and <xref target="RFC9645" />.</t>
     <sourcecode name="ietf-sip-auto-peering@2025-12-13.yang"
       markers="true">
     <![CDATA[
@@ -438,9 +438,8 @@ module ietf-sip-auto-peering {
 
     This YANG module defines a read-only data model intended for
     exchanging SIP service provider capabilities with enterprise
-    networks. The data is published by service providers and
-    consumed by enterprises via standard YANG-based interfaces
-    (RESTCONF, NETCONF, etc.).
+    networks. The data is published by service providers and consumed
+    by enterprises via an out-of-band interface.
 
     This module does NOT provide configuration capabilities - it
     serves purely as a standardized format for capability exchange.
@@ -513,20 +512,23 @@ module ietf-sip-auto-peering {
 
   identity pcmu {
     base codec-variant;
-    description
-      "PCMU codec.";
+    description "PCMU (G.711 μ-law) audio codec.";
   }
 
   identity pcma {
     base codec-variant;
-    description
-      "PCMA codec.";
+    description "PCMA (G.711 A-law) audio codec.";
+  }
+
+  identity opus {
+    base codec-variant;
+    description "Opus audio codec (RFC 6716).";
   }
 
   identity g722 {
     base codec-variant;
     description
-      "G722 codec.";
+      "G.722 audio codec.";
   }
 
   identity g729 {
@@ -586,10 +588,10 @@ module ietf-sip-auto-peering {
         for the enterprise.";
 
       leaf not-before {
-        type yang:timestamp;
+        type yang:date-and-time;
         mandatory true;
         description
-          "A node that identifies the unix epoch time at which the
+          "A node that identifies the absolute UTC time at which the
           parameters in this capability set document are activated or
           considered valid. This node has been set to mandatory as it
           is the service provider's responsibility to inform when new
@@ -1421,14 +1423,13 @@ network that will peer with it.
     {
         "variant": "ietf-sip-auto-peering:v1-0",
         "revision": {
-            "not-before": 1742330340,
+            "not-before": "2025-12-21T10:30:00Z",
             "location": 
                 "https://capserver.example.org/capserver/capdoc.json"
         },
         "transport-info": {
             "transport": [
                 "ietf-sip-auto-peering:tcp",
-                "ietf-sip-auto-peering:tls",
                 "ietf-sip-auto-peering:udp"
             ],
             "registrar": [
@@ -1445,7 +1446,8 @@ network that will peer with it.
                 {
                     "name": "voip.example.com",
                     "username": "voip",
-                    "password": "$6$OoEJwExxp6U/FRFq$4RkL2lSSGLoKdfGjX4lQLFXo89gc0wtJsKiBxg/BBz6aNwu7C.D3kRUwD7lvJm6rhaCdhSzVh/XfkkAUY2dTu0"
+                    "password": 
+                        "$6$OoEJwExxp6U/FRFq$4RkL2lSSGLoKdfGjX4lQLFXo89gc0wtJsKiBxg/BBz6aNwu7C.D3kRUwD7lvJm6rhaCdhSzVh/XfkkAUY2dTu0"
                 }
             ],
             "call-control": [
@@ -1541,10 +1543,7 @@ network that will peer with it.
         "security": {
             "signaling": {
                 "secure": true,
-                "version": [
-                    "ietf-sip-auto-peering:tls-v1-2",
-                    "ietf-sip-auto-peering:tls-v1-3"
-                ]
+                "version": ["tlscmn:tls12", "tlscmn:tls13"]
             },
             "media-security": {
                 "key-management": ["sdes", "dtls-srtp"]
@@ -1554,14 +1553,15 @@ network that will peer with it.
             "secure-telephony-identity": {
                 "stir-compliance": true,
                 "certificate-delegation": true,
-                "acme-directory": "https://sipserviceprovider.com/acme.html"
+                "acme-directory": 
+                    "https://sipserviceprovider.com/acme.html"
             }
         },
         "extension": [
-            "ietf-sip-auto-peering:reliable-provisional-responses",
-            "ietf-sip-auto-peering:session-timers", 
-            "ietf-sip-auto-peering:replaces",
-            "ietf-sip-auto-peering:path"
+            "iana-sip-option-tags:one-hundred-rel",
+            "iana-sip-option-tags:timer", 
+            "iana-sip-option-tags:replaces",
+            "iana-sip-option-tags:path"
         ]
     }
 }
@@ -1724,15 +1724,13 @@ the different points at which the workflow is vulnerable to attackers.</t>
 </section>
 <section anchor="security-considerations-transmission" numbered="true" toc="default">
   <name>Client-Server Communication</name>
-  <t>All communication used by the edge element to obtain the capability set document from the capability server MUST be secured using https. Failure to do so, results in the capability set document being transmitted over clear text, thus exposing sensitive information such as targets for trunks registration, targets for outbound calling requests and credentials used in building the Authorisation header field provided in response to authentication challenges. </t>
+  <t>All communication used by the edge element to obtain the capability set document from the capability server MUST be secured using HTTPS. Failure to do so, results in the capability set document being transmitted over clear text, thus exposing sensitive information such as targets for trunks registration, targets for outbound calling requests and credentials used in building the Authorisation header field provided in response to authentication challenges. </t>
 </section>
 <section anchor="security-considerations-yang" numbered="true" toc="default">
   <name>YANG Security Considerations</name>
-  <t>The "ietf-sip-auto-peering" YANG module defines a data model that is
-designed to be accessed via YANG-based management protocols, such as
-NETCONF <xref target="RFC6241" /> and RESTCONF <xref target="RFC8040" />. These YANG-based management protocols (1) have to use a secure transport layer (e.g., SSH <xref target="RFC4252" />, TLS <xref target="RFC8446" />, and QUIC <xref target="RFC9000" />) and (2) have to use mutual authentication.</t>
+  <t>The "ietf-sip-auto-peering" YANG module defines a data model that a service provider MUST adhere to while creating the capability set document, preferably in an automated fashion. The capability set document SHOULD be formatted as a JSON file as exhibited in Section 9. The service provider communicates the URL of this JSON file in an out-of-band manner to the enterprise. Alternatively, the enterprise uses WebFinger to discover the URL of the JSON file. The enterprise SBC downloads the JSON file and parses it. Once it has validated that the JSON file is correctly formatted, it applies the configuration and peers with the service provider's network for SIP calls to occur.</t>
 
-<t>There are no particularly sensitive writable data nodes.</t>
+  <t>It is possible that enterprises may purchase numbers in different countries or regions. In this scenario, there would be multiple SIP trunks between the enterprise and the service provider. The service provider is responsible for creating the capability set documents for each SIP trunk. The capability set document cannot be modified by the enterprise. It can only be created one time by the service provider for each enterprise entering into an agreement with the service provider. Therefore, there are no particularly sensitive writable data nodes.</t>
 
 <t>Some of the readable data nodes in this YANG module may be considered
 sensitive or vulnerable in some network environments.  It is thus
@@ -1847,6 +1845,7 @@ be considered sensitive or vulnerable in network environments.</t>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4961.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5764.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6241.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6716.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9409.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7033.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7092.xml"/>
@@ -1877,6 +1876,7 @@ be considered sensitive or vulnerable in network environments.</t>
       <name>Normative References</name>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3261.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5246.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6020.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6665.xml"/>
       <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"/>
@@ -1940,7 +1940,13 @@ module iana-sip-option-tags {
      see the RFC itself for full legal notices.
 
      The latest version of this YANG module is available at
-     <IANA_URL>.";
+     <IANA_URL>."
+     
+     "The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+     NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+     'MAY', and 'OPTIONAL' in this document are to be interpreted as
+     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+     they appear in all capitals, as shown here.";
 
   reference
     "Session Initiation Protocol (SIP) Parameters

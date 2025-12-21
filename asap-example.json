@@ -3,14 +3,13 @@
     {
         "variant": "ietf-sip-auto-peering:v1-0",
         "revision": {
-            "not-before": 1742330340,
+            "not-before": "2025-12-21T10:30:00Z",
             "location": 
                 "https://capserver.example.org/capserver/capdoc.json"
         },
         "transport-info": {
             "transport": [
                 "ietf-sip-auto-peering:tcp",
-                "ietf-sip-auto-peering:tls",
                 "ietf-sip-auto-peering:udp"
             ],
             "registrar": [
@@ -27,7 +26,8 @@
                 {
                     "name": "voip.example.com",
                     "username": "voip",
-                    "password": "$6$OoEJwExxp6U/FRFq$4RkL2lSSGLoKdfGjX4lQLFXo89gc0wtJsKiBxg/BBz6aNwu7C.D3kRUwD7lvJm6rhaCdhSzVh/XfkkAUY2dTu0"
+                    "password": 
+                        "$6$OoEJwExxp6U/FRFq$4RkL2lSSGLoKdfGjX4lQLFXo89gc0wtJsKiBxg/BBz6aNwu7C.D3kRUwD7lvJm6rhaCdhSzVh/XfkkAUY2dTu0"
                 }
             ],
             "call-control": [
@@ -123,10 +123,7 @@
         "security": {
             "signaling": {
                 "secure": true,
-                "version": [
-                    "ietf-sip-auto-peering:tls-v1-2",
-                    "ietf-sip-auto-peering:tls-v1-3"
-                ]
+                "version": ["tlscmn:tls12", "tlscmn:tls13"]
             },
             "media-security": {
                 "key-management": ["sdes", "dtls-srtp"]
@@ -136,14 +133,15 @@
             "secure-telephony-identity": {
                 "stir-compliance": true,
                 "certificate-delegation": true,
-                "acme-directory": "https://sipserviceprovider.com/acme.html"
+                "acme-directory": 
+                    "https://sipserviceprovider.com/acme.html"
             }
         },
         "extension": [
-            "ietf-sip-auto-peering:reliable-provisional-responses",
-            "ietf-sip-auto-peering:session-timers", 
-            "ietf-sip-auto-peering:replaces",
-            "ietf-sip-auto-peering:path"
+            "iana-sip-option-tags:one-hundred-rel",
+            "iana-sip-option-tags:timer", 
+            "iana-sip-option-tags:replaces",
+            "iana-sip-option-tags:path"
         ]
     }
 }
