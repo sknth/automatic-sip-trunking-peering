@@ -1607,12 +1607,18 @@ is encoded in JSON.
     <section anchor="iana-considerations" numbered="true" toc="default">
       <name>IANA Considerations</name>
 
-   <t>This document registers a new URI in the "IETF XML Registry"
+   <t>This document registers two new URIs in the "IETF XML Registry"
    <xref target="RFC3688" />.  Following the format in RFC 3688, the following
    registrations have been made.</t>
 
     <ul spacing="normal">
       <li>URI: urn:ietf:params:xml:ns:yang:ietf-sip-auto-peering</li>
+      <li>Registrant Contact: The IESG.</li>
+      <li>XML: N/A; the requested URI is an XML namespace.</li>
+    </ul>
+
+    <ul spacing="normal">
+      <li>URI: urn:ietf:params:xml:ns:yang:iana-sip-option-tags</li>
       <li>Registrant Contact: The IESG.</li>
       <li>XML: N/A; the requested URI is an XML namespace.</li>
     </ul>
