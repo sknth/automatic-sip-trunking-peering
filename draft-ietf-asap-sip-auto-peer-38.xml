@@ -1700,12 +1700,6 @@ is encoded in JSON.
       update is triggered by an RFC, that RFC must also be included in
       the "reference" substatement.</t>
 
-      <t>-- If a name in the IANA registry does not comply with the
-        -- YANG naming conventions, add details how IANA can generate
-        -- legal identifiers. For example, if the name begins with
-        -- a number, indicate a preference to spell out the number when
-        -- used as an identifier.</t>
-
       <t>IANA is requested to add this note to [reference-to-the-iana-sip-option-tags-
       registry]:</t>
 
@@ -1955,8 +1949,7 @@ module iana-sip-option-tags {
      they appear in all capitals, as shown here.";
 
   reference
-    "Session Initiation Protocol (SIP) Parameters
-     (https://www.iana.org/assignments/sip-parameters/sip-parameters.xhtml)";
+    "RFC XXXX"
 
   revision 2025-12-21 {
     description
