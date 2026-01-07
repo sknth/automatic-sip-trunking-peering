@@ -1949,9 +1949,9 @@ module iana-sip-option-tags {
      they appear in all capitals, as shown here.";
 
   reference
-    "RFC XXXX"
+    "RFC XXXX";
 
-  revision 2025-12-21 {
+  revision 2026-01-07 {
     description
       "Initial revision.";
     reference
