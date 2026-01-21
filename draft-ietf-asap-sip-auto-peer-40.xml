@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-40">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" xml:lang="en" consensus="true" obsoletes="" updates="" submissionType="IETF" tocInclude="true" symRefs="true" sortRefs="true" version="3" category="std" docName="draft-ietf-asap-sip-auto-peer-41">
   <!-- xml2rfc v2v3 conversion 3.8.0 -->
   <front>
     <title abbrev="SIP Auto Peer">Automatic Peering for SIP Trunks</title>
@@ -1646,8 +1646,8 @@ is encoded in JSON.
       <name>IANA maintained module for SIP Option Tags</name>
 
       <t>This document defines the initial version of the IANA-maintained
-      "iana-sip-option-tags" YANG module.  The most recent version of the YANG module
-      is available from the Appendix section of this document.</t>
+      "iana-sip-option-tags" YANG module. The most recent version of the YANG module is available in the
+   "YANG Parameters" registry group <xref target="yang-parameters" />. </t>
 
       <t>IANA is requested to add this note to the registry:</t>
 
@@ -1867,6 +1867,14 @@ be considered sensitive or vulnerable in network environments.</t>
         target="https://www.iana.org/assignments/sip-parameters/sip-parameters-4.csv">
         <front>
           <title>SIP Options parameters sub-registry</title>
+          <author/>
+          <date/>
+        </front>
+	    </reference>
+      <reference anchor="yang-parameters"
+        target="https://www.iana.org/assignments/yang-parameters">
+        <front>
+          <title>IANA, YANG Parameters</title>
           <author/>
           <date/>
         </front>
