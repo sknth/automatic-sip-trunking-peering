@@ -1,0 +1,61 @@
+module example-vendor-config {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:example-vendor-config";
+  prefix "vendor";
+
+  import ietf-sip-auto-peering {
+    prefix "sipap";
+    reference
+      "RFC 10006: Automatic SIP Peering.";
+  }  
+
+  organization
+    "Vendor Enterprise.";
+
+  contact
+    "Vendor Enterprise
+
+     Vendor Enterprise
+     1234 Vendor Street
+     Anytown, State 12345
+
+     Tel: +1 424 254 5300
+
+     <mailto:vendor@vendor.com>";
+
+  description
+    "Example of a vendor configuration data model that augments the
+     IETF SIP auto-peering model to include vendor specific SBC
+     configuration parameters.";
+
+  revision 2026-12-06 {
+    description 
+      "Initial revision of Vendor Enterprise SBC
+       configuration data model.";
+    reference
+      "RFC 10006: Vendor Enterprise SBC Configuration Data Model.";
+  }
+
+  augment "/sipap:sip-auto-peering" {
+    description
+      "Augmentation of the SIP auto-peering model to include vendor
+       specific SBC configuration parameters.";
+    container vendorConfig {
+      leaf vendorConfigParam1 {
+        type int32;
+        description 
+          "vendor configuration parameter 1
+           (SBC Device ID).";
+      }
+
+      leaf vendorConfigParam2 {
+        type string;
+          description
+            "vendor configuration parameter 2
+             (SBC Device name).";
+      }
+      description
+        "Container for vendor SBC configuration.";
+    }
+  }
+}
